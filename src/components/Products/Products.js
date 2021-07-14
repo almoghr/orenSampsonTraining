@@ -9,8 +9,7 @@ const Products = () => {
   const getProducts = async () => {
     try{
       const response = await axios.get('https://fakestoreapi.com/products')
-      const data = response.data
-      setProducts(data)
+      setProducts(response.data)
     } catch(e){
       console.log(e)
     }
