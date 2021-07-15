@@ -1,9 +1,13 @@
 import styles from "./Product.module.scss";
 
-const Product = ({title}) => {
+const Product = ({ title, description, category, price, image }) => {
   return (
     <div className={styles.Product}>
-      <h1>{title}</h1>
+      <p>title: {title}</p>
+      <p>description: {description}</p>
+      <p>category: {category}</p>
+      <p>price: {price}</p>
+      <img src={image} alt="product image" />
     </div>
   );
 };
