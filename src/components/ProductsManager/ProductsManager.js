@@ -24,7 +24,7 @@ function ProductsManager() {
   return (
     <div>
       <Products products={slicedProducts} />
-      <Pagination props={{ products, setSlicedProducts }} />
+      <Pagination props={{ products, setSlicedFunc: setSlicedProducts }} />
     </div>
   );
 }

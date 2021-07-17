@@ -10,7 +10,7 @@ function Pagination({ props }) {
   const [lastPage, setLastPage] = useState(false);
 
   const products = props.products;
-  const setSlicedProducts = props.setSlicedProducts;
+  const setSlicedFunc = props.setSlicedFunc;
 
   useEffect(() => {
     if (
@@ -24,7 +24,7 @@ function Pagination({ props }) {
 
     const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
     const endIndex = currentPage * PRODUCTS_PER_PAGE;
-    setSlicedProducts(products.slice(startIndex, endIndex));
+    setSlicedFunc(products.slice(startIndex, endIndex));
   }, [currentPage, products]);
 
   const changePage = (method, amount) => {
