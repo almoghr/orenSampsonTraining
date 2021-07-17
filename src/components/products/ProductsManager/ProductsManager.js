@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+import ProductsHeader from "../ProductsHeader/ProductsHeader";
 import Products from "../Products/Products";
-import Pagination from "../Pagination/Pagination";
+import Pagination from "../../Pagination/Pagination";
 
 function ProductsManager() {
   const [products, setProducts] = useState([]);
@@ -23,6 +24,7 @@ function ProductsManager() {
 
   return (
     <div>
+      <ProductsHeader />
       <Products products={slicedProducts} />
       <Pagination props={{ products, setSlicedFunc: setSlicedProducts }} />
     </div>

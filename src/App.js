@@ -1,6 +1,6 @@
 import styles from "./App.module.scss";
 import Header from "./components/Header/Header";
-import ProductsManager from "./components/ProductsManager/ProductsManager";
+import ProductsManager from "./components/products/ProductsManager/ProductsManager";
 import Footer from "./components/Footer/Footer";
 
 const App = () => {
