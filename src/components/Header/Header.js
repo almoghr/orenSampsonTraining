@@ -1,9 +1,15 @@
+import { MdStore } from "react-icons/md";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+
+import SearchBar from "./SearchBar/SearchBar";
 import styles from "./Header.module.scss";
 
 const Header = () => {
   return (
     <div className={styles.Header}>
-      <h1>WELCOME TO MY SHOP APP</h1>
+      <MdStore />
+      <SearchBar />
+      <AiOutlineShoppingCart className={styles.AiOutlineShoppingCart} />
     </div>
   );
 };

@@ -5,7 +5,7 @@ function ProductsHeader() {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
 
-  const handleChangedCategory = (event) => {
+  const changedCategoryHandler = (event) => {
     setSelectedCategory(event.target.value);
   };
 
@@ -37,7 +37,7 @@ function ProductsHeader() {
 
   return (
     <div>
-      <select value={selectedCategory} onChange={handleChangedCategory}>
+      <select value={selectedCategory} onChange={changedCategoryHandler}>
         {renderCategories}
       </select>
     </div>
