@@ -11,6 +11,7 @@ function SearchBar() {
     <div>
       <input
         type="text"
+        value={searchBarVal}
         onChange={searchBarChangedHandler}
         placeholder="search products"
       />
