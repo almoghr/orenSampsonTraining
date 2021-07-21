@@ -12,21 +12,25 @@ function Pagination({ products, setSlicedFunc }) {
   useEffect(() => {
     const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
     const endIndex = currentPage * PRODUCTS_PER_PAGE;
+
     if (startIndex < products.length && endIndex >= products.length) {
       setLastPage(true);
     } else {
       setLastPage(false);
     }
+
     setSlicedFunc(products.slice(startIndex, endIndex));
-  }, [currentPage, products]);
+  }, [currentPage, products, setSlicedFunc]);
 
   const changePage = (method, amount) => {
     switch (method) {
       case "INCREMENT":
         const endIndex = (currentPage + amount) * PRODUCTS_PER_PAGE;
+
         if (endIndex > products.length + 1) {
           return;
         }
+
         setCurrentPage((prevPage) => prevPage + amount);
         break;
       case "DECREMENT":
@@ -54,6 +58,7 @@ function Pagination({ products, setSlicedFunc }) {
     ) : (
       <button onClick={decrementPageHandler}>{backButtonName}</button>
     );
+
   const ForwardButton = lastPage ? (
     ""
   ) : (
