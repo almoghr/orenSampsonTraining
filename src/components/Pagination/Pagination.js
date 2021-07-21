@@ -49,19 +49,19 @@ function Pagination({ props }) {
     }
   };
 
-  const incementPageHandler = () => {
+  const handleIncementPage = () => {
     changePage("INCREMENT", 1);
   };
-  const decrementPageHandler = () => {
+  const handleDecrementPage = () => {
     changePage("DECREMENT", 1);
   };
 
   const backButton =
     currentPage === 1 ? null : (
-      <button onClick={decrementPageHandler}>{backButtonName}</button>
+      <button onClick={handleDecrementPage}>{backButtonName}</button>
     );
   const forwardButton = lastPage ? null : (
-    <button onClick={incementPageHandler}>{nextButtonName}</button>
+    <button onClick={handleIncementPage}>{nextButtonName}</button>
   );
 
   return (
