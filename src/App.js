@@ -1,15 +1,17 @@
 import styles from "./App.module.scss";
 import Header from "./components/Header/Header";
-import Products from "./components/Products/Products";
+import ProductsManager from "./components/products/ProductsManager/ProductsManager";
+import Footer from "./components/Footer/Footer";
 
-function App() {
+const App = () => {
   return (
     <div className={styles.App}>
-      <h1>App</h1>
+      <h1>shopApp</h1>
       <Header></Header>
-      <Products></Products>
+      <ProductsManager></ProductsManager>
+      <Footer></Footer>
     </div>
   );
-}
+};
 
 export default App;
