@@ -1,25 +1,17 @@
+import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
 function ProductsHeader() {
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
-
-  const changedCategoryHandler = (event) => {
-    setSelectedCategory(event.target.value);
-  };
 
   const getCategories = async () => {
-    let categoriesArr;
     try {
-      categoriesArr = await axios.get(
+      const categoriesArr = await axios.get(
         "https://fakestoreapi.com/products/categories"
       );
-      categoriesArr = categoriesArr.data;
-      setCategories(categoriesArr);
-      if (categoriesArr.length) {
-        setSelectedCategory(categoriesArr[0]);
-      }
+
+      setCategories(categoriesArr.data);
     } catch (e) {
       console.log(e);
     }
@@ -29,18 +21,16 @@ function ProductsHeader() {
     getCategories();
   }, []);
 
-  const renderCategories = categories.map((category, index) => (
-    <option value={category} key={index}>
-      {category}
-    </option>
+  const NavigationLinks = categories.map((category, index) => (
+    <li key={index}>
+      <NavLink to="">{category}</NavLink>
+    </li>
   ));
 
   return (
-    <div>
-      <select value={selectedCategory} onChange={changedCategoryHandler}>
-        {renderCategories}
-      </select>
-    </div>
+    <header>
+      <nav>{NavigationLinks}</nav>
+    </header>
   );
 }
 
