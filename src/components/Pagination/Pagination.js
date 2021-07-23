@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 import { PRODUCTS_PER_PAGE } from "../../constants/productsManager";
 
@@ -6,6 +7,7 @@ const backButtonName = "< Back";
 const nextButtonName = "Next >";
 
 function Pagination({ products, setSlicedFunc }) {
+  const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(false);
 
@@ -19,8 +21,8 @@ function Pagination({ products, setSlicedFunc }) {
       setLastPage(false);
     }
 
-    setSlicedFunc(products.slice(startIndex, endIndex));
-  }, [currentPage, products, setSlicedFunc]);
+    dispatch(setSlicedFunc(products.slice(startIndex, endIndex)));
+  }, [currentPage, products, setSlicedFunc, dispatch]);
 
   const changePage = (method, amount) => {
     switch (method) {

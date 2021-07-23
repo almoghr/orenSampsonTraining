@@ -1,38 +1,31 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
+import { fetchProducts } from "../../store/products-slice/products-actions";
+import { productsActions } from "../../store/products-slice/products-slice";
 import ProductsHeader from "../../components/products/ProductsHeader/ProductsHeader";
 import Products from "../../components/products/Products/Products";
 import Pagination from "../../components/Pagination/Pagination";
 
 function ProductsManager() {
-  const [products, setProducts] = useState([]);
-  const [slicedProducts, setSlicedProducts] = useState([]);
-
-  const getProducts = async () => {
-    try {
-      const response = await axios.get("https://fakestoreapi.com/products");
-      setProducts(response.data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.productsSlice.products);
+  const slicedProducts = useSelector(
+    (state) => state.productsSlice.slicedProducts
+  );
 
   useEffect(() => {
-    getProducts();
-  }, []);
-
-  const Paginate = !products ? (
-    ""
-  ) : (
-    <Pagination products={products} setSlicedFunc={setSlicedProducts} />
-  );
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   return (
     <div>
       <ProductsHeader />
       <Products products={slicedProducts} />
-      {Paginate}
+      <Pagination
+        products={products}
+        setSlicedFunc={productsActions.setSlicedProdcuts}
+      />
     </div>
   );
 }
