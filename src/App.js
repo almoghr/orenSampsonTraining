@@ -1,27 +1,28 @@
-import styles from "./App.module.scss";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Header from "./components/Header/Header";
-import ProductsManager from "./components/products/ProductsManager/ProductsManager";
-import Footer from "./components/Footer/Footer";
-import CategoryProducts from "./components/CategoryProducts/CategoryProducts";
+
+import styles from "./App.module.scss";
+import Layout from "./components/Layout/Layout";
+import ProductsManager from "./pages/ProductsManager/ProductsManager";
+import CategoryProducts from "./pages/CategoryProducts/CategoryProducts";
+import NotFound from "./pages/NotFound/NotFound";
 
 const App = () => {
   return (
     <BrowserRouter>
       <div className={styles.App}>
-        <Header />
-        <Switch>
-          <Route exact path="/" component={ProductsManager} />
-          <Route path="/categories/electronics" component={CategoryProducts} />
-          <Route path="/categories/jewellery" component={CategoryProducts} />
-          <Route path="/categories/mensClothing" component={CategoryProducts} />
-          <Route
-            path="/categories/womensClothing"
-            component={CategoryProducts}
-          />
-          {/* create a 404 page */}
-        </Switch>
-        <Footer />
+        <Layout>
+          <Switch>
+            <Route exact path="/">
+              <ProductsManager />
+            </Route>
+            <Route path="/categories/:category">
+              <CategoryProducts />
+            </Route>
+            <Route path="*">
+              <NotFound />
+            </Route>
+          </Switch>
+        </Layout>
       </div>
     </BrowserRouter>
   );

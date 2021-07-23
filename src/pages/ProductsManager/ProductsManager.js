@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-import ProductsHeader from "../ProductsHeader/ProductsHeader";
-import Products from "../Products/Products";
-import Pagination from "../../Pagination/Pagination";
+import ProductsHeader from "../../components/products/ProductsHeader/ProductsHeader";
+import Products from "../../components/products/Products/Products";
+import Pagination from "../../components/Pagination/Pagination";
 
 function ProductsManager() {
   const [products, setProducts] = useState([]);
@@ -22,11 +22,17 @@ function ProductsManager() {
     getProducts();
   }, []);
 
+  const Paginate = !products ? (
+    ""
+  ) : (
+    <Pagination products={products} setSlicedFunc={setSlicedProducts} />
+  );
+
   return (
     <div>
       <ProductsHeader />
       <Products products={slicedProducts} />
-      <Pagination products={products} setSlicedFunc={setSlicedProducts} />
+      {Paginate}
     </div>
   );
 }

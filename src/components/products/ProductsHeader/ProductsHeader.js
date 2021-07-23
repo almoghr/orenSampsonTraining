@@ -21,15 +21,21 @@ function ProductsHeader() {
     getCategories();
   }, []);
 
-  const NavigationLinks = categories.map((category, index) => (
-    <li key={index}>
-      <NavLink to="">{category}</NavLink>
-    </li>
-  ));
+  const NavigationLinks = categories.map((category, index) => {
+    const to = `/categories/${category}`;
+
+    return (
+      <li key={index}>
+        <NavLink to={to}>{category}</NavLink>
+      </li>
+    );
+  });
 
   return (
     <header>
-      <nav>{NavigationLinks}</nav>
+      <nav>
+        <ul>{NavigationLinks}</ul>
+      </nav>
     </header>
   );
 }
