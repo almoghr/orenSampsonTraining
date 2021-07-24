@@ -2,6 +2,8 @@ import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+import styles from "./ProductsHeader.module.scss";
+
 function ProductsHeader() {
   const [categories, setCategories] = useState([]);
 
@@ -25,7 +27,7 @@ function ProductsHeader() {
     const to = `/categories/${category}`;
 
     return (
-      <li key={index}>
+      <li style={{ display: "inline" }} key={index}>
         <NavLink to={to}>{category}</NavLink>
       </li>
     );
@@ -34,7 +36,7 @@ function ProductsHeader() {
   return (
     <header>
       <nav>
-        <ul>{NavigationLinks}</ul>
+        <ul className={styles.ProductsHeader}>{NavigationLinks}</ul>
       </nav>
     </header>
   );
