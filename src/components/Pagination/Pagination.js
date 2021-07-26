@@ -27,14 +27,14 @@ function Pagination({ products, setSlicedFunc }) {
   const changePage = (method, amount) => {
     switch (method) {
       case "INCREMENT":
-        const endIndex = (currentPage + amount) * PRODUCTS_PER_PAGE;
-
-        if (endIndex > products.length + 1) {
+        const startIndex = (currentPage + amount - 1) * PRODUCTS_PER_PAGE;
+        if (!(startIndex < products.length)) {
           return;
         }
 
         setCurrentPage((prevPage) => prevPage + amount);
         break;
+
       case "DECREMENT":
         if (currentPage === 1) {
           return;
@@ -42,6 +42,7 @@ function Pagination({ products, setSlicedFunc }) {
 
         setCurrentPage((prevPage) => prevPage - amount);
         break;
+
       default:
         console.log(`selected method error`);
     }
@@ -67,10 +68,15 @@ function Pagination({ products, setSlicedFunc }) {
     <button onClick={incementPageHandler}>{nextButtonName}</button>
   );
 
+  const totalAmountPages =
+    products.length % PRODUCTS_PER_PAGE > 0
+      ? Math.floor(products.length / PRODUCTS_PER_PAGE) + 1
+      : Math.floor(products.length / PRODUCTS_PER_PAGE);
+
   return (
     <div>
       {BackButton}
-      <span>current page: {currentPage}</span>
+      <span>{`${currentPage} of ${totalAmountPages}`}</span>
       {ForwardButton}
     </div>
   );
