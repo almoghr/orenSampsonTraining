@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { PRODUCTS_PER_PAGE } from "../../constants/productsManager";
+import { PRODUCTS_PER_PAGE } from "../../redux-toolkit/constants/productsManager";
 
 const backButtonName = "< Back";
 const nextButtonName = "Next >";
