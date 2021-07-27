@@ -6,7 +6,7 @@ import { PRODUCTS_PER_PAGE } from "../../constants/productsManager";
 const backButtonName = "< Back";
 const nextButtonName = "Next >";
 
-function Pagination({ products, setSlicedFunc }) {
+function Pagination({ completeArray, setPaginatedArrFunc }) {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(false);
@@ -15,20 +15,20 @@ function Pagination({ products, setSlicedFunc }) {
     const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
     const endIndex = currentPage * PRODUCTS_PER_PAGE;
 
-    if (startIndex < products.length && endIndex >= products.length) {
+    if (startIndex < completeArray.length && endIndex >= completeArray.length) {
       setLastPage(true);
     } else {
       setLastPage(false);
     }
 
-    dispatch(setSlicedFunc(products.slice(startIndex, endIndex)));
-  }, [currentPage, products, setSlicedFunc, dispatch]);
+    dispatch(setPaginatedArrFunc(completeArray.slice(startIndex, endIndex)));
+  }, [currentPage, completeArray, setPaginatedArrFunc, dispatch]);
 
   const changePage = (method, amount) => {
     switch (method) {
       case "INCREMENT":
         const startIndex = (currentPage + amount - 1) * PRODUCTS_PER_PAGE;
-        if (!(startIndex < products.length)) {
+        if (!(startIndex < completeArray.length)) {
           return;
         }
 
@@ -69,9 +69,9 @@ function Pagination({ products, setSlicedFunc }) {
   );
 
   const totalAmountPages =
-    products.length % PRODUCTS_PER_PAGE > 0
-      ? Math.floor(products.length / PRODUCTS_PER_PAGE) + 1
-      : Math.floor(products.length / PRODUCTS_PER_PAGE);
+    completeArray.length % PRODUCTS_PER_PAGE > 0
+      ? Math.floor(completeArray.length / PRODUCTS_PER_PAGE) + 1
+      : Math.floor(completeArray.length / PRODUCTS_PER_PAGE);
 
   return (
     <div>

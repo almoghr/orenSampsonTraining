@@ -1,28 +1,31 @@
-// import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
+import { setPaginatedProducts } from "../../store/reducers/products-slice";
+import { getProducts } from "../../store/reducers/sagaActions/products-slice";
 import ProductsHeader from "../../components/products/ProductsHeader/ProductsHeader";
 import Products from "../../components/products/Products/Products";
-// import Pagination from "../../components/Pagination/Pagination";
+import Pagination from "../../components/Pagination/Pagination";
 
 function ProductsManager() {
-  // const products = useSelector((state) => state.productsSlice.products);
-  const slicedProducts = useSelector(
-    (state) => state.productsSlice.slicedProducts
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.productsSlice.products);
+  const paginatedProducts = useSelector(
+    (state) => state.productsSlice.paginatedProducts
   );
 
-  // useEffect(() => {
-  //   dispatch(fetchProducts());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
 
   return (
     <div>
       <ProductsHeader />
-      <Products products={slicedProducts} />
-      {/* <Pagination
-        products={products}
-        setSlicedFunc={productsActions.setSlicedProdcuts}
-      /> */}
+      <Products products={paginatedProducts} />
+      <Pagination
+        completeArray={products}
+        setPaginatedArrFunc={setPaginatedProducts}
+      />
     </div>
   );
 }
