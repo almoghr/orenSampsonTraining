@@ -3,9 +3,10 @@ import createSagaMiddleware from "redux-saga";
 import { composeWithDevTools } from "redux-devtools-extension";
 
 import productsSlice from "../reducers/products-slice";
+import paginationSlice from "../reducers/pagination-slice";
 import { watcherSaga } from "./sagas/rootSaga";
 
-const reducers = combineReducers({ productsSlice: productsSlice });
+const reducers = combineReducers({ productsSlice, paginationSlice });
 
 const sagaMiddleware = createSagaMiddleware();
 

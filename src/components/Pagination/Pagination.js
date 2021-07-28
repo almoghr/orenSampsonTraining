@@ -1,46 +1,33 @@
-import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { PRODUCTS_PER_PAGE } from "../../constants/productsManager";
+import {
+  decrement,
+  increment,
+  init_pagination,
+} from "../../store/reducers/pagination-slice";
 
 const backButtonName = "< Back";
 const nextButtonName = "Next >";
 
-function Pagination({ completeArray, setPaginatedArrFunc }) {
+function Pagination({ completeArray }) {
   const dispatch = useDispatch();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [lastPage, setLastPage] = useState(false);
+  const currentPage = useSelector((state) => state.paginationSlice.currentPage);
+  const isLastPage = useSelector((state) => state.paginationSlice.isLastPage);
+  const totalPages = useSelector((state) => state.paginationSlice.totalPages);
 
   useEffect(() => {
-    const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
-    const endIndex = currentPage * PRODUCTS_PER_PAGE;
-
-    if (startIndex < completeArray.length && endIndex >= completeArray.length) {
-      setLastPage(true);
-    } else {
-      setLastPage(false);
-    }
-
-    dispatch(setPaginatedArrFunc(completeArray.slice(startIndex, endIndex)));
-  }, [currentPage, completeArray, setPaginatedArrFunc, dispatch]);
+    dispatch(init_pagination({ completeArray }));
+  }, [completeArray, dispatch]);
 
   const changePage = (method, amount) => {
     switch (method) {
       case "INCREMENT":
-        const startIndex = (currentPage + amount - 1) * PRODUCTS_PER_PAGE;
-        if (!(startIndex < completeArray.length)) {
-          return;
-        }
-
-        setCurrentPage((prevPage) => prevPage + amount);
+        dispatch(increment({ completeArray, amount }));
         break;
 
       case "DECREMENT":
-        if (currentPage === 1) {
-          return;
-        }
-
-        setCurrentPage((prevPage) => prevPage - amount);
+        dispatch(decrement({ completeArray, amount }));
         break;
 
       default:
@@ -62,21 +49,16 @@ function Pagination({ completeArray, setPaginatedArrFunc }) {
       <button onClick={decrementPageHandler}>{backButtonName}</button>
     );
 
-  const ForwardButton = lastPage ? (
+  const ForwardButton = isLastPage ? (
     ""
   ) : (
     <button onClick={incementPageHandler}>{nextButtonName}</button>
   );
 
-  const totalAmountPages =
-    completeArray.length % PRODUCTS_PER_PAGE > 0
-      ? Math.floor(completeArray.length / PRODUCTS_PER_PAGE) + 1
-      : Math.floor(completeArray.length / PRODUCTS_PER_PAGE);
-
   return (
     <div>
       {BackButton}
-      <span>{`${currentPage} of ${totalAmountPages}`}</span>
+      <span>{`${currentPage} of ${totalPages}`}</span>
       {ForwardButton}
     </div>
   );

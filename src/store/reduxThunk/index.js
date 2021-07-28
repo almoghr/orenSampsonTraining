@@ -3,8 +3,9 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 
 import productsSlice from "../reducers/products-slice";
+import paginationSlice from "../reducers/pagination-slice";
 
-const reducers = combineReducers({ productsSlice: productsSlice });
+const reducers = combineReducers({ productsSlice, paginationSlice });
 
 const store = createStore(
   reducers,
