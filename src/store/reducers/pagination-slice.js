@@ -1,8 +1,8 @@
 import { PRODUCTS_PER_PAGE } from "../../constants/productsManager";
 
-const INCREMENT = "increment";
-const DECREMENT = "decrement";
-const INIT_PAGINATION = "init_pagination";
+const INCREMENT = "pagination_increment";
+const DECREMENT = "pagination_decrement";
+const INIT_PAGINATION = "pagination_init_pagination";
 
 const PAGINATION_SLICE_INITIAL_STATE = {
   currentPage: 1,

@@ -1,4 +1,4 @@
-const SET_PRODUCTS = "setProducts";
+const SET_PRODUCTS = "products_setProducts";
 
 const PRODUCTS_SLICE_INITIAL_STATE = {
   products: [],
