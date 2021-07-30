@@ -42,16 +42,10 @@ function Pagination({ completeArray }) {
     changePage("DECREMENT", 1);
   };
 
-  const BackButton =
-    currentPage === 1 ? (
-      ""
-    ) : (
-      <button onClick={decrementPageHandler}>{backButtonName}</button>
-    );
-
-  const ForwardButton = isLastPage ? (
-    ""
-  ) : (
+  const BackButton = currentPage !== 1 && (
+    <button onClick={decrementPageHandler}>{backButtonName}</button>
+  );
+  const ForwardButton = !isLastPage && (
     <button onClick={incementPageHandler}>{nextButtonName}</button>
   );
 
