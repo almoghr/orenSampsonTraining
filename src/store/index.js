@@ -2,11 +2,11 @@ import { combineReducers, createStore, applyMiddleware } from "redux";
 import createSagaMiddleware from "redux-saga";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-import productsSlice from "../reducers/products-slice";
-import paginationSlice from "../reducers/pagination-slice";
-import { watcherSaga } from "./sagas/rootSaga";
+import productsReducers from "./reducers/productsReducers";
+import paginationReducers from "./reducers/paginationReducers";
+import { watcherSaga } from "./rootSaga";
 
-const reducers = combineReducers({ productsSlice, paginationSlice });
+const reducers = combineReducers({ productsReducers, paginationReducers });
 
 const sagaMiddleware = createSagaMiddleware();
 

@@ -2,7 +2,7 @@ import styles from "./Products.module.scss";
 import Product from "../Product/Product";
 
 const Products = ({ products }) => {
-  const renderProducts = products?.map((product) => (
+  const RenderProducts = products?.map((product) => (
     <Product
       title={product.title}
       description={product.description}
@@ -13,7 +13,7 @@ const Products = ({ products }) => {
     />
   ));
 
-  return <div className={styles.Products}>{renderProducts}</div>;
+  return <div className={styles.Products}>{RenderProducts}</div>;
 };
 
 export default Products;

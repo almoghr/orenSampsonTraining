@@ -1,20 +1,26 @@
-import { useEffect } from "react";
+import { useEffect, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
   decrement,
   increment,
   init_pagination,
-} from "../../store/reducers/pagination-slice";
+} from "../../store/actions/paginationActions";
 
 const backButtonName = "< Back";
 const nextButtonName = "Next >";
 
 function Pagination({ completeArray }) {
   const dispatch = useDispatch();
-  const currentPage = useSelector((state) => state.paginationSlice.currentPage);
-  const isLastPage = useSelector((state) => state.paginationSlice.isLastPage);
-  const totalPages = useSelector((state) => state.paginationSlice.totalPages);
+  const currentPage = useSelector(
+    (state) => state.paginationReducers.currentPage
+  );
+  const isLastPage = useSelector(
+    (state) => state.paginationReducers.isLastPage
+  );
+  const totalPages = useSelector(
+    (state) => state.paginationReducers.totalPages
+  );
 
   useEffect(() => {
     dispatch(init_pagination({ completeArray }));
@@ -23,11 +29,11 @@ function Pagination({ completeArray }) {
   const changePage = (method, amount) => {
     switch (method) {
       case "INCREMENT":
-        dispatch(increment({ completeArray, amount }));
+        dispatch(increment({ completeArray, amount, currentPage }));
         break;
 
       case "DECREMENT":
-        dispatch(decrement({ completeArray, amount }));
+        dispatch(decrement({ completeArray, amount, currentPage }));
         break;
 
       default:
@@ -49,13 +55,16 @@ function Pagination({ completeArray }) {
     <button onClick={incementPageHandler}>{nextButtonName}</button>
   );
 
-  return (
-    <div>
-      {BackButton}
-      <span>{`${currentPage} of ${totalPages}`}</span>
-      {ForwardButton}
-    </div>
-  );
+  const Content =
+    !completeArray || completeArray.length === 0 ? null : (
+      <div>
+        {BackButton}
+        <span>{`${currentPage} of ${totalPages}`}</span>
+        {ForwardButton}
+      </div>
+    );
+
+  return <Fragment>{Content}</Fragment>;
 }
 
 export default Pagination;
