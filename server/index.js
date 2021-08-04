@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
+const initProductsSeeder = require("./seeders/products");
+
 const app = express();
 
 app.use(express.json());
@@ -18,7 +20,5 @@ mongoose.connect(MONGODB_URI, options);
 
 mongoose.connection.on("connected", () => {
   console.log("Mongoose default connection open to " + MONGODB_URI);
-  // seeders.roles.initRoles();
-  // seeders.users.initUsers();
-  // seeders.websites.initWebsites();
+  initProductsSeeder();
 });
