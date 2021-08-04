@@ -13,5 +13,5 @@ exports.getProdcuts = async (req, res, next) => {
     console.log(`error`, error);
   }
 
-  return res.status(successfulResponse.status).json({ data: productsArr });
+  return res.status(successfulResponse.status).json(productsArr);
 };

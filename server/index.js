@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const initProductsSeeder = require("./seeders/products");
 const productsRoutes = require("./routes/productsRoutes");
@@ -7,6 +8,7 @@ const productsRoutes = require("./routes/productsRoutes");
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 // database configuration
 const MONGODB_URI = "mongodb://localhost:27017/fakeStore";

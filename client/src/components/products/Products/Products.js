@@ -9,7 +9,7 @@ const Products = ({ products }) => {
       category={product.category}
       price={product.price}
       image={product.image}
-      key={product.id}
+      key={product._id}
     />
   ));
 

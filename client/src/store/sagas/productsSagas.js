@@ -12,7 +12,9 @@ import { API_CALL_FAILED, ARRAY_EMPTY } from "../constants/messages";
 const requestGetProducts = async () => {
   let fetchedData;
   try {
-    fetchedData = await axios.get("https://fakestoreapi.com/products");
+    fetchedData = await axios.get(
+      "http://localhost:8080/api/products/getproducts"
+    );
   } catch (error) {
     throw new Error(API_CALL_FAILED);
   }
