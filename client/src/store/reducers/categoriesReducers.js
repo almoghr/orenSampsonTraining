@@ -1,27 +1,27 @@
 import * as types from "../types";
 
-const PRODUCTS_INITIAL_STATE = {
-  products: [],
+const CATEGORIES_INITIAL_STATE = {
+  categories: [],
   loading: false,
   error: null,
 };
 
-const reducer = (state = PRODUCTS_INITIAL_STATE, action) => {
+const reducer = (state = CATEGORIES_INITIAL_STATE, action) => {
   switch (action.type) {
-    case types.GET_PRODUCTS_REQUESTED:
+    case types.GET_CATEGORIES_REQUESTED:
       return {
         ...state,
         loading: true,
       };
 
-    case types.GET_PRODUCTS_SUCCESS:
+    case types.GET_CATEGORIES_SUCCESS:
       return {
         ...state,
         loading: false,
-        products: action.payload,
+        categories: action.payload,
       };
 
-    case types.GET_PRODUCTS_FAILURE:
+    case types.GET_CATEGORIES_FAILURE:
       return {
         ...state,
         loading: false,

@@ -11,8 +11,12 @@ export const INCREMENT = "pagination_increment";
 export const DECREMENT = "pagination_decrement";
 export const INIT_PAGINATION = "pagination_init_pagination";
 
-// export const SET_PRODUCTS_REQUESTED = "products_setProducts_requested";
-// export const SET_PRODUCTS = "products_setProducts";
+// Categories
+
+export const GET_CATEGORIES = "categories_getCategories";
+export const GET_CATEGORIES_REQUESTED = "categories_getCategories_requested";
+export const GET_CATEGORIES_SUCCESS = "categories_getCategories_success";
+export const GET_CATEGORIES_FAILURE = "categories_getCategories_failure";
 
 // export const SET_CATEGORIES = "products_set_categories";
 // export const SET_PRODUCTS_BY_CATEGORY = "products_set_products_by_category";
