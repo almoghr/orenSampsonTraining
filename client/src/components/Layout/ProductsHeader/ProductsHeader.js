@@ -9,11 +9,13 @@ function ProductsHeader() {
 
   const getCategories = async () => {
     try {
-      const categoriesArr = await axios.get(
-        "https://fakestoreapi.com/products/categories"
+      let categoriesArr = await axios.get(
+        "http://localhost:8080/api/categories/getcategories"
       );
 
-      setCategories(categoriesArr.data);
+      categoriesArr = categoriesArr.data.map((category) => category.category);
+
+      setCategories(categoriesArr);
     } catch (e) {
       console.log(e);
     }

@@ -8,7 +8,7 @@ const initProductsSeeder = () => {
       let productsArr;
       try {
         productsArr = await axios.get("https://fakestoreapi.com/products");
-        if (!productsArr) {
+        if (!productsArr || !productsArr.data) {
           throw new Error("fetched empty products");
         }
         productsArr = productsArr.data;

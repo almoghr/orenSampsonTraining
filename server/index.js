@@ -2,8 +2,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
-const initProductsSeeder = require("./seeders/products");
+const initProductsSeeder = require("./seeders/productsSeeder");
+const initcategoriesSeeder = require("./seeders/categoriesSeeder");
 const productsRoutes = require("./routes/productsRoutes");
+const categoriesRoutes = require("./routes/categoriesRoutes");
 
 const app = express();
 
@@ -24,10 +26,12 @@ mongoose.connect(MONGODB_URI, options);
 mongoose.connection.on("connected", () => {
   console.log("Mongoose default connection open to " + MONGODB_URI);
   initProductsSeeder();
+  initcategoriesSeeder();
 });
 
 // routes
 app.use("/api/products", productsRoutes);
+app.use("/api/categories", categoriesRoutes);
 
 // app start configuration
 const port = 8080;
