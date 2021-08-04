@@ -12,8 +12,6 @@ const initProductsSeeder = () => {
           throw new Error("fetched empty products");
         }
         productsArr = productsArr.data;
-
-        console.log(`productsArr`, productsArr);
       } catch (error) {
         console.log(`error`, error);
       }
@@ -29,7 +27,6 @@ const initProductsSeeder = () => {
 
         try {
           await productModel.save();
-          console.log(`productModel saved with id `, product.id);
         } catch (error) {
           console.log(`error`, error);
         }

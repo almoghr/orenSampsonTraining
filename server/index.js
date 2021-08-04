@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const initProductsSeeder = require("./seeders/products");
+const productsRoutes = require("./routes/productsRoutes");
 
 const app = express();
 
@@ -21,4 +22,14 @@ mongoose.connect(MONGODB_URI, options);
 mongoose.connection.on("connected", () => {
   console.log("Mongoose default connection open to " + MONGODB_URI);
   initProductsSeeder();
+});
+
+// routes
+app.use("/api/products", productsRoutes);
+
+// app start configuration
+const port = 8080;
+
+app.listen(port, function () {
+  console.log("Running fake store backend on port " + port);
 });
