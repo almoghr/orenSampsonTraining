@@ -1,27 +1,36 @@
+import React, { Suspense } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import ClipLoader from "react-spinners/ClipLoader";
 
 import styles from "./App.module.scss";
 import Layout from "./components/Layout/Layout";
-import ProductsManager from "./pages/ProductsManager/ProductsManager";
-import CategoryProducts from "./pages/CategoryProducts/CategoryProducts";
-import NotFound from "./pages/NotFound/NotFound";
+
+const ProductsManager = React.lazy(() =>
+  import("./pages/ProductsManager/ProductsManager")
+);
+const CategoryProducts = React.lazy(() =>
+  import("./pages/CategoryProducts/CategoryProducts")
+);
+const NotFound = React.lazy(() => import("./pages/NotFound/NotFound"));
 
 const App = () => {
   return (
     <BrowserRouter>
       <div className={styles.App}>
         <Layout>
-          <Switch>
-            <Route exact path="/">
-              <ProductsManager />
-            </Route>
-            <Route path="/categories/:category">
-              <CategoryProducts />
-            </Route>
-            <Route path="*">
-              <NotFound />
-            </Route>
-          </Switch>
+          <Suspense fallback={<ClipLoader loading={true} size={150} />}>
+            <Switch>
+              <Route exact path="/">
+                <ProductsManager />
+              </Route>
+              <Route path="/categories/:category">
+                <CategoryProducts />
+              </Route>
+              <Route path="*">
+                <NotFound />
+              </Route>
+            </Switch>
+          </Suspense>
         </Layout>
       </div>
     </BrowserRouter>
