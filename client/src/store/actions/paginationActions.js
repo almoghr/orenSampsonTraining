@@ -1,7 +1,7 @@
 import * as types from "../types";
 import { PRODUCTS_PER_PAGE } from "../constants/pagination";
 
-export const increment = (payload) => {
+export const increment_pagination = (payload) => {
   const completeArray = payload.completeArray;
   const amount = payload.amount;
   const stateCurrentPage = payload.currentPage;
@@ -23,7 +23,7 @@ export const increment = (payload) => {
   const paginatedArr = completeArray.slice(startIndex, endIndex);
 
   return {
-    type: types.INCREMENT,
+    type: types.PAGINATION_INCREMENT,
     payload: {
       currentPage,
       isLastPage,
@@ -32,7 +32,7 @@ export const increment = (payload) => {
   };
 };
 
-export const decrement = (payload) => {
+export const decrement_pagination = (payload) => {
   const completeArray = payload.completeArray;
   const amount = payload.amount;
   const stateCurrentPage = payload.currentPage;
@@ -50,7 +50,7 @@ export const decrement = (payload) => {
   const paginatedArr = completeArray.slice(startIndex, endIndex);
 
   return {
-    type: types.DECREMENT,
+    type: types.PAGINATION_DECREMENT,
     payload: {
       currentPage,
       isLastPage,
@@ -59,7 +59,7 @@ export const decrement = (payload) => {
   };
 };
 
-export const init_pagination = (payload) => {
+export const new_state_pagination = (payload) => {
   const completeArray = payload.completeArray;
 
   const startIndex = 0;
@@ -77,7 +77,13 @@ export const init_pagination = (payload) => {
       : Math.floor(completeArray.length / PRODUCTS_PER_PAGE);
 
   return {
-    type: types.INIT_PAGINATION,
+    type: types.PAGINATION_NEW_STATE,
     payload: { totalPages, isLastPage, paginatedArr },
+  };
+};
+
+export const reset_state_pagination = () => {
+  return {
+    type: types.PAGINATION_RESET_STATE,
   };
 };

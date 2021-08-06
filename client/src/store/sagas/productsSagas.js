@@ -3,9 +3,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 import {
-  getProdcutsRequested,
-  getProdcutsSuccess,
-  getProdcutsFailure,
+  get_prodcuts_requested,
+  get_prodcuts_success,
+  get_prodcuts_failure,
 } from "../actions/productsActions";
 import { API_CALL_FAILED, PRODUCTS_ARRAY_EMPTY } from "../constants/messages";
 
@@ -22,9 +22,9 @@ const requestGetProducts = async () => {
   return fetchedData;
 };
 
-export function* GetProductsHandler() {
+export function* GetProductsHandler(action) {
   try {
-    yield put(getProdcutsRequested());
+    yield put(get_prodcuts_requested());
 
     const { data } = yield call(requestGetProducts);
 
@@ -32,9 +32,9 @@ export function* GetProductsHandler() {
       throw new Error(PRODUCTS_ARRAY_EMPTY);
     }
 
-    yield put(getProdcutsSuccess(data));
+    yield put(get_prodcuts_success(data));
   } catch (error) {
-    yield put(getProdcutsFailure(error.message));
+    yield put(get_prodcuts_failure(error.message));
     toast(error.message);
   }
 }

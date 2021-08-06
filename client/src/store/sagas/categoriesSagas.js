@@ -3,9 +3,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 import {
-  getCategoriesRequested,
-  getCategoriesFailure,
-  getCategoriesSuccess,
+  get_categories_requested,
+  get_categories_failure,
+  get_categories_success,
 } from "../actions/categoriesActions";
 import { API_CALL_FAILED, CATEGORIES_ARRAY_EMPTY } from "../constants/messages";
 
@@ -24,7 +24,7 @@ const requestGetCategories = async () => {
 
 export function* GetCategoriesHandler() {
   try {
-    yield put(getCategoriesRequested());
+    yield put(get_categories_requested());
 
     let { data } = yield call(requestGetCategories);
 
@@ -34,9 +34,9 @@ export function* GetCategoriesHandler() {
 
     data = data.map((category) => category.category);
 
-    yield put(getCategoriesSuccess(data));
+    yield put(get_categories_success(data));
   } catch (error) {
-    yield put(getCategoriesFailure(error.message));
+    yield put(get_categories_failure(error.message));
     toast(error.message);
   }
 }

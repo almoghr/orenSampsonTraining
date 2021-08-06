@@ -2,29 +2,29 @@ import * as types from "../types";
 
 const CATEGORIES_INITIAL_STATE = {
   categories: [],
-  loading: false,
+  isLoading: false,
   error: null,
 };
 
 const reducer = (state = CATEGORIES_INITIAL_STATE, action) => {
   switch (action.type) {
-    case types.GET_CATEGORIES_REQUESTED:
+    case types.CATEGORIES_GET_REQUESTED:
       return {
         ...state,
-        loading: true,
+        isLoading: true,
       };
 
-    case types.GET_CATEGORIES_SUCCESS:
+    case types.CATEGORIES_GET_SUCCESS:
       return {
         ...state,
-        loading: false,
+        isLoading: false,
         categories: action.payload,
       };
 
-    case types.GET_CATEGORIES_FAILURE:
+    case types.CATEGORIES_GET_FAILURE:
       return {
         ...state,
-        loading: false,
+        isLoading: false,
         error: action.payload,
       };
 

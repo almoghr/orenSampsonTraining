@@ -1,19 +1,24 @@
 import * as types from "../types";
 
-export const getProducts = () => ({
-  type: types.GET_PRODUCTS,
-});
-
-export const getProdcutsRequested = () => ({
-  type: types.GET_PRODUCTS_REQUESTED,
-});
-
-export const getProdcutsSuccess = (payload) => ({
-  type: types.GET_PRODUCTS_SUCCESS,
+export const get_products = (payload = null) => ({
+  type: types.PRODUCTS_GET,
   payload,
 });
 
-export const getProdcutsFailure = (payload) => ({
-  type: types.GET_PRODUCTS_FAILURE,
+export const get_prodcuts_requested = () => ({
+  type: types.PRODUCTS_GET_REQUESTED,
+});
+
+export const get_prodcuts_success = (payload) => ({
+  type: types.PRODUCTS_GET_SUCCESS,
   payload,
+});
+
+export const get_prodcuts_failure = (payload) => ({
+  type: types.PRODUCTS_GET_FAILURE,
+  payload,
+});
+
+export const products_reset_state = () => ({
+  type: types.PRODUCTS_RESET_STATE,
 });

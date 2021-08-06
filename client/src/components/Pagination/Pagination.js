@@ -2,9 +2,10 @@ import { useEffect, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  decrement,
-  increment,
-  init_pagination,
+  decrement_pagination,
+  increment_pagination,
+  new_state_pagination,
+  reset_state_pagination,
 } from "../../store/actions/paginationActions";
 
 const backButtonName = "< Back";
@@ -23,17 +24,21 @@ function Pagination({ completeArray }) {
   );
 
   useEffect(() => {
-    dispatch(init_pagination({ completeArray }));
+    dispatch(new_state_pagination({ completeArray }));
+
+    return () => {
+      dispatch(reset_state_pagination());
+    };
   }, [completeArray, dispatch]);
 
   const changePage = (method, amount) => {
     switch (method) {
       case "INCREMENT":
-        dispatch(increment({ completeArray, amount, currentPage }));
+        dispatch(increment_pagination({ completeArray, amount, currentPage }));
         break;
 
       case "DECREMENT":
-        dispatch(decrement({ completeArray, amount, currentPage }));
+        dispatch(decrement_pagination({ completeArray, amount, currentPage }));
         break;
 
       default:
@@ -55,14 +60,13 @@ function Pagination({ completeArray }) {
     <button onClick={incementPageHandler}>{nextButtonName}</button>
   );
 
-  const Content =
-    !completeArray || completeArray.length === 0 ? null : (
-      <div>
-        {BackButton}
-        <span>{`${currentPage} of ${totalPages}`}</span>
-        {ForwardButton}
-      </div>
-    );
+  const Content = !!(completeArray?.length !== 0) && (
+    <div>
+      {BackButton}
+      <span>{`${currentPage} of ${totalPages}`}</span>
+      {ForwardButton}
+    </div>
+  );
 
   return <Fragment>{Content}</Fragment>;
 }

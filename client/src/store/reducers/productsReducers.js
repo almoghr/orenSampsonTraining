@@ -2,30 +2,35 @@ import * as types from "../types";
 
 const PRODUCTS_INITIAL_STATE = {
   products: [],
-  loading: false,
+  isLoading: false,
   error: null,
 };
 
 const reducer = (state = PRODUCTS_INITIAL_STATE, action) => {
   switch (action.type) {
-    case types.GET_PRODUCTS_REQUESTED:
+    case types.PRODUCTS_GET_REQUESTED:
       return {
         ...state,
-        loading: true,
+        isLoading: true,
       };
 
-    case types.GET_PRODUCTS_SUCCESS:
+    case types.PRODUCTS_GET_SUCCESS:
       return {
         ...state,
-        loading: false,
+        isLoading: false,
         products: action.payload,
       };
 
-    case types.GET_PRODUCTS_FAILURE:
+    case types.PRODUCTS_GET_FAILURE:
       return {
         ...state,
-        loading: false,
+        isLoading: false,
         error: action.payload,
+      };
+
+    case types.PRODUCTS_RESET_STATE:
+      return {
+        ...PRODUCTS_INITIAL_STATE,
       };
 
     default:

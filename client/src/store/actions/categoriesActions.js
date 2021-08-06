@@ -1,18 +1,18 @@
 import * as types from "../types";
 
-export const getCategories = () => ({
-  type: types.GET_CATEGORIES,
+export const get_categories = () => ({
+  type: types.CATEGORIES_GET,
 });
 
-export const getCategoriesRequested = () => ({
-  type: types.GET_CATEGORIES_REQUESTED,
+export const get_categories_requested = () => ({
+  type: types.CATEGORIES_GET_REQUESTED,
 });
 
-export const getCategoriesSuccess = (payload) => ({
-  type: types.GET_CATEGORIES_SUCCESS,
+export const get_categories_success = (payload) => ({
+  type: types.CATEGORIES_GET_SUCCESS,
   payload,
 });
-export const getCategoriesFailure = (payload) => ({
-  type: types.GET_CATEGORIES_FAILURE,
+export const get_categories_failure = (payload) => ({
+  type: types.CATEGORIES_GET_FAILURE,
   payload,
 });

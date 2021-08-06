@@ -9,7 +9,7 @@ const PAGINATION_INITIAL_STATE = {
 
 const reducer = (state = PAGINATION_INITIAL_STATE, action) => {
   switch (action.type) {
-    case types.INCREMENT:
+    case types.PAGINATION_INCREMENT:
       return {
         ...state,
         currentPage: action.payload.currentPage,
@@ -17,7 +17,7 @@ const reducer = (state = PAGINATION_INITIAL_STATE, action) => {
         paginatedArr: action.payload.paginatedArr,
       };
 
-    case types.DECREMENT:
+    case types.PAGINATION_DECREMENT:
       return {
         ...state,
         currentPage: action.payload.currentPage,
@@ -25,13 +25,18 @@ const reducer = (state = PAGINATION_INITIAL_STATE, action) => {
         paginatedArr: action.payload.paginatedArr,
       };
 
-    case types.INIT_PAGINATION:
+    case types.PAGINATION_NEW_STATE:
       return {
         ...state,
         currentPage: PAGINATION_INITIAL_STATE.currentPage,
         isLastPage: action.payload.isLastPage,
         totalPages: action.payload.totalPages,
         paginatedArr: action.payload.paginatedArr,
+      };
+
+    case types.PAGINATION_RESET_STATE:
+      return {
+        ...PAGINATION_INITIAL_STATE,
       };
 
     default:

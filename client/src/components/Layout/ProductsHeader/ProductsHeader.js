@@ -1,33 +1,37 @@
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { useEffect } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
 
-import { getCategories } from "../../../store/actions/categoriesActions";
+import { get_categories } from "../../../store/actions/categoriesActions";
 import styles from "./ProductsHeader.module.scss";
 
 function ProductsHeader() {
   const dispatch = useDispatch();
-  // const loading = useSelector((state) => state.categoriesReducers.loading);
+  const isLoading = useSelector((state) => state.categoriesReducers.isLoading);
   const categories = useSelector(
     (state) => state.categoriesReducers.categories
   );
 
   useEffect(() => {
-    dispatch(getCategories());
+    dispatch(get_categories());
   }, [dispatch]);
 
-  const NavigationLinks = categories.map((category, index) => {
+  let NavigationLinks = categories.map((category, index) => {
     const to = `/categories/${category}`;
 
     return (
-      <li style={{ display: "inline" }} key={index}>
+      <li key={index}>
         <NavLink to={to}>{category}</NavLink>
       </li>
     );
   });
 
+  NavigationLinks = !isLoading && NavigationLinks;
+
   return (
     <header>
+      <ClipLoader loading={isLoading} size={150} />
       <nav>
         <ul className={styles.ProductsHeader}>{NavigationLinks}</ul>
       </nav>
