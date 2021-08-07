@@ -1,6 +1,6 @@
 import * as types from "../types";
 
-export const get_products = (payload = null) => ({
+export const get_products = (payload) => ({
   type: types.PRODUCTS_GET,
   payload,
 });

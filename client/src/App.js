@@ -5,11 +5,11 @@ import ClipLoader from "react-spinners/ClipLoader";
 import styles from "./App.module.scss";
 import Layout from "./components/Layout/Layout";
 
-const ProductsManager = React.lazy(() =>
-  import("./pages/ProductsManager/ProductsManager")
+const AllProductsViewer = React.lazy(() =>
+  import("./pages/AllProductsViewer/AllProductsViewer")
 );
-const CategoryProducts = React.lazy(() =>
-  import("./pages/CategoryProducts/CategoryProducts")
+const CategoryProductsViewer = React.lazy(() =>
+  import("./pages/CategoryProductsViewer/CategoryProductsViewer")
 );
 const NotFound = React.lazy(() => import("./pages/NotFound/NotFound"));
 
@@ -21,10 +21,10 @@ const App = () => {
           <Suspense fallback={<ClipLoader loading={true} size={150} />}>
             <Switch>
               <Route exact path="/">
-                <ProductsManager />
+                <AllProductsViewer />
               </Route>
               <Route path="/categories/:category">
-                <CategoryProducts />
+                <CategoryProductsViewer />
               </Route>
               <Route path="*">
                 <NotFound />

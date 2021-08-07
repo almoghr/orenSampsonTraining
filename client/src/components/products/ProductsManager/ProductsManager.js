@@ -5,11 +5,11 @@ import ClipLoader from "react-spinners/ClipLoader";
 import {
   get_products,
   products_reset_state,
-} from "../../store/actions/productsActions";
-import Products from "../../components/products/Products/Products";
-import Pagination from "../../components/Pagination/Pagination";
+} from "../../../store/actions/productsActions";
+import Products from "../Products/Products";
+import Pagination from "../../Pagination/Pagination";
 
-function ProductsManager() {
+function ProductsManager(props) {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.productsReducers.isLoading);
   const products = useSelector((state) => state.productsReducers.products);
@@ -18,12 +18,12 @@ function ProductsManager() {
   );
 
   useEffect(() => {
-    dispatch(get_products());
+    dispatch(get_products(props.category));
 
     return () => {
       dispatch(products_reset_state());
     };
-  }, [dispatch]);
+  }, [dispatch, props]);
 
   return (
     <div>

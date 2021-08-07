@@ -9,11 +9,17 @@ import {
 } from "../actions/productsActions";
 import { API_CALL_FAILED, PRODUCTS_ARRAY_EMPTY } from "../constants/messages";
 
-const requestGetProducts = async () => {
+const requestGetProducts = async (payload) => {
   let fetchedData;
   try {
+    const config = {
+      headers: {
+        category: payload,
+      },
+    };
     fetchedData = await axios.get(
-      "http://localhost:8080/api/products/getproducts"
+      "http://localhost:8080/api/products/getproducts",
+      config
     );
   } catch (error) {
     throw new Error(API_CALL_FAILED);
@@ -26,7 +32,7 @@ export function* GetProductsHandler(action) {
   try {
     yield put(get_prodcuts_requested());
 
-    const { data } = yield call(requestGetProducts);
+    const { data } = yield call(requestGetProducts.bind(this, action.payload));
 
     if (!data) {
       throw new Error(PRODUCTS_ARRAY_EMPTY);
