@@ -6,6 +6,7 @@ const initProductsSeeder = require("./seeders/productsSeeder");
 const initcategoriesSeeder = require("./seeders/categoriesSeeder");
 const productsRoutes = require("./routes/productsRoutes");
 const categoriesRoutes = require("./routes/categoriesRoutes");
+const auth = require("./routes/auth");
 
 const app = express();
 
@@ -32,6 +33,7 @@ mongoose.connection.on("connected", () => {
 // routes
 app.use("/api/products", productsRoutes);
 app.use("/api/categories", categoriesRoutes);
+app.use("/api/auth", auth);
 
 // app start configuration
 const port = 8080;
