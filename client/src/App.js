@@ -5,13 +5,16 @@ import ClipLoader from "react-spinners/ClipLoader";
 import styles from "./App.module.scss";
 import Layout from "./components/Layout/Layout";
 
-const AllProductsViewer = React.lazy(() =>
-  import("./pages/AllProductsViewer/AllProductsViewer")
+const AllProductsPage = React.lazy(() =>
+  import("./pages/AllProductsPage/AllProductsPage")
 );
-const CategoryProductsViewer = React.lazy(() =>
-  import("./pages/CategoryProductsViewer/CategoryProductsViewer")
+const CategoryProductsPage = React.lazy(() =>
+  import("./pages/CategoryProductsPage/CategoryProductsPage")
 );
-const NotFound = React.lazy(() => import("./pages/NotFound/NotFound"));
+const NotFoundPage = React.lazy(() =>
+  import("./pages/NotFoundPage/NotFoundPage")
+);
+const AuthPage = React.lazy(() => import("./pages/AuthPage/AuthPage"));
 
 const App = () => {
   return (
@@ -21,13 +24,16 @@ const App = () => {
           <Suspense fallback={<ClipLoader loading={true} size={150} />}>
             <Switch>
               <Route exact path="/">
-                <AllProductsViewer />
+                <AllProductsPage />
               </Route>
               <Route path="/categories/:category">
-                <CategoryProductsViewer />
+                <CategoryProductsPage />
+              </Route>
+              <Route path="/auth">
+                <AuthPage />
               </Route>
               <Route path="*">
-                <NotFound />
+                <NotFoundPage />
               </Route>
             </Switch>
           </Suspense>

@@ -8,11 +8,9 @@ exports.getProdcuts = async (req, res, next) => {
 
   let productsArr;
   try {
-    if (category === ALL_PRODUCTS) {
-      productsArr = await Product.find({}).lean();
-    } else {
-      productsArr = await Product.find({ category }).lean();
-    }
+    productsArr = await Product.find(
+      category === ALL_PRODUCTS ? {} : { category }
+    ).lean();
 
     if (!productsArr) {
       throw new Error("products array empty");
