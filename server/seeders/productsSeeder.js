@@ -2,6 +2,12 @@ const axios = require("axios");
 
 const Product = require("../models/product");
 
+function randomNumber(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 const initProductsSeeder = () => {
   Product.estimatedDocumentCount(async (err, count) => {
     if (!err && count === 0) {
@@ -22,6 +28,7 @@ const initProductsSeeder = () => {
           price: product.price,
           description: product.description,
           category: product.category,
+          amount: randomNumber(1, 10),
           image: product.image,
         });
 
