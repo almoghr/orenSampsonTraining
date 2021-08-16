@@ -3,10 +3,12 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const initProductsSeeder = require("./seeders/productsSeeder");
-const initcategoriesSeeder = require("./seeders/categoriesSeeder");
+const initCategoriesSeeder = require("./seeders/categoriesSeeder");
+const initDiscountsSeeder = require("./seeders/discountsSeeder");
 const productsRoutes = require("./routes/productsRoutes");
 const categoriesRoutes = require("./routes/categoriesRoutes");
-const auth = require("./routes/auth");
+const transactionsRoutes = require("./routes/transactionsRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
@@ -27,13 +29,15 @@ mongoose.connect(MONGODB_URI, options);
 mongoose.connection.on("connected", () => {
   console.log("Mongoose default connection open to " + MONGODB_URI);
   initProductsSeeder();
-  initcategoriesSeeder();
+  initCategoriesSeeder();
+  initDiscountsSeeder();
 });
 
 // routes
 app.use("/api/products", productsRoutes);
 app.use("/api/categories", categoriesRoutes);
-app.use("/api/auth", auth);
+app.use("/api/transactions", transactionsRoutes);
+app.use("/api/auth", authRoutes);
 
 // app start configuration
 const port = 8080;

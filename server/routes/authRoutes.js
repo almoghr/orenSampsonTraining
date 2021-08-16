@@ -5,7 +5,7 @@ const login = require("../controllers/auth/login");
 const {
   signupValidator,
   loginValidator,
-} = require("../middleware/validators/auth");
+} = require("../middleware/validators/authValidators");
 
 const router = express.Router();
 

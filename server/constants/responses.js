@@ -10,14 +10,18 @@ module.exports = Object.freeze({
     status: 201,
     message: "User created!",
   },
+  transactionCreated: {
+    status: 201,
+    message: "transaction added!",
+  },
   serverError: {
     status: 500,
     message: "Server Error. Please try again later.",
   },
-  // userNotLoggedIn: {
-  //   status: 401,
-  //   message: "Must log in inorder to perform this operation"
-  // },
+  userNotLoggedIn: {
+    status: 401,
+    message: "Must log in inorder to perform this operation",
+  },
   userNotFound: {
     status: 401,
     message: "A user with this email could not be found",
