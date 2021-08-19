@@ -1,19 +1,22 @@
 const express = require("express");
+const router = express.Router();
 
 const authMiddleware = require("../middleware/auth/authMiddleware");
-const transactionsController = require("../controllers/transactionsController");
-
-const router = express.Router();
+const addTransactionController = require("../controllers/transactions/addTransactionController");
+const transactionsHistoryController = require("../controllers/transactions/transactionsHistoryController");
 
 router.post(
   "/addtransaction",
   // authMiddleware,
-  transactionsController.addTransaction
+  addTransactionController
 );
 // router.post(
 //   "/addtransaction",
 //   authMiddleware,
-//   transactionsController.addTransaction
+//   addTransactionController
 // );
+
+router.get("/transactionshistory", transactionsHistoryController);
+// router.get("/transactionshistory", authMiddleware, transactionsHistoryController);
 
 module.exports = router;

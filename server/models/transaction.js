@@ -13,18 +13,21 @@ const productsAndAmountSchema = new Schema(
   { _id: false }
 );
 
-const transactionSchema = new Schema({
-  userID: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
+const transactionSchema = new Schema(
+  {
+    userID: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    discountID: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Discount",
+    },
+    productsAndAmount: [productsAndAmountSchema],
+    totalPrice: { type: Number, required: true },
   },
-  discountID: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Discount",
-  },
-  productsAndAmount: [productsAndAmountSchema],
-  totalPrice: { type: Number, required: true },
-});
+  { timestamps: true }
+);
 
 module.exports = mongoose.model("Transaction", transactionSchema);

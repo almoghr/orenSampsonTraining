@@ -1,14 +1,14 @@
-const User = require("../models/user");
-const Discount = require("../models/discount");
-const Product = require("../models/product");
-const Transaction = require("../models/transaction");
+const User = require("../../models/user");
+const Discount = require("../../models/discount");
+const Product = require("../../models/product");
+const Transaction = require("../../models/transaction");
 const {
   userNotLoggedIn,
   serverError,
   transactionCreated,
-} = require("../constants/responses");
+} = require("../../constants/responses");
 
-exports.addTransaction = async (req, res, next) => {
+module.exports = async (req, res, next) => {
   console.log();
   // if (!res.locals.isAuth) {
   //   return res
@@ -17,10 +17,16 @@ exports.addTransaction = async (req, res, next) => {
   // }
 
   // const userID = res.locals.payload.sub;
-
   const userID = "610ee02761c8dd4bd0bf9254";
+
   const { productsAndAmountArr } = req.body;
   let { discountID } = req.body;
+
+  if (!productsAndAmountArr?.length) {
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
+  }
 
   try {
     const user = await User.findOne({ _id: userID }).lean();
