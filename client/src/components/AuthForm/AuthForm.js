@@ -1,23 +1,35 @@
 import { useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { auth } from "../../store/actions/authActions";
 
 function AuthForm() {
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.authReducers.isLoading);
+
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
 
-  const [isLogin, setIsLogin] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoginMode, setIsLoginMode] = useState(true);
 
   const switchAuthModeHandler = () => {
-    setIsLogin((prevState) => !prevState);
+    setIsLoginMode((prevState) => !prevState);
   };
 
   const submitHandler = (event) => {
     event.preventDefault();
+    dispatch(
+      auth({
+        isLoginMode,
+        email: emailInputRef.current.value,
+        password: passwordInputRef.current.value,
+      })
+    );
   };
 
   return (
     <div>
-      <h1>{isLogin ? "Login" : "Sign Up"}</h1>
+      <h1>{isLoginMode ? "Login" : "Sign Up"}</h1>
       <form onSubmit={submitHandler}>
         <div>
           <label htmlFor="email">Your Email</label>
@@ -34,13 +46,13 @@ function AuthForm() {
         </div>
         <div>
           {!isLoading && (
-            <button>{isLogin ? "Login" : "Create Account"}</button>
+            <button>{isLoginMode ? "Login" : "Create Account"}</button>
           )}
           {isLoading && <p>Sending request...</p>}
         </div>
         <div>
           <button type="button" onClick={switchAuthModeHandler}>
-            {isLogin ? "Create new account" : "Login with existing account"}
+            {isLoginMode ? "Create new account" : "Login with existing account"}
           </button>
         </div>
       </form>

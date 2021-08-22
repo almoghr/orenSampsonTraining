@@ -19,5 +19,13 @@ export const CATEGORIES_GET_REQUESTED = "categories_getCategories_requested";
 export const CATEGORIES_GET_SUCCESS = "categories_getCategories_success";
 export const CATEGORIES_GET_FAILURE = "categories_getCategories_failure";
 
+// Auth
+
+export const AUTH = "auth";
+export const AUTH_REQUESTED = "auth_requested";
+export const AUTH_SUCCESS = "auth_success";
+export const AUTH_FAILURE = "auth_failure";
+export const AUTH_RESET_STATE = "auth_reset_state";
+
 // export const SET_CATEGORIES = "products_set_categories";
 // export const SET_PRODUCTS_BY_CATEGORY = "products_set_products_by_category";

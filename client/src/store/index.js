@@ -5,12 +5,14 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import productsReducers from "./reducers/productsReducers";
 import paginationReducers from "./reducers/paginationReducers";
 import categoriesReducers from "./reducers/categoriesReducers";
+import authReducers from "./reducers/authReducers";
 import { watcherSaga } from "./rootSaga";
 
 const reducers = combineReducers({
   productsReducers,
   paginationReducers,
   categoriesReducers,
+  authReducers,
 });
 
 const sagaMiddleware = createSagaMiddleware();

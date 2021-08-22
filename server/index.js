@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
 const initProductsSeeder = require("./seeders/productsSeeder");
@@ -12,8 +13,11 @@ const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
+app.use(cors({ origin: true, credentials: true }));
+
 app.use(express.json());
-app.use(cors());
+
+app.use(cookieParser());
 
 // database configuration
 const MONGODB_URI = "mongodb://localhost:27017/fakeStore";
