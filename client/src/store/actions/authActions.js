@@ -9,8 +9,12 @@ export const auth_requested = () => ({
   type: types.AUTH_REQUESTED,
 });
 
-export const auth_success = () => ({
-  type: types.AUTH_SUCCESS,
+export const auth_login_success = () => ({
+  type: types.AUTH_LOGIN_SUCCESS,
+});
+
+export const auth_signup_success = () => ({
+  type: types.AUTH_SIGNUP_SUCCESS,
 });
 
 export const auth_failure = (payload) => ({

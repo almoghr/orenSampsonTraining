@@ -5,7 +5,8 @@ import { toast } from "react-toastify";
 import {
   auth_requested,
   auth_failure,
-  auth_success,
+  auth_login_success,
+  auth_signup_success,
 } from "../../actions/authActions";
 import { TOKEN_NAME } from "../../constants/auth";
 import { API_CALL_FAILED } from "../../constants/messages";
@@ -45,7 +46,11 @@ export function* authLoginSignupHandler(action) {
 
     yield call(requestAuth.bind(this, action.payload));
 
-    yield put(auth_success());
+    if (action.payload.isLoginMode) {
+      yield put(auth_login_success());
+    } else {
+      yield put(auth_signup_success());
+    }
   } catch (error) {
     yield put(auth_failure(error.message));
     toast(error.message);

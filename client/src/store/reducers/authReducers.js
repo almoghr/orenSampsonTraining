@@ -14,10 +14,17 @@ const reducer = (state = AUTH_INITIAL_STATE, action) => {
         isLoading: !AUTH_INITIAL_STATE.isLoading,
       };
 
-    case types.AUTH_SUCCESS:
+    case types.AUTH_LOGIN_SUCCESS:
       return {
         ...state,
         isLogin: !AUTH_INITIAL_STATE.isLogin,
+        isLoading: AUTH_INITIAL_STATE.isLoading,
+        error: AUTH_INITIAL_STATE.error,
+      };
+
+    case types.AUTH_SIGNUP_SUCCESS:
+      return {
+        ...state,
         isLoading: AUTH_INITIAL_STATE.isLoading,
         error: AUTH_INITIAL_STATE.error,
       };
