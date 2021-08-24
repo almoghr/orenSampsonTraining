@@ -3,4 +3,5 @@ exports.PASSWORD_MIN_LENGTH = 6;
 exports.ACCESS_TOKEN_SECRET =
   "24b8729c3ba3d587a396c8325560a742f6153d05bd29f90cff19e916b46af8d168e0536d2f869853c0d5bf011f97c3cc179725ccb5f8273e1b91dacaa739eb23";
 
-exports.USER_TOKEN_NAME = "user_access_token";
+exports.AUTH_COOKIE_NAME = "auth_cookie_name";
+exports.AUTH_HEADER_NAME = "authorization";

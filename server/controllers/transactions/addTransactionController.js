@@ -73,10 +73,10 @@ module.exports = async (req, res, next) => {
     }
   }
 
-  console.log(`discountID`, discountID);
-  console.log(`discount`, discount);
-  console.log(`totalPrice`, totalPrice);
-  console.log(`productsModelArr`, productsModelArr);
+  // console.log(`discountID`, discountID);
+  // console.log(`discount`, discount);
+  // console.log(`totalPrice`, totalPrice);
+  // console.log(`productsModelArr`, productsModelArr);
 
   if (discount) {
     const { priceRequired, percentage } = discount;
@@ -87,7 +87,7 @@ module.exports = async (req, res, next) => {
     }
   }
 
-  console.log(`totalPrice`, totalPrice);
+  // console.log(`totalPrice`, totalPrice);
 
   const transaction = new Transaction({
     userID,
@@ -96,7 +96,7 @@ module.exports = async (req, res, next) => {
     totalPrice,
   });
 
-  console.log(`transaction`, transaction);
+  // console.log(`transaction`, transaction);
 
   for (const productModel of productsModelArr) {
     try {

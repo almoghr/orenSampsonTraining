@@ -1,12 +1,19 @@
 import { takeLatest } from "redux-saga/effects";
 
-import { PRODUCTS_GET, CATEGORIES_GET, AUTH } from "./types";
+import {
+  PRODUCTS_GET,
+  CATEGORIES_GET,
+  AUTH_LOGIN_SIGNUP,
+  AUTH_LOGOUT,
+} from "./types";
 import { GetProductsHandler } from "./sagas/productsSagas";
 import { GetCategoriesHandler } from "./sagas/categoriesSagas";
-import { authHandler } from "./sagas/authSagas";
+import { authLoginSignupHandler } from "./sagas/auth/authLoginSignupSaga";
+import { authLogoutHandler } from "./sagas/auth/authLogoutSaga";
 
 export function* watcherSaga() {
   yield takeLatest(PRODUCTS_GET, GetProductsHandler);
   yield takeLatest(CATEGORIES_GET, GetCategoriesHandler);
-  yield takeLatest(AUTH, authHandler);
+  yield takeLatest(AUTH_LOGIN_SIGNUP, authLoginSignupHandler);
+  yield takeLatest(AUTH_LOGOUT, authLogoutHandler);
 }

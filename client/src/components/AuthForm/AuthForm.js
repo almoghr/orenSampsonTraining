@@ -1,16 +1,24 @@
 import { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { auth } from "../../store/actions/authActions";
+import {
+  auth_login_signup,
+  auth_logout,
+} from "../../store/actions/authActions";
 
 function AuthForm() {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.authReducers.isLoading);
+  const isLogin = useSelector((state) => state.authReducers.isLogin);
 
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
 
   const [isLoginMode, setIsLoginMode] = useState(true);
+
+  const logoutHandler = () => {
+    dispatch(auth_logout());
+  };
 
   const switchAuthModeHandler = () => {
     setIsLoginMode((prevState) => !prevState);
@@ -19,7 +27,7 @@ function AuthForm() {
   const submitHandler = (event) => {
     event.preventDefault();
     dispatch(
-      auth({
+      auth_login_signup({
         isLoginMode,
         email: emailInputRef.current.value,
         password: passwordInputRef.current.value,
@@ -50,6 +58,7 @@ function AuthForm() {
           )}
           {isLoading && <p>Sending request...</p>}
         </div>
+        <div>{isLogin && <button onClick={logoutHandler}>Logout</button>}</div>
         <div>
           <button type="button" onClick={switchAuthModeHandler}>
             {isLoginMode ? "Create new account" : "Login with existing account"}

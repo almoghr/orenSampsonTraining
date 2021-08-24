@@ -6,9 +6,9 @@ import {
   auth_requested,
   auth_failure,
   auth_success,
-} from "../actions/authActions";
-
-import { API_CALL_FAILED } from "../constants/messages";
+} from "../../actions/authActions";
+import { TOKEN_NAME } from "../../constants/auth";
+import { API_CALL_FAILED } from "../../constants/messages";
 
 const requestAuth = async (payload) => {
   let response;
@@ -23,6 +23,14 @@ const requestAuth = async (payload) => {
         email: payload.email,
         password: payload.password,
       });
+
+      if (!response) {
+        throw new Error(API_CALL_FAILED);
+      }
+
+      const { token } = response.data;
+
+      localStorage.setItem(TOKEN_NAME, token);
     }
 
     toast(response?.data?.message);
@@ -31,7 +39,7 @@ const requestAuth = async (payload) => {
   }
 };
 
-export function* authHandler(action) {
+export function* authLoginSignupHandler(action) {
   try {
     yield put(auth_requested());
 

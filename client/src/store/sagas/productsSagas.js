@@ -16,7 +16,6 @@ const requestGetProducts = async (payload) => {
       headers: {
         category: payload,
       },
-      withCredentials: true,
     };
     fetchedData = await axios.get(
       "http://localhost:8080/api/products/getproducts",

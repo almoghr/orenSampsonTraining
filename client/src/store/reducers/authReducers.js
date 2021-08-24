@@ -17,6 +17,7 @@ const reducer = (state = AUTH_INITIAL_STATE, action) => {
     case types.AUTH_SUCCESS:
       return {
         ...state,
+        isLogin: !AUTH_INITIAL_STATE.isLogin,
         isLoading: AUTH_INITIAL_STATE.isLoading,
         error: AUTH_INITIAL_STATE.error,
       };
@@ -26,6 +27,12 @@ const reducer = (state = AUTH_INITIAL_STATE, action) => {
         ...state,
         isLoading: AUTH_INITIAL_STATE.isLoading,
         error: action.payload,
+      };
+
+    case types.AUTH_LOGOUT:
+      return {
+        ...state,
+        isLogin: AUTH_INITIAL_STATE.isLogin,
       };
 
     case types.AUTH_RESET_STATE:

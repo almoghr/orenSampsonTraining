@@ -1,7 +1,7 @@
 import * as types from "../types";
 
-export const auth = (payload) => ({
-  type: types.AUTH,
+export const auth_login_signup = (payload) => ({
+  type: types.AUTH_LOGIN_SIGNUP,
   payload,
 });
 
@@ -16,4 +16,8 @@ export const auth_success = () => ({
 export const auth_failure = (payload) => ({
   type: types.AUTH_FAILURE,
   payload,
+});
+
+export const auth_logout = () => ({
+  type: types.AUTH_LOGOUT,
 });

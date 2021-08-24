@@ -3,10 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const User = require("../../models/user");
-const {
-  ACCESS_TOKEN_SECRET,
-  USER_TOKEN_NAME,
-} = require("../../constants/auth");
+const { ACCESS_TOKEN_SECRET } = require("../../constants/auth");
 const {
   serverError,
   userNotFound,
@@ -66,12 +63,8 @@ module.exports = async (req, res, next) => {
       .json({ message: serverError.message });
   }
 
-  res.cookie(USER_TOKEN_NAME, token, {
-    maxAge: maxAge * 24 * 60 * 60 * 1000,
-    httpOnly: true,
-  });
-
   res.status(loginSuccessful.status).json({
+    token,
     message: loginSuccessful.message,
   });
 };

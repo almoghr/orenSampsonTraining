@@ -2,25 +2,24 @@ const jwt = require("jsonwebtoken");
 
 const {
   ACCESS_TOKEN_SECRET,
-  USER_TOKEN_NAME,
+  AUTH_COOKIE_NAME,
+  AUTH_HEADER_NAME,
 } = require("../../constants/auth");
 
 module.exports = (req, res, next) => {
   let token;
 
-  console.log(`req.cookies`, req.cookies);
-
-  if (req.cookies[USER_TOKEN_NAME]) {
-    token = req.cookies[USER_TOKEN_NAME];
+  if (req.cookies[AUTH_COOKIE_NAME]) {
+    token = req.cookies[AUTH_COOKIE_NAME];
+  } else {
+    token = req.headers[AUTH_HEADER_NAME]
+      ? req.headers[AUTH_HEADER_NAME].split(" ")[1]
+      : null;
   }
 
   res.locals.payload = getPayload(token);
 
   res.locals.isAuth = !!res.locals.payload;
-
-  console.log(`token`, token);
-  console.log(`res.locals.payload`, res.locals.payload);
-  console.log(`res.locals.isAuth`, res.locals.isAuth);
 
   return next();
 };
