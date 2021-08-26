@@ -1,30 +1,33 @@
-import { combineReducers, createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
+import { createBrowserHistory } from "history";
+import { routerMiddleware } from "connected-react-router";
 import createSagaMiddleware from "redux-saga";
-import { composeWithDevTools } from "redux-devtools-extension";
 
-import productsReducers from "./reducers/productsReducers";
-import paginationReducers from "./reducers/paginationReducers";
-import categoriesReducers from "./reducers/categoriesReducers";
-import authReducers from "./reducers/authReducers";
+import createRootReducer from "./reducers/index";
 import { watcherSaga } from "./rootSaga";
 
-const reducers = combineReducers({
-  productsReducers,
-  paginationReducers,
-  categoriesReducers,
-  authReducers,
-});
+export const history = createBrowserHistory();
 
-const sagaMiddleware = createSagaMiddleware();
+export default function configureStore(preloadedState) {
+  const composeEnhancer =
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const sagaMiddleware = createSagaMiddleware();
+  const middlewares = [routerMiddleware(history), sagaMiddleware];
+  const store = createStore(
+    createRootReducer(history),
+    preloadedState,
+    composeEnhancer(applyMiddleware(...middlewares))
+  );
 
-const middleware = [sagaMiddleware];
+  // // Hot reloading
+  // if (module.hot) {
+  //   // Enable Webpack hot module replacement for reducers
+  //   module.hot.accept("./reducers/index", () => {
+  //     store.replaceReducer(createRootReducer(history));
+  //   });
+  // }
 
-const store = createStore(
-  reducers,
-  {},
-  composeWithDevTools(applyMiddleware(...middleware))
-);
+  sagaMiddleware.run(watcherSaga);
 
-sagaMiddleware.run(watcherSaga);
-
-export default store;
+  return store;
+}

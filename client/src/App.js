@@ -1,6 +1,9 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
+
+import { startup } from "./store/actions/startupActions";
 
 import styles from "./App.module.scss";
 import Layout from "./components/Layout/Layout";
@@ -17,6 +20,12 @@ const NotFoundPage = React.lazy(() =>
 const AuthPage = React.lazy(() => import("./pages/AuthPage/AuthPage"));
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(startup());
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <div className={styles.App}>

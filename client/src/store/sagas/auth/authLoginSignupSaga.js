@@ -1,4 +1,5 @@
 import { call, put } from "redux-saga/effects";
+import { push } from "connected-react-router";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -48,6 +49,7 @@ export function* authLoginSignupHandler(action) {
 
     if (action.payload.isLoginMode) {
       yield put(auth_login_success());
+      yield put(push("/"));
     } else {
       yield put(auth_signup_success());
     }

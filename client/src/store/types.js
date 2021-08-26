@@ -1,5 +1,8 @@
 export const UNCHANGED = "unchanged";
 
+//Startup
+export const STARTUP = "startup";
+
 // Products
 export const PRODUCTS_GET = "products_getProducts";
 export const PRODUCTS_GET_REQUESTED = "products_getProducts_requested";
@@ -20,7 +23,6 @@ export const CATEGORIES_GET_SUCCESS = "categories_getCategories_success";
 export const CATEGORIES_GET_FAILURE = "categories_getCategories_failure";
 
 // Auth
-
 export const AUTH_LOGIN_SIGNUP = "auth_login_signup";
 export const AUTH_REQUESTED = "auth_requested";
 export const AUTH_LOGIN_SUCCESS = "auth_login_success";
@@ -29,5 +31,6 @@ export const AUTH_FAILURE = "auth_failure";
 export const AUTH_LOGOUT = "auth_logout";
 export const AUTH_RESET_STATE = "auth_reset_state";
 
-// export const SET_CATEGORIES = "products_set_categories";
-// export const SET_PRODUCTS_BY_CATEGORY = "products_set_products_by_category";
+// Cart
+export const CART_SAVE_DISCOUNTS = "cart_save_discounts";
+export const CART_RESET_STATE = "cart_reset_state";
