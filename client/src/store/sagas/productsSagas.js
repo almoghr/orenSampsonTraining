@@ -22,7 +22,7 @@ const requestGetProducts = async (payload) => {
       config
     );
   } catch (error) {
-    throw new Error(API_CALL_FAILED);
+    throw new Error(error?.response?.data?.message || API_CALL_FAILED);
   }
 
   return fetchedData;

@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { TOKEN_NAME } from "../constants/auth";
 import { auth_login_success } from "../actions/authActions";
 import { cart_save_discounts } from "../actions/cartActions";
+import { get_categories } from "../actions/categoriesActions";
 import { API_CALL_FAILED } from "../constants/messages";
 
 const requestGetDiscounts = async (payload) => {
@@ -17,8 +18,7 @@ const requestGetDiscounts = async (payload) => {
       throw new Error();
     }
   } catch (error) {
-    const err = error?.response?.data?.message || API_CALL_FAILED;
-    throw new Error(err);
+    throw new Error(error?.response?.data?.message || API_CALL_FAILED);
   }
 
   return fetchedData;
@@ -44,8 +44,10 @@ export function* startupHandler(action) {
 
       yield put(cart_save_discounts(dicounts));
     }
-    console.log(`data?.discounts?.length`, data?.discounts?.length);
   } catch (error) {
     toast(error.message);
   }
+
+  //retrive categories
+  yield put(get_categories());
 }

@@ -16,7 +16,7 @@ const requestGetCategories = async () => {
       "http://localhost:8080/api/categories/getcategories"
     );
   } catch (error) {
-    throw new Error(API_CALL_FAILED);
+    throw new Error(error?.response?.data?.message || API_CALL_FAILED);
   }
 
   return fetchedData;
