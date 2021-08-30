@@ -1,13 +1,47 @@
+import { useDispatch, useSelector } from "react-redux";
+
+import { cart_add_remove_product } from "../../../store/actions/cartActions";
 import styles from "./Product.module.scss";
 
-const Product = ({ title, description, category, price, image }) => {
+const Product = ({
+  id,
+  title,
+  description,
+  category,
+  price,
+  amount,
+  image,
+}) => {
+  const dispatch = useDispatch();
+  const currentStateProducts = useSelector(
+    (state) => state.productsReducers.products
+  );
+  const currentStateCartProducts = useSelector(
+    (state) => state.cartReducers.products
+  );
+  const discounts = useSelector((state) => state.cartReducers.discounts);
+
+  const addTocartHandler = () => {
+    dispatch(
+      cart_add_remove_product({
+        currentStateProducts,
+        currentStateCartProducts,
+        discounts,
+        productID: id,
+        amount: 1,
+      })
+    );
+  };
+
   return (
     <div className={styles.Product}>
-      <p>title: {title}</p>
-      <p>description: {description}</p>
-      <p>category: {category}</p>
-      <p>price: {price}</p>
+      <p>Title: {title}</p>
+      <p>Description: {description}</p>
+      <p>Category: {category}</p>
+      <p>Amount: {amount}</p>
+      <p>Price: {price}</p>
       <img src={image} alt="product" />
+      <button onClick={addTocartHandler}>Add to cart</button>
     </div>
   );
 };

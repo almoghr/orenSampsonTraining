@@ -6,12 +6,14 @@ import {
   AUTH_LOGIN_SIGNUP,
   AUTH_LOGOUT,
   STARTUP,
+  CART_ADD_REMOVE_PRODUCT,
 } from "./types";
 import { GetProductsHandler } from "./sagas/productsSagas";
 import { GetCategoriesHandler } from "./sagas/categoriesSagas";
 import { authLoginSignupHandler } from "./sagas/auth/authLoginSignupSaga";
 import { authLogoutHandler } from "./sagas/auth/authLogoutSaga";
 import { startupHandler } from "./sagas/startupSagas";
+import { addRemoveProductHandler } from "./sagas/cartSagas";
 
 export function* watcherSaga() {
   yield takeLatest(PRODUCTS_GET, GetProductsHandler);
@@ -19,4 +21,5 @@ export function* watcherSaga() {
   yield takeLatest(AUTH_LOGIN_SIGNUP, authLoginSignupHandler);
   yield takeLatest(AUTH_LOGOUT, authLogoutHandler);
   yield takeLatest(STARTUP, startupHandler);
+  yield takeLatest(CART_ADD_REMOVE_PRODUCT, addRemoveProductHandler);
 }

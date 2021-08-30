@@ -41,13 +41,13 @@ const requestAuth = async (payload) => {
   }
 };
 
-export function* authLoginSignupHandler(action) {
+export function* authLoginSignupHandler({ payload }) {
   try {
     yield put(auth_requested());
 
-    yield call(requestAuth.bind(this, action.payload));
+    yield call(requestAuth.bind(this, payload));
 
-    if (action.payload.isLoginMode) {
+    if (payload.isLoginMode) {
       yield put(auth_login_success());
       yield put(push("/"));
     } else {

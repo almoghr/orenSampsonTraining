@@ -28,17 +28,27 @@ const requestGetProducts = async (payload) => {
   return fetchedData;
 };
 
-export function* GetProductsHandler(action) {
+export function* GetProductsHandler({ payload }) {
   try {
     yield put(get_prodcuts_requested());
 
-    const { data } = yield call(requestGetProducts.bind(this, action.payload));
+    const { data } = yield call(requestGetProducts.bind(this, payload));
 
     if (!data) {
       throw new Error(PRODUCTS_ARRAY_EMPTY);
     }
 
-    yield put(get_prodcuts_success(data));
+    const productsArr = data.map((product) => ({
+      id: product._id,
+      title: product.title,
+      price: product.price,
+      description: product.description,
+      category: product.category,
+      amount: product.amount,
+      image: product.image,
+    }));
+
+    yield put(get_prodcuts_success(productsArr));
   } catch (error) {
     yield put(get_prodcuts_failure(error.message));
     toast(error.message);

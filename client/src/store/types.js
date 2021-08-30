@@ -32,5 +32,9 @@ export const AUTH_LOGOUT = "auth_logout";
 export const AUTH_RESET_STATE = "auth_reset_state";
 
 // Cart
-export const CART_SAVE_DISCOUNTS = "cart_save_discounts";
+export const CART_DISCOUNTS_SETTER = "cart_discounts_setter";
+export const CART_ISDISCOUNTAPPLIED_SETTER = "cart_isDiscountApplied_setter";
+export const CART_PRODUCTS_SETTER = "cart_products_setter";
+export const CART_TOTALPRICE_SETTER = "cart_totalPrice_setter";
+export const CART_ADD_REMOVE_PRODUCT = "cart_add_remove_product";
 export const CART_RESET_STATE = "cart_reset_state";

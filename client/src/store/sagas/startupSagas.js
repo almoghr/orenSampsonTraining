@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 import { TOKEN_NAME } from "../constants/auth";
 import { auth_login_success } from "../actions/authActions";
-import { cart_save_discounts } from "../actions/cartActions";
+import { cart_discounts_setter } from "../actions/cartActions";
 import { get_categories } from "../actions/categoriesActions";
 import { API_CALL_FAILED } from "../constants/messages";
 
@@ -24,7 +24,7 @@ const requestGetDiscounts = async (payload) => {
   return fetchedData;
 };
 
-export function* startupHandler(action) {
+export function* startupHandler() {
   //check if logged in
   const token = yield localStorage.getItem(TOKEN_NAME);
 
@@ -42,7 +42,7 @@ export function* startupHandler(action) {
         percentage: discount.percentage,
       }));
 
-      yield put(cart_save_discounts(dicounts));
+      yield put(cart_discounts_setter(dicounts));
     }
   } catch (error) {
     toast(error.message);
