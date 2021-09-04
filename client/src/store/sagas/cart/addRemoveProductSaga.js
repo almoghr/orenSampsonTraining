@@ -4,9 +4,10 @@ import { toast } from "react-toastify";
 import {
   cart_isDiscountApplied_setter,
   cart_products_setter,
-  cart_totalPrice_setter,
-} from "../actions/cartActions";
-import { ACTION_FAILED, INVENTORY_EMPTY } from "../constants/messages";
+  cart_totalPrice_before_discount_setter,
+  cart_totalPrice_after_discount_setter,
+} from "../../actions/cartActions";
+import { ACTION_FAILED, INVENTORY_EMPTY } from "../../constants/messages";
 
 const calculator = (payload) => {
   let isDiscountApplied = false;
@@ -18,7 +19,7 @@ const calculator = (payload) => {
 
   const selectedDiscount = discounts?.length ? discounts[0] : null;
 
-  let totalPrice = 0;
+  let totalPriceBeforeDiscount = 0;
 
   for (const cartProduct of cartProducts) {
     const currentStateProduct = currentStateProducts.find(
@@ -29,19 +30,25 @@ const calculator = (payload) => {
       throw new Error(ACTION_FAILED);
     }
 
-    totalPrice += currentStateProduct.price * cartProduct.amount;
+    totalPriceBeforeDiscount += currentStateProduct.price * cartProduct.amount;
   }
+
+  let totalPriceAfterDiscount = totalPriceBeforeDiscount;
 
   if (selectedDiscount) {
-    if (totalPrice >= selectedDiscount.priceRequired) {
+    if (totalPriceBeforeDiscount >= selectedDiscount.priceRequired) {
       isDiscountApplied = true;
-      totalPrice *= (100 - selectedDiscount.percentage) / 100;
+      totalPriceAfterDiscount *= (100 - selectedDiscount.percentage) / 100;
     }
   }
+  totalPriceBeforeDiscount = totalPriceBeforeDiscount.toFixed(2);
+  totalPriceAfterDiscount = totalPriceAfterDiscount.toFixed(2);
 
-  totalPrice = totalPrice.toFixed(2);
-
-  return { isDiscountApplied, totalPrice };
+  return {
+    isDiscountApplied,
+    totalPriceBeforeDiscount,
+    totalPriceAfterDiscount,
+  };
 };
 
 export function* addRemoveProductHandler({ payload }) {
@@ -110,7 +117,11 @@ export function* addRemoveProductHandler({ payload }) {
       currentStateCartProducts[i].amount = currentStateCartProductAmount;
     }
 
-    const { isDiscountApplied, totalPrice } = yield call(
+    const {
+      isDiscountApplied,
+      totalPriceBeforeDiscount,
+      totalPriceAfterDiscount,
+    } = yield call(
       calculator.bind(this, {
         currentStateProducts,
         currentStateCartProducts,
@@ -120,7 +131,8 @@ export function* addRemoveProductHandler({ payload }) {
 
     yield put(cart_isDiscountApplied_setter(isDiscountApplied));
     yield put(cart_products_setter(currentStateCartProducts));
-    yield put(cart_totalPrice_setter(totalPrice));
+    yield put(cart_totalPrice_before_discount_setter(totalPriceBeforeDiscount));
+    yield put(cart_totalPrice_after_discount_setter(totalPriceAfterDiscount));
   } catch (error) {
     toast(error.message);
   }

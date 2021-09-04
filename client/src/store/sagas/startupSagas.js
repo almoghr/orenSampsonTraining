@@ -15,10 +15,12 @@ const requestGetDiscounts = async (payload) => {
       "http://localhost:8080/api/transactions/getdiscounts"
     );
     if (!fetchedData) {
-      throw new Error();
+      throw new Error(API_CALL_FAILED);
     }
   } catch (error) {
-    throw new Error(error?.response?.data?.message || API_CALL_FAILED);
+    throw new Error(
+      error?.message || error?.response?.data?.message || API_CALL_FAILED
+    );
   }
 
   return fetchedData;
@@ -38,6 +40,7 @@ export function* startupHandler() {
 
     if (data?.discounts?.length > 0) {
       const dicounts = data.discounts.map((discount) => ({
+        id: discount._id,
         priceRequired: discount.priceRequired,
         percentage: discount.percentage,
       }));

@@ -1,12 +1,13 @@
 import React, { Suspense, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
+import { ConnectedRouter } from "connected-react-router";
 import ClipLoader from "react-spinners/ClipLoader";
 
 import { startup } from "./store/actions/startupActions";
-
 import styles from "./App.module.scss";
 import Layout from "./components/Layout/Layout";
+import { history } from "./store/index";
 
 const AllProductsPage = React.lazy(() =>
   import("./pages/AllProductsPage/AllProductsPage")
@@ -19,6 +20,8 @@ const NotFoundPage = React.lazy(() =>
 );
 const AuthPage = React.lazy(() => import("./pages/AuthPage/AuthPage"));
 
+const CartPage = React.lazy(() => import("./pages/Cart/CartPage"));
+
 const App = () => {
   const dispatch = useDispatch();
 
@@ -27,7 +30,7 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <BrowserRouter>
+    <ConnectedRouter history={history}>
       <div className={styles.App}>
         <Layout>
           <Suspense fallback={<ClipLoader loading={true} size={150} />}>
@@ -41,6 +44,9 @@ const App = () => {
               <Route path="/auth">
                 <AuthPage />
               </Route>
+              <Route path="/cart">
+                <CartPage />
+              </Route>
               <Route path="*">
                 <NotFoundPage />
               </Route>
@@ -48,7 +54,7 @@ const App = () => {
           </Suspense>
         </Layout>
       </div>
-    </BrowserRouter>
+    </ConnectedRouter>
   );
 };
 

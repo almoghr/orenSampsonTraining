@@ -8,7 +8,7 @@ const productsAndAmountSchema = new Schema(
       ref: "Product",
       required: true,
     },
-    amount: { type: Number, required: true },
+    amount: { type: Number, required: true, default: 1 },
   },
   { _id: false }
 );

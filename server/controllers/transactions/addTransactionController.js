@@ -6,23 +6,21 @@ const {
   userNotLoggedIn,
   serverError,
   transactionCreated,
+  successfulResponse,
 } = require("../../constants/responses");
 
 module.exports = async (req, res, next) => {
-  console.log();
-  // if (!res.locals.isAuth) {
-  //   return res
-  //     .status(userNotLoggedIn.status)
-  //     .json({ message: userNotLoggedIn.message });
-  // }
+  if (!res.locals.isAuth) {
+    return res
+      .status(userNotLoggedIn.status)
+      .json({ message: userNotLoggedIn.message });
+  }
 
-  // const userID = res.locals.payload.sub;
-  const userID = "610ee02761c8dd4bd0bf9254";
+  const userID = res.locals.payload.sub;
 
-  const { productsAndAmountArr } = req.body;
-  let { discountID } = req.body;
+  const { productsAndAmountArr, discountID } = req.body;
 
-  if (!productsAndAmountArr?.length) {
+  if (!productsAndAmountArr?.length || !userID) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
@@ -55,9 +53,12 @@ module.exports = async (req, res, next) => {
 
   let totalPrice = 0;
   const productsModelArr = [];
-  for (let i = 0; i < productsAndAmountArr.length; i++) {
-    const transActionProductID = productsAndAmountArr[i].productID;
-    const transActionAmount = productsAndAmountArr[i].amount;
+  // check to export to findOne logic to one generic one
+
+  for (const {
+    id: transActionProductID,
+    amount: transActionAmount,
+  } of productsAndAmountArr) {
     try {
       const product = await Product.findOne({ _id: transActionProductID });
       if (!product || product.amount < transActionAmount) {
@@ -73,30 +74,26 @@ module.exports = async (req, res, next) => {
     }
   }
 
-  // console.log(`discountID`, discountID);
-  // console.log(`discount`, discount);
-  // console.log(`totalPrice`, totalPrice);
-  // console.log(`productsModelArr`, productsModelArr);
-
   if (discount) {
     const { priceRequired, percentage } = discount;
     if (totalPrice >= priceRequired) {
-      totalPrice = (totalPrice * ((100 - percentage) / 100)).toFixed(2);
+      totalPrice = totalPrice * ((100 - percentage) / 100);
     } else {
       discountID = null;
     }
   }
 
-  // console.log(`totalPrice`, totalPrice);
+  totalPrice = totalPrice.toFixed(2);
 
   const transaction = new Transaction({
     userID,
     discountID,
-    productsAndAmount: productsAndAmountArr,
+    productsAndAmount: productsAndAmountArr.map((productAndAmount) => ({
+      productID: productAndAmount.id,
+      amount: productAndAmount.amount,
+    })),
     totalPrice,
   });
-
-  // console.log(`transaction`, transaction);
 
   for (const productModel of productsModelArr) {
     try {

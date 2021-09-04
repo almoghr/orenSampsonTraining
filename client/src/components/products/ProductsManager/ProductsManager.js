@@ -2,10 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ClipLoader from "react-spinners/ClipLoader";
 
-import {
-  get_products,
-  products_reset_state,
-} from "../../../store/actions/productsActions";
+import { get_products } from "../../../store/actions/productsActions";
 import Products from "../Products/Products";
 import Pagination from "../../Pagination/Pagination";
 
@@ -19,10 +16,6 @@ function ProductsManager(props) {
 
   useEffect(() => {
     dispatch(get_products(props.category));
-
-    return () => {
-      dispatch(products_reset_state());
-    };
   }, [dispatch, props]);
 
   return (

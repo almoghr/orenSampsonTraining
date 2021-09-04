@@ -37,7 +37,9 @@ const requestAuth = async (payload) => {
 
     toast(response?.data?.message);
   } catch (error) {
-    throw new Error(error?.response?.data?.message || API_CALL_FAILED);
+    throw new Error(
+      error?.message || error?.response?.data?.message || API_CALL_FAILED
+    );
   }
 };
 

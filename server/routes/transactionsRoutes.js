@@ -6,17 +6,7 @@ const addTransactionController = require("../controllers/transactions/addTransac
 const transactionsHistoryController = require("../controllers/transactions/transactionsHistoryController");
 const getDiscountController = require("../controllers/transactions/getDiscountController");
 
-router.post(
-  "/addtransaction",
-  // authMiddleware,
-  addTransactionController
-);
-
-// router.post(
-//   "/addtransaction",
-//   authMiddleware,
-//   addTransactionController
-// );
+router.post("/addtransaction", authMiddleware, addTransactionController);
 
 router.get("/transactionshistory", transactionsHistoryController);
 // router.get("/transactionshistory", authMiddleware, transactionsHistoryController);
