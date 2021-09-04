@@ -6,7 +6,7 @@ import {
   get_prodcuts_requested,
   get_prodcuts_success,
   get_prodcuts_failure,
-} from "../actions/productsActions";
+} from "./productsActions";
 import { API_CALL_FAILED, PRODUCTS_ARRAY_EMPTY } from "../constants/messages";
 
 const requestGetProducts = async (payload) => {

@@ -1,4 +1,4 @@
-import * as types from "../types";
+import * as types from "./types";
 
 const PAGINATION_INITIAL_STATE = {
   currentPage: 1,
@@ -7,11 +7,24 @@ const PAGINATION_INITIAL_STATE = {
   paginatedArr: [],
 };
 
+const getImmutableState = (state) => {
+  const newState = { ...state };
+
+  if (state.paginatedArr?.length) {
+    newState.paginatedArr = [];
+    for (const product of state.paginatedArr) {
+      newState.paginatedArr.push({ ...product });
+    }
+  }
+
+  return newState;
+};
+
 const reducer = (state = PAGINATION_INITIAL_STATE, action) => {
   switch (action.type) {
     case types.PAGINATION_INCREMENT:
       return {
-        ...state,
+        ...getImmutableState(state),
         currentPage: action.payload.currentPage,
         isLastPage: action.payload.isLastPage,
         paginatedArr: action.payload.paginatedArr,
@@ -19,7 +32,7 @@ const reducer = (state = PAGINATION_INITIAL_STATE, action) => {
 
     case types.PAGINATION_DECREMENT:
       return {
-        ...state,
+        ...getImmutableState(state),
         currentPage: action.payload.currentPage,
         isLastPage: action.payload.isLastPage,
         paginatedArr: action.payload.paginatedArr,
@@ -27,7 +40,7 @@ const reducer = (state = PAGINATION_INITIAL_STATE, action) => {
 
     case types.PAGINATION_NEW_STATE:
       return {
-        ...state,
+        ...getImmutableState(state),
         currentPage: PAGINATION_INITIAL_STATE.currentPage,
         isLastPage: action.payload.isLastPage,
         totalPages: action.payload.totalPages,
@@ -40,7 +53,7 @@ const reducer = (state = PAGINATION_INITIAL_STATE, action) => {
       };
 
     default:
-      return { ...state };
+      return { ...getImmutableState(state) };
   }
 };
 

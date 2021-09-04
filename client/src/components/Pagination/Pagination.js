@@ -6,7 +6,7 @@ import {
   increment_pagination,
   new_state_pagination,
   reset_state_pagination,
-} from "../../store/actions/paginationActions";
+} from "../../store/pagination/paginationActions";
 
 const backButtonName = "< Back";
 const nextButtonName = "Next >";

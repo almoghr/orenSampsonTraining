@@ -8,9 +8,9 @@ import {
   auth_failure,
   auth_login_success,
   auth_signup_success,
-} from "../../actions/authActions";
-import { TOKEN_NAME } from "../../constants/auth";
-import { API_CALL_FAILED } from "../../constants/messages";
+} from "./authActions";
+import { TOKEN_NAME } from "../constants/auth";
+import { API_CALL_FAILED } from "../constants/messages";
 
 const requestAuth = async (payload) => {
   let response;

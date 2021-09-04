@@ -1,4 +1,4 @@
-import * as types from "../types";
+import * as types from "./types";
 
 export const get_products = (payload) => ({
   type: types.PRODUCTS_GET,

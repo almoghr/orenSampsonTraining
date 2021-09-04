@@ -6,9 +6,9 @@ import {
   cart_send_transaction_requested,
   cart_send_transaction_failure,
   cart_send_transaction_success,
-} from "../../actions/cartActions";
-import { TOKEN_NAME, AUTH_HEADER_NAME } from "../../constants/auth";
-import { NOT_LOGGED_IN, API_CALL_FAILED } from "../../constants/messages";
+} from "./cartActions";
+import { TOKEN_NAME, AUTH_HEADER_NAME } from "../constants/auth";
+import { NOT_LOGGED_IN, API_CALL_FAILED } from "../constants/messages";
 
 const requestsendTransaction = async (payload, token) => {
   try {

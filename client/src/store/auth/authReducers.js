@@ -1,4 +1,4 @@
-import * as types from "../types";
+import * as types from "./types";
 
 const AUTH_INITIAL_STATE = {
   isLogin: false,

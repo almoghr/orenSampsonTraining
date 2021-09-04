@@ -1,4 +1,4 @@
-import * as types from "../types";
+import * as types from "./types";
 import { PRODUCTS_PER_PAGE } from "../constants/pagination";
 
 export const increment_pagination = (payload) => {

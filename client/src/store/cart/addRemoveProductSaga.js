@@ -6,8 +6,8 @@ import {
   cart_products_setter,
   cart_totalPrice_before_discount_setter,
   cart_totalPrice_after_discount_setter,
-} from "../../actions/cartActions";
-import { ACTION_FAILED, INVENTORY_EMPTY } from "../../constants/messages";
+} from "../cart/settersActions";
+import { ACTION_FAILED, INVENTORY_EMPTY } from "../constants/messages";
 
 const calculator = (payload) => {
   let isDiscountApplied = false;

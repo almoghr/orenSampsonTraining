@@ -1,4 +1,4 @@
-import * as types from "../types";
+import * as types from "./types";
 
 const PRODUCTS_INITIAL_STATE = {
   products: [],
@@ -6,24 +6,37 @@ const PRODUCTS_INITIAL_STATE = {
   error: null,
 };
 
+const getImmutableState = (state) => {
+  const newState = { ...state };
+
+  if (state.products?.length) {
+    newState.products = [];
+    for (const product of state.products) {
+      newState.products.push({ ...product });
+    }
+  }
+
+  return newState;
+};
+
 const reducer = (state = PRODUCTS_INITIAL_STATE, action) => {
   switch (action.type) {
     case types.PRODUCTS_GET_REQUESTED:
       return {
-        ...state,
+        ...getImmutableState(state),
         isLoading: true,
       };
 
     case types.PRODUCTS_GET_SUCCESS:
       return {
-        ...state,
+        ...getImmutableState(state),
         isLoading: false,
         products: action.payload,
       };
 
     case types.PRODUCTS_GET_FAILURE:
       return {
-        ...state,
+        ...getImmutableState(state),
         isLoading: false,
         error: action.payload,
       };
@@ -34,7 +47,7 @@ const reducer = (state = PRODUCTS_INITIAL_STATE, action) => {
       };
 
     default:
-      return { ...state };
+      return { ...getImmutableState(state) };
   }
 };
 

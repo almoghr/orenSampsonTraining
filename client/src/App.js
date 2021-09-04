@@ -4,7 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import ClipLoader from "react-spinners/ClipLoader";
 
-import { startup } from "./store/actions/startupActions";
+import { startup } from "./store/startup/startupActions";
 import styles from "./App.module.scss";
 import Layout from "./components/Layout/Layout";
 import { history } from "./store/index";

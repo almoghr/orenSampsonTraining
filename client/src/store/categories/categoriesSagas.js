@@ -6,7 +6,7 @@ import {
   get_categories_requested,
   get_categories_failure,
   get_categories_success,
-} from "../actions/categoriesActions";
+} from "./categoriesActions";
 import { API_CALL_FAILED, CATEGORIES_ARRAY_EMPTY } from "../constants/messages";
 
 const requestGetCategories = async () => {

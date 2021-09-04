@@ -3,9 +3,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 import { TOKEN_NAME } from "../constants/auth";
-import { auth_login_success } from "../actions/authActions";
-import { cart_discounts_setter } from "../actions/cartActions";
-import { get_categories } from "../actions/categoriesActions";
+import { auth_login_success } from "../auth/authActions";
+import { cart_discounts_setter } from "../cart/settersActions";
+import { get_categories } from "../categories/categoriesActions";
 import { API_CALL_FAILED } from "../constants/messages";
 
 const requestGetDiscounts = async (payload) => {

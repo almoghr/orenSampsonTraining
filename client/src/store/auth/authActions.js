@@ -1,9 +1,4 @@
-import * as types from "../types";
-
-export const auth_login_signup = (payload) => ({
-  type: types.AUTH_LOGIN_SIGNUP,
-  payload,
-});
+import * as types from "./types";
 
 export const auth_requested = () => ({
   type: types.AUTH_REQUESTED,
@@ -19,6 +14,12 @@ export const auth_signup_success = () => ({
 
 export const auth_failure = (payload) => ({
   type: types.AUTH_FAILURE,
+  payload,
+});
+
+//saga actions
+export const auth_login_signup = (payload) => ({
+  type: types.AUTH_LOGIN_SIGNUP,
   payload,
 });
 

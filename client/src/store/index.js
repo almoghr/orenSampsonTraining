@@ -1,12 +1,26 @@
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import { createBrowserHistory } from "history";
-import { routerMiddleware } from "connected-react-router";
+import { connectRouter, routerMiddleware } from "connected-react-router";
 import createSagaMiddleware from "redux-saga";
 
-import createRootReducer from "./reducers/index";
 import { watcherSaga } from "./rootSaga";
+import authReducers from "./auth/authReducers";
+import categoriesReducers from "./categories/categoriesReducers";
+import paginationReducers from "./pagination/paginationReducers";
+import productsReducers from "./products/productsReducers";
+import cartReducers from "./cart/cartReducers";
 
 export const history = createBrowserHistory();
+
+const createRootReducer = (history) =>
+  combineReducers({
+    router: connectRouter(history),
+    authReducers,
+    categoriesReducers,
+    paginationReducers,
+    productsReducers,
+    cartReducers,
+  });
 
 export default function configureStore(preloadedState) {
   const composeEnhancer =
@@ -18,14 +32,6 @@ export default function configureStore(preloadedState) {
     preloadedState,
     composeEnhancer(applyMiddleware(...middlewares))
   );
-
-  // // Hot reloading
-  // if (module.hot) {
-  //   // Enable Webpack hot module replacement for reducers
-  //   module.hot.accept("./reducers/index", () => {
-  //     store.replaceReducer(createRootReducer(history));
-  //   });
-  // }
 
   sagaMiddleware.run(watcherSaga);
 

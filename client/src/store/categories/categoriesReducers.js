@@ -1,4 +1,4 @@
-import * as types from "../types";
+import * as types from "./types";
 
 const CATEGORIES_INITIAL_STATE = {
   categories: [],
@@ -6,30 +6,40 @@ const CATEGORIES_INITIAL_STATE = {
   error: null,
 };
 
+const getImmutableState = (state) => {
+  const newState = { ...state };
+
+  if (state.categories?.length) {
+    newState.categories = [...state.categories];
+  }
+
+  return newState;
+};
+
 const reducer = (state = CATEGORIES_INITIAL_STATE, action) => {
   switch (action.type) {
     case types.CATEGORIES_GET_REQUESTED:
       return {
-        ...state,
+        ...getImmutableState(state),
         isLoading: true,
       };
 
     case types.CATEGORIES_GET_SUCCESS:
       return {
-        ...state,
+        ...getImmutableState(state),
         isLoading: false,
         categories: action.payload,
       };
 
     case types.CATEGORIES_GET_FAILURE:
       return {
-        ...state,
+        ...getImmutableState(state),
         isLoading: false,
         error: action.payload,
       };
 
     default:
-      return { ...state };
+      return { ...getImmutableState(state) };
   }
 };
 

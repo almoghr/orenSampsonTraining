@@ -1,21 +1,19 @@
 import { takeLatest } from "redux-saga/effects";
 
-import {
-  PRODUCTS_GET,
-  CATEGORIES_GET,
-  AUTH_LOGIN_SIGNUP,
-  AUTH_LOGOUT,
-  STARTUP,
-  CART_ADD_REMOVE_PRODUCT,
-  CART_SEND_TRANSACTION,
-} from "./types";
-import { GetProductsHandler } from "./sagas/productsSagas";
-import { GetCategoriesHandler } from "./sagas/categoriesSagas";
-import { authLoginSignupHandler } from "./sagas/auth/authLoginSignupSaga";
-import { authLogoutHandler } from "./sagas/auth/authLogoutSaga";
-import { startupHandler } from "./sagas/startupSagas";
-import { addRemoveProductHandler } from "./sagas/cart/addRemoveProductSaga";
-import { sendTransactionHandler } from "./sagas/cart/sendTransactionSaga";
+import { PRODUCTS_GET } from "./products/types";
+import { CATEGORIES_GET } from "./categories/types";
+import { AUTH_LOGIN_SIGNUP } from "./auth/types";
+import { AUTH_LOGOUT } from "./auth/types";
+import { STARTUP } from "./startup/types";
+import { CART_ADD_REMOVE_PRODUCT } from "./cart/types";
+import { CART_SEND_TRANSACTION } from "./cart/types";
+import { GetProductsHandler } from "./products/productsSagas";
+import { GetCategoriesHandler } from "./categories/categoriesSagas";
+import { authLoginSignupHandler } from "./auth/authLoginSignupSaga";
+import { authLogoutHandler } from "./auth/authLogoutSaga";
+import { startupHandler } from "./startup/startupSagas";
+import { addRemoveProductHandler } from "./cart/addRemoveProductSaga";
+import { sendTransactionHandler } from "./cart/sendTransactionSaga";
 
 export function* watcherSaga() {
   yield takeLatest(PRODUCTS_GET, GetProductsHandler);
