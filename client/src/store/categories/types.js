@@ -1,4 +1,4 @@
-export const CATEGORIES_GET = "categories_getCategories";
-export const CATEGORIES_GET_REQUESTED = "categories_getCategories_requested";
-export const CATEGORIES_GET_SUCCESS = "categories_getCategories_success";
-export const CATEGORIES_GET_FAILURE = "categories_getCategories_failure";
+export const CATEGORIES_GET = "CATEGORIES_GET";
+export const CATEGORIES_GET_REQUESTED = "CATEGORIES_GET_REQUESTED";
+export const CATEGORIES_GET_SUCCESS = "CATEGORIES_GET_SUCCESS";
+export const CATEGORIES_GET_FAILURE = "CATEGORIES_GET_FAILURE";

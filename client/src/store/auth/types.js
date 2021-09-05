@@ -1,7 +1,7 @@
-export const AUTH_LOGIN_SIGNUP = "auth_login_signup";
-export const AUTH_REQUESTED = "auth_requested";
-export const AUTH_LOGIN_SUCCESS = "auth_login_success";
-export const AUTH_SIGNUP_SUCCESS = "auth_signup_success";
-export const AUTH_FAILURE = "auth_failure";
-export const AUTH_LOGOUT = "auth_logout";
-export const AUTH_RESET_STATE = "auth_reset_state";
+export const AUTH_LOGIN_SIGNUP = "AUTH_LOGIN_SIGNUP";
+export const AUTH_REQUESTED = "AUTH_REQUESTED";
+export const AUTH_LOGIN_SUCCESS = "AUTH_LOGIN_SUCCESS";
+export const AUTH_SIGNUP_SUCCESS = "AUTH_SIGNUP_SUCCESS";
+export const AUTH_FAILURE = "AUTH_FAILURE";
+export const AUTH_LOGOUT = "AUTH_LOGOUT";
+export const AUTH_RESET_STATE = "AUTH_RESET_STATE";
