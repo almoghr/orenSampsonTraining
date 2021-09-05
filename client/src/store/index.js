@@ -4,7 +4,7 @@ import { connectRouter, routerMiddleware } from "connected-react-router";
 import createSagaMiddleware from "redux-saga";
 
 import { watcherSaga } from "./rootSaga";
-import authReducers from "./auth/authReducers";
+import authReducers from "./auth/reducers";
 import categoriesReducers from "./categories/categoriesReducers";
 import paginationReducers from "./pagination/paginationReducers";
 import productsReducers from "./products/productsReducers";

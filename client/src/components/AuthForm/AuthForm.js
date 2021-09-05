@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { auth_login_signup, auth_logout } from "../../store/auth/authActions";
+import { auth_login_signup, auth_logout } from "../../store/auth/actions";
 
 function AuthForm() {
   const dispatch = useDispatch();

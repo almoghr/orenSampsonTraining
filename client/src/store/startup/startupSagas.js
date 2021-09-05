@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 import { TOKEN_NAME } from "../constants/auth";
-import { auth_login_success } from "../auth/authActions";
+import { auth_login_success } from "../auth/actions";
 import { cart_discounts_setter } from "../cart/settersActions";
 import { get_categories } from "../categories/categoriesActions";
 import { API_CALL_FAILED } from "../constants/messages";
