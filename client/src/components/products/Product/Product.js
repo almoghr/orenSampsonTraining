@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 
-import { cart_add_remove_product } from "../../../store/cart/cartActions";
+import { cart_add_remove_product } from "../../../store/cart/actions";
 import styles from "./Product.module.scss";
 
 const Product = ({

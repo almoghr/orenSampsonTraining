@@ -12,8 +12,8 @@ import { GetCategoriesHandler } from "./categories/categoriesSagas";
 import { authLoginSignupHandler } from "./auth/sagas";
 import { authLogoutHandler } from "./auth/sagas";
 import { startupHandler } from "./startup/startupSagas";
-import { addRemoveProductHandler } from "./cart/addRemoveProductSaga";
-import { sendTransactionHandler } from "./cart/sendTransactionSaga";
+import { addRemoveProductHandler } from "./cart/sagas";
+import { sendTransactionHandler } from "./cart/sagas";
 
 export function* watcherSaga() {
   yield takeLatest(PRODUCTS_GET, GetProductsHandler);

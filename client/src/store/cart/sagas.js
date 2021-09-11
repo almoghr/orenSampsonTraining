@@ -1,55 +1,24 @@
 import { call, put } from "redux-saga/effects";
 import { toast } from "react-toastify";
 
+import { requestsendTransaction } from "../../api/cartAPI";
+import { calculator } from "./sagaHelpers";
 import {
   cart_isDiscountApplied_setter,
   cart_products_setter,
   cart_totalPrice_before_discount_setter,
   cart_totalPrice_after_discount_setter,
-} from "../cart/settersActions";
-import { ACTION_FAILED, INVENTORY_EMPTY } from "../constants/messages";
-
-const calculator = (payload) => {
-  let isDiscountApplied = false;
-  const {
-    currentStateProducts,
-    currentStateCartProducts: cartProducts,
-    discounts,
-  } = payload;
-
-  const selectedDiscount = discounts?.length ? discounts[0] : null;
-
-  let totalPriceBeforeDiscount = 0;
-
-  for (const cartProduct of cartProducts) {
-    const currentStateProduct = currentStateProducts.find(
-      (currentStateProduct) => currentStateProduct.id === cartProduct.id
-    );
-
-    if (!currentStateProduct) {
-      throw new Error(ACTION_FAILED);
-    }
-
-    totalPriceBeforeDiscount += currentStateProduct.price * cartProduct.amount;
-  }
-
-  let totalPriceAfterDiscount = totalPriceBeforeDiscount;
-
-  if (selectedDiscount) {
-    if (totalPriceBeforeDiscount >= selectedDiscount.priceRequired) {
-      isDiscountApplied = true;
-      totalPriceAfterDiscount *= (100 - selectedDiscount.percentage) / 100;
-    }
-  }
-  totalPriceBeforeDiscount = totalPriceBeforeDiscount.toFixed(2);
-  totalPriceAfterDiscount = totalPriceAfterDiscount.toFixed(2);
-
-  return {
-    isDiscountApplied,
-    totalPriceBeforeDiscount,
-    totalPriceAfterDiscount,
-  };
-};
+  cart_send_transaction_requested,
+  cart_send_transaction_failure,
+  cart_send_transaction_success,
+} from "./actions";
+import {
+  ACTION_FAILED,
+  INVENTORY_EMPTY,
+  NOT_LOGGED_IN,
+  API_CALL_FAILED,
+} from "../constants/messages";
+import { TOKEN_NAME } from "../constants/auth";
 
 export function* addRemoveProductHandler({ payload }) {
   const {
@@ -121,13 +90,11 @@ export function* addRemoveProductHandler({ payload }) {
       isDiscountApplied,
       totalPriceBeforeDiscount,
       totalPriceAfterDiscount,
-    } = yield call(
-      calculator.bind(this, {
-        currentStateProducts,
-        currentStateCartProducts,
-        discounts,
-      })
-    );
+    } = yield call(calculator, {
+      currentStateProducts,
+      currentStateCartProducts,
+      discounts,
+    });
 
     yield put(cart_isDiscountApplied_setter(isDiscountApplied));
     yield put(cart_products_setter(currentStateCartProducts));
@@ -135,5 +102,24 @@ export function* addRemoveProductHandler({ payload }) {
     yield put(cart_totalPrice_after_discount_setter(totalPriceAfterDiscount));
   } catch (error) {
     toast(error.message);
+  }
+}
+
+export function* sendTransactionHandler({ payload }) {
+  try {
+    yield put(cart_send_transaction_requested());
+
+    const token = localStorage.getItem(TOKEN_NAME);
+    if (!token) {
+      throw new Error(NOT_LOGGED_IN);
+    }
+
+    yield call(requestsendTransaction, payload, token);
+    yield put(cart_send_transaction_success());
+  } catch (error) {
+    const err =
+      error?.message || error?.response?.data?.message || API_CALL_FAILED;
+    yield put(cart_send_transaction_failure(err));
+    toast(err);
   }
 }

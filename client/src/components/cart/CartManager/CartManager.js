@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import ClipLoader from "react-spinners/ClipLoader";
 
-import { cart_send_transaction } from "../../../store/cart/cartActions";
+import { cart_send_transaction } from "../../../store/cart/actions";
 import CartProducts from "../CartProducts/CartProducts";
 
 function CartManager() {

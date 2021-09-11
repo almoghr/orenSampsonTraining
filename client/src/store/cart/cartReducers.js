@@ -1,3 +1,5 @@
+import clone from "lodash.clonedeep";
+
 import * as types from "./types";
 
 const CART_INITIAL_STATE = {
@@ -10,83 +12,67 @@ const CART_INITIAL_STATE = {
   errorSendingTransaction: null,
 };
 
-const getImmutableState = (state) => {
-  const newState = { ...state };
-
-  if (state.discounts?.length) {
-    newState.discounts = [];
-    for (const discount of state.discounts) {
-      newState.discounts.push({ ...discount });
-    }
-  }
-
-  if (state.products?.length) {
-    newState.products = [];
-    for (const cartProduct of state.products) {
-      newState.products.push({ ...cartProduct });
-    }
-  }
-
-  return newState;
-};
-
-const reducer = (state = CART_INITIAL_STATE, action) => {
+const reducer = (state = clone(CART_INITIAL_STATE), action) => {
   switch (action.type) {
     case types.CART_DISCOUNTS_SETTER:
       return {
-        ...getImmutableState(state),
-        discounts: action.discounts,
+        ...state,
+        discounts: clone(action.discounts),
       };
 
     case types.CART_ISDISCOUNTAPPLIED_SETTER:
       return {
-        ...getImmutableState(state),
+        ...state,
         isDiscountApplied: action.isDiscountApplied,
       };
 
     case types.CART_PRODUCTS_SETTER:
       return {
-        ...getImmutableState(state),
-        products: action.cartProducts,
+        ...state,
+        products: clone(action.cartProducts),
       };
 
     case types.CART_TOTALPRICE_BEFORE_DISCOUNT_SETTER:
       return {
-        ...getImmutableState(state),
+        ...state,
         totalPriceBeforeDiscount: action.totalPriceBeforeDiscount,
       };
 
     case types.CART_TOTALPRICE_AFTER_DISCOUNT_SETTER:
       return {
-        ...getImmutableState(state),
+        ...state,
         totalPriceAfterDiscount: action.totalPriceAfterDiscount,
       };
 
     case types.CART_SEND_TRANSACTION_REQUESTED:
       return {
-        ...getImmutableState(state),
+        ...state,
         isSendingTransaction: true,
       };
 
     case types.CART_SEND_TRANSACTION_SUCCESS:
       return {
-        ...CART_INITIAL_STATE,
+        ...state,
+        isDiscountApplied: CART_INITIAL_STATE.isDiscountApplied,
+        products: clone(CART_INITIAL_STATE.products),
+        totalPriceBeforeDiscount: CART_INITIAL_STATE.totalPriceBeforeDiscount,
+        totalPriceAfterDiscount: CART_INITIAL_STATE.totalPriceAfterDiscount,
+        isSendingTransaction: CART_INITIAL_STATE.isSendingTransaction,
+        errorSendingTransaction: CART_INITIAL_STATE.errorSendingTransaction,
       };
 
     case types.CART_SEND_TRANSACTION_FAILURE:
       return {
-        ...getImmutableState(state),
+        ...state,
         isSendingTransaction: false,
         errorSendingTransaction: action.errorMessage,
       };
 
     case types.CART_RESET_STATE:
-      return {
-        ...CART_INITIAL_STATE,
-      };
+      return clone(CART_INITIAL_STATE);
 
     default:
-      return { ...getImmutableState(state) };
+      return { ...state };
   }
 };
 
