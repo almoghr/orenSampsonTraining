@@ -1,26 +1,13 @@
 import { call, put } from "redux-saga/effects";
-import axios from "axios";
 import { toast } from "react-toastify";
 
+import { requestGetCategories } from "../../api/categoriesAPI";
 import {
   get_categories_requested,
   get_categories_failure,
   get_categories_success,
-} from "./categoriesActions";
+} from "./actions";
 import { API_CALL_FAILED, CATEGORIES_ARRAY_EMPTY } from "../constants/messages";
-
-const requestGetCategories = async () => {
-  let fetchedData;
-  try {
-    fetchedData = await axios.get(
-      "http://localhost:8080/api/categories/getcategories"
-    );
-  } catch (error) {
-    throw new Error(error?.response?.data?.message || API_CALL_FAILED);
-  }
-
-  return fetchedData;
-};
 
 export function* GetCategoriesHandler() {
   try {
@@ -36,7 +23,9 @@ export function* GetCategoriesHandler() {
 
     yield put(get_categories_success(data));
   } catch (error) {
-    yield put(get_categories_failure(error.message));
-    toast(error.message);
+    const err =
+      error.message || error.response?.data?.message || API_CALL_FAILED;
+    yield put(get_categories_failure(err));
+    toast(err);
   }
 }

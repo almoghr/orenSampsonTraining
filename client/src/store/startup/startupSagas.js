@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { TOKEN_NAME } from "../constants/auth";
 import { auth_login_success } from "../auth/actions";
 import { cart_discounts_setter } from "../cart/actions";
-import { get_categories } from "../categories/categoriesActions";
+import { get_categories } from "../categories/actions";
 import { API_CALL_FAILED } from "../constants/messages";
 
 const requestGetDiscounts = async (payload) => {

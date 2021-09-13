@@ -5,10 +5,10 @@ import createSagaMiddleware from "redux-saga";
 
 import { watcherSaga } from "./rootSaga";
 import authReducers from "./auth/reducers";
-import categoriesReducers from "./categories/categoriesReducers";
+import cartReducers from "./cart/reducers";
+import categoriesReducers from "./categories/reducers";
 import paginationReducers from "./pagination/paginationReducers";
 import productsReducers from "./products/productsReducers";
-import cartReducers from "./cart/cartReducers";
 
 export const history = createBrowserHistory();
 
@@ -16,10 +16,10 @@ const createRootReducer = (history) =>
   combineReducers({
     router: connectRouter(history),
     authReducers,
+    cartReducers,
     categoriesReducers,
     paginationReducers,
     productsReducers,
-    cartReducers,
   });
 
 export default function configureStore(preloadedState) {

@@ -1,3 +1,5 @@
+import clone from "lodash.clonedeep";
+
 import * as types from "./types";
 
 const CATEGORIES_INITIAL_STATE = {
@@ -6,40 +8,30 @@ const CATEGORIES_INITIAL_STATE = {
   error: null,
 };
 
-const getImmutableState = (state) => {
-  const newState = { ...state };
-
-  if (state.categories?.length) {
-    newState.categories = [...state.categories];
-  }
-
-  return newState;
-};
-
-const reducer = (state = CATEGORIES_INITIAL_STATE, action) => {
+const reducer = (state = clone(CATEGORIES_INITIAL_STATE), action) => {
   switch (action.type) {
     case types.CATEGORIES_GET_REQUESTED:
       return {
-        ...getImmutableState(state),
+        ...state,
         isLoading: true,
       };
 
     case types.CATEGORIES_GET_SUCCESS:
       return {
-        ...getImmutableState(state),
+        ...state,
         isLoading: false,
-        categories: action.payload,
+        categories: clone(action.payload),
       };
 
     case types.CATEGORIES_GET_FAILURE:
       return {
-        ...getImmutableState(state),
+        ...state,
         isLoading: false,
         error: action.payload,
       };
 
     default:
-      return { ...getImmutableState(state) };
+      return { ...state };
   }
 };
 
