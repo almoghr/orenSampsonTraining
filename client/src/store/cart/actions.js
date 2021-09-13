@@ -52,3 +52,7 @@ export const cart_send_transaction = (payload) => ({
   type: types.CART_SEND_TRANSACTION,
   payload,
 });
+
+export const cart_get_discounts = () => ({
+  type: types.CART_GET_DISCOUNTS,
+});

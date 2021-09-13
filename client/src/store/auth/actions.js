@@ -26,3 +26,7 @@ export const auth_login_signup = (payload) => ({
 export const auth_logout = () => ({
   type: types.AUTH_LOGOUT,
 });
+
+export const checkIfLoggedIn = () => ({
+  type: types.CHECKIFLOGGEDIN,
+});

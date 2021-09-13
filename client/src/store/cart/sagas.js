@@ -1,9 +1,10 @@
 import { call, put } from "redux-saga/effects";
 import { toast } from "react-toastify";
 
-import { requestsendTransaction } from "../../api/cartAPI";
+import { requestsendTransaction, requestGetDiscounts } from "../../api/cartAPI";
 import { calculator } from "./sagaHelpers";
 import {
+  cart_discounts_setter,
   cart_isDiscountApplied_setter,
   cart_products_setter,
   cart_totalPrice_before_discount_setter,
@@ -121,5 +122,23 @@ export function* sendTransactionHandler({ payload }) {
       error?.message || error?.response?.data?.message || API_CALL_FAILED;
     yield put(cart_send_transaction_failure(err));
     toast(err);
+  }
+}
+
+export function* getDiscountsHandler() {
+  try {
+    const { data } = yield call(requestGetDiscounts);
+
+    if (data?.discounts?.length > 0) {
+      const dicounts = data.discounts.map((discount) => ({
+        id: discount._id,
+        priceRequired: discount.priceRequired,
+        percentage: discount.percentage,
+      }));
+
+      yield put(cart_discounts_setter(dicounts));
+    }
+  } catch (error) {
+    toast(error.message);
   }
 }

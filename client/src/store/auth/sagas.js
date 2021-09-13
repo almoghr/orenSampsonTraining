@@ -32,3 +32,11 @@ export function* authLoginSignupHandler({ payload }) {
 export function* authLogoutHandler() {
   yield localStorage.removeItem(TOKEN_NAME);
 }
+
+export function* checkIfLoggedIn() {
+  const token = yield localStorage.getItem(TOKEN_NAME);
+
+  if (token) {
+    yield put(auth_login_success());
+  }
+}
