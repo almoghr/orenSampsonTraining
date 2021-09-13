@@ -1,3 +1,5 @@
+import clone from "lodash.clonedeep";
+
 import * as types from "./types";
 
 const AUTH_INITIAL_STATE = {
@@ -6,7 +8,7 @@ const AUTH_INITIAL_STATE = {
   error: null,
 };
 
-const reducer = (state = AUTH_INITIAL_STATE, action) => {
+const reducer = (state = clone(AUTH_INITIAL_STATE), action) => {
   switch (action.type) {
     case types.AUTH_REQUESTED:
       return {
