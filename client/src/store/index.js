@@ -8,7 +8,7 @@ import authReducers from "./auth/reducers";
 import cartReducers from "./cart/reducers";
 import categoriesReducers from "./categories/reducers";
 import paginationReducers from "./pagination/reducers";
-import productsReducers from "./products/productsReducers";
+import productsReducers from "./products/reducers";
 
 export const history = createBrowserHistory();
 

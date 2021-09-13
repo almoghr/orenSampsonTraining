@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ClipLoader from "react-spinners/ClipLoader";
 
-import { get_products } from "../../../store/products/productsActions";
+import { get_products } from "../../../store/products/actions";
 import Products from "../Products/Products";
 import Pagination from "../../Pagination/Pagination";
 

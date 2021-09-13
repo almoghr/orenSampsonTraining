@@ -1,3 +1,5 @@
+import clone from "lodash.clonedeep";
+
 import * as types from "./types";
 
 const PRODUCTS_INITIAL_STATE = {
@@ -6,48 +8,35 @@ const PRODUCTS_INITIAL_STATE = {
   error: null,
 };
 
-const getImmutableState = (state) => {
-  const newState = { ...state };
-
-  if (state.products?.length) {
-    newState.products = [];
-    for (const product of state.products) {
-      newState.products.push({ ...product });
-    }
-  }
-
-  return newState;
-};
-
-const reducer = (state = PRODUCTS_INITIAL_STATE, action) => {
+const reducer = (state = clone(PRODUCTS_INITIAL_STATE), action) => {
   switch (action.type) {
     case types.PRODUCTS_GET_REQUESTED:
       return {
-        ...getImmutableState(state),
+        ...state,
         isLoading: true,
       };
 
     case types.PRODUCTS_GET_SUCCESS:
       return {
-        ...getImmutableState(state),
+        ...state,
         isLoading: false,
-        products: action.payload,
+        products: clone(action.payload),
       };
 
     case types.PRODUCTS_GET_FAILURE:
       return {
-        ...getImmutableState(state),
+        ...state,
         isLoading: false,
         error: action.payload,
       };
 
     case types.PRODUCTS_RESET_STATE:
       return {
-        ...PRODUCTS_INITIAL_STATE,
+        ...clone(PRODUCTS_INITIAL_STATE),
       };
 
     default:
-      return { ...getImmutableState(state) };
+      return { ...state };
   }
 };
 

@@ -1,38 +1,19 @@
 import { call, put } from "redux-saga/effects";
-import axios from "axios";
 import { toast } from "react-toastify";
 
+import { requestGetProducts } from "../../api/productsAPI";
 import {
   get_prodcuts_requested,
   get_prodcuts_success,
   get_prodcuts_failure,
-} from "./productsActions";
-import { API_CALL_FAILED, PRODUCTS_ARRAY_EMPTY } from "../constants/messages";
-
-const requestGetProducts = async (payload) => {
-  let fetchedData;
-  try {
-    const config = {
-      headers: {
-        category: payload,
-      },
-    };
-    fetchedData = await axios.get(
-      "http://localhost:8080/api/products/getproducts",
-      config
-    );
-  } catch (error) {
-    throw new Error(error?.response?.data?.message || API_CALL_FAILED);
-  }
-
-  return fetchedData;
-};
+} from "./actions";
+import { PRODUCTS_ARRAY_EMPTY } from "../constants/messages";
 
 export function* GetProductsHandler({ payload }) {
   try {
     yield put(get_prodcuts_requested());
 
-    const { data } = yield call(requestGetProducts.bind(this, payload));
+    const { data } = yield call(requestGetProducts, payload);
 
     if (!data) {
       throw new Error(PRODUCTS_ARRAY_EMPTY);

@@ -13,8 +13,9 @@ import { CART_SEND_TRANSACTION } from "./cart/types";
 import { GetCategoriesHandler } from "./categories/sagas";
 import { CATEGORIES_GET } from "./categories/types";
 
-import { GetProductsHandler } from "./products/productsSagas";
+import { GetProductsHandler } from "./products/sagas";
 import { PRODUCTS_GET } from "./products/types";
+
 import { STARTUP } from "./startup/types";
 import { startupHandler } from "./startup/startupSagas";
 
