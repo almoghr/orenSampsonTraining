@@ -2,46 +2,16 @@ import clone from "lodash.clonedeep";
 
 import * as types from "./types";
 
-const AUTH_INITIAL_STATE = {
-  isLogin: false,
-  isLoading: false,
-  error: null,
+export const AUTH_INITIAL_STATE = {
+  isLoggedin: false,
 };
 
 const reducer = (state = clone(AUTH_INITIAL_STATE), action) => {
   switch (action.type) {
-    case types.AUTH_REQUESTED:
+    case types.AUTH_ISLOGGEDIN_SETTER:
       return {
         ...state,
-        isLoading: !AUTH_INITIAL_STATE.isLoading,
-      };
-
-    case types.AUTH_LOGIN_SUCCESS:
-      return {
-        ...state,
-        isLogin: !AUTH_INITIAL_STATE.isLogin,
-        isLoading: AUTH_INITIAL_STATE.isLoading,
-        error: AUTH_INITIAL_STATE.error,
-      };
-
-    case types.AUTH_SIGNUP_SUCCESS:
-      return {
-        ...state,
-        isLoading: AUTH_INITIAL_STATE.isLoading,
-        error: AUTH_INITIAL_STATE.error,
-      };
-
-    case types.AUTH_FAILURE:
-      return {
-        ...state,
-        isLoading: AUTH_INITIAL_STATE.isLoading,
-        error: action.payload,
-      };
-
-    case types.AUTH_LOGOUT:
-      return {
-        ...state,
-        isLogin: AUTH_INITIAL_STATE.isLogin,
+        isLoggedin: action.payload,
       };
 
     case types.AUTH_RESET_STATE:

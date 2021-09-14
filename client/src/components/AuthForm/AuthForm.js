@@ -5,8 +5,11 @@ import { auth_login_signup, auth_logout } from "../../store/auth/actions";
 
 function AuthForm() {
   const dispatch = useDispatch();
-  const isLoading = useSelector((state) => state.authReducers.isLoading);
-  const isLogin = useSelector((state) => state.authReducers.isLogin);
+
+  const isLoading = useSelector(
+    (state) => state.loadingAndErrorReducers.isLoading
+  );
+  const isLoggedin = useSelector((state) => state.authReducers.isLoggedin);
 
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
@@ -55,7 +58,9 @@ function AuthForm() {
           )}
           {isLoading && <p>Sending request...</p>}
         </div>
-        <div>{isLogin && <button onClick={logoutHandler}>Logout</button>}</div>
+        <div>
+          {isLoggedin && <button onClick={logoutHandler}>Logout</button>}
+        </div>
         <div>
           <button type="button" onClick={switchAuthModeHandler}>
             {isLoginMode ? "Create new account" : "Login with existing account"}

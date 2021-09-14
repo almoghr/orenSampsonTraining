@@ -1,7 +1,21 @@
 import * as types from "./types";
 
-export const auth_requested = () => ({
-  type: types.AUTH_REQUESTED,
+export const auth_isLoggedin_setter = (payload) => ({
+  type: types.AUTH_ISLOGGEDIN_SETTER,
+  payload,
+});
+
+export const auth_login_signup = (payload) => ({
+  type: types.AUTH_LOGIN_SIGNUP,
+  payload,
+});
+
+export const auth_logout = () => ({
+  type: types.AUTH_LOGOUT,
+});
+
+export const checkIfLoggedIn = () => ({
+  type: types.CHECKIFLOGGEDIN,
 });
 
 export const auth_login_success = () => ({
@@ -15,18 +29,4 @@ export const auth_signup_success = () => ({
 export const auth_failure = (payload) => ({
   type: types.AUTH_FAILURE,
   payload,
-});
-
-//saga actions
-export const auth_login_signup = (payload) => ({
-  type: types.AUTH_LOGIN_SIGNUP,
-  payload,
-});
-
-export const auth_logout = () => ({
-  type: types.AUTH_LOGOUT,
-});
-
-export const checkIfLoggedIn = () => ({
-  type: types.CHECKIFLOGGEDIN,
 });
