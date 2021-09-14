@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { auth_login_signup, auth_logout } from "../../store/auth/actions";
+import * as authActions from "../../store/auth/actions";
 
 function AuthForm() {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ function AuthForm() {
   const [isLoginMode, setIsLoginMode] = useState(true);
 
   const logoutHandler = () => {
-    dispatch(auth_logout());
+    dispatch(authActions.auth_logout());
   };
 
   const switchAuthModeHandler = () => {
@@ -27,7 +27,7 @@ function AuthForm() {
   const submitHandler = (event) => {
     event.preventDefault();
     dispatch(
-      auth_login_signup({
+      authActions.auth_login_signup({
         isLoginMode,
         email: emailInputRef.current.value,
         password: passwordInputRef.current.value,

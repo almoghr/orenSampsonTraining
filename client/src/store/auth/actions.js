@@ -14,7 +14,7 @@ export const auth_logout = () => ({
   type: types.AUTH_LOGOUT,
 });
 
-export const checkIfLoggedIn = () => ({
+export const auth_check_if_loggedIn = () => ({
   type: types.CHECKIFLOGGEDIN,
 });
 

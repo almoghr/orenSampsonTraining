@@ -1,21 +1,7 @@
 import { takeLatest } from "redux-saga/effects";
 
-import {
-  authLoginSignupHandler,
-  authLogoutHandler,
-  checkIfLoggedIn,
-  authLoginSuccessHandler,
-  authSignupSuccessHandler,
-  authFailureHandler,
-} from "./auth/sagas";
-import {
-  AUTH_LOGIN_SIGNUP,
-  AUTH_LOGOUT,
-  CHECKIFLOGGEDIN,
-  AUTH_LOGIN_SUCCESS,
-  AUTH_SIGNUP_SUCCESS,
-  AUTH_FAILURE,
-} from "./auth/types";
+import * as authTypes from "./auth/types";
+import * as authSagas from "./auth/sagas";
 
 import {
   addRemoveProductHandler,
@@ -38,11 +24,21 @@ import { startupHandler } from "./startup/sagas";
 import { STARTUP } from "./startup/types";
 
 export function* watcherSaga() {
-  yield takeLatest(AUTH_LOGIN_SIGNUP, authLoginSignupHandler);
-  yield takeLatest(AUTH_LOGOUT, authLogoutHandler);
-  yield takeLatest(AUTH_LOGIN_SUCCESS, authLoginSuccessHandler);
-  yield takeLatest(AUTH_SIGNUP_SUCCESS, authSignupSuccessHandler);
-  yield takeLatest(AUTH_FAILURE, authFailureHandler);
+  yield takeLatest(
+    authTypes.AUTH_LOGIN_SIGNUP,
+    authSagas.authLoginSignupHandler
+  );
+  yield takeLatest(authTypes.AUTH_LOGOUT, authSagas.authLogoutHandler);
+  yield takeLatest(
+    authTypes.AUTH_LOGIN_SUCCESS,
+    authSagas.authLoginSuccessHandler
+  );
+  yield takeLatest(
+    authTypes.AUTH_SIGNUP_SUCCESS,
+    authSagas.authSignupSuccessHandler
+  );
+  yield takeLatest(authTypes.AUTH_FAILURE, authSagas.authFailureHandler);
+  yield takeLatest(authTypes.CHECKIFLOGGEDIN, authSagas.checkIfLoggedIn);
 
   yield takeLatest(PRODUCTS_GET, GetProductsHandler);
   yield takeLatest(CATEGORIES_GET, GetCategoriesHandler);
@@ -50,5 +46,4 @@ export function* watcherSaga() {
   yield takeLatest(CART_SEND_TRANSACTION, sendTransactionHandler);
   yield takeLatest(CART_GET_DISCOUNTS, getDiscountsHandler);
   yield takeLatest(STARTUP, startupHandler);
-  yield takeLatest(CHECKIFLOGGEDIN, checkIfLoggedIn);
 }
