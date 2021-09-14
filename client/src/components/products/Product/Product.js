@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 
-import { cart_add_remove_product } from "../../../store/cart/actions";
+import * as cartActions from "../../../store/cart/actions";
 import styles from "./Product.module.scss";
 
 const Product = ({
@@ -23,7 +23,7 @@ const Product = ({
 
   const addTocartHandler = () => {
     dispatch(
-      cart_add_remove_product({
+      cartActions.cart_add_remove_product({
         currentStateProducts,
         currentStateCartProducts,
         discounts,

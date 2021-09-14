@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import ClipLoader from "react-spinners/ClipLoader";
 
-import { cart_send_transaction } from "../../../store/cart/actions";
+import * as cartActions from "../../../store/cart/actions";
 import CartProducts from "../CartProducts/CartProducts";
 
 function CartManager() {
@@ -34,7 +34,7 @@ function CartManager() {
 
   const sendTransactionHandler = () => {
     dispatch(
-      cart_send_transaction({
+      cartActions.cart_send_transaction({
         productsAndAmountArr: cartProducts,
         discountID: isDiscountApplied ? discounts[0].id : null,
       })

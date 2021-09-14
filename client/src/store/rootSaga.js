@@ -3,16 +3,8 @@ import { takeLatest } from "redux-saga/effects";
 import * as authTypes from "./auth/types";
 import * as authSagas from "./auth/sagas";
 
-import {
-  addRemoveProductHandler,
-  sendTransactionHandler,
-  getDiscountsHandler,
-} from "./cart/sagas";
-import {
-  CART_ADD_REMOVE_PRODUCT,
-  CART_SEND_TRANSACTION,
-  CART_GET_DISCOUNTS,
-} from "./cart/types";
+import * as cartTypes from "./cart/types";
+import * as cartSagas from "./cart/sagas";
 
 import { GetCategoriesHandler } from "./categories/sagas";
 import { CATEGORIES_GET } from "./categories/types";
@@ -40,10 +32,26 @@ export function* watcherSaga() {
   yield takeLatest(authTypes.AUTH_FAILURE, authSagas.authFailureHandler);
   yield takeLatest(authTypes.CHECKIFLOGGEDIN, authSagas.checkIfLoggedIn);
 
+  yield takeLatest(
+    cartTypes.CART_ADD_REMOVE_PRODUCT,
+    cartSagas.addRemoveProductHandler
+  );
+  yield takeLatest(
+    cartTypes.CART_SEND_TRANSACTION,
+    cartSagas.sendTransactionHandler
+  );
+  yield takeLatest(cartTypes.CART_GET_DISCOUNTS, cartSagas.getDiscountsHandler);
+  yield takeLatest(
+    cartTypes.CART_SEND_TRANSACTION_SUCCESS,
+    cartSagas.sendTransactionSuccessHandler
+  );
+  yield takeLatest(
+    cartTypes.CART_SEND_TRANSACTION_FAILURE,
+    cartSagas.sendTransactionFailureHandler
+  );
+
   yield takeLatest(PRODUCTS_GET, GetProductsHandler);
   yield takeLatest(CATEGORIES_GET, GetCategoriesHandler);
-  yield takeLatest(CART_ADD_REMOVE_PRODUCT, addRemoveProductHandler);
-  yield takeLatest(CART_SEND_TRANSACTION, sendTransactionHandler);
-  yield takeLatest(CART_GET_DISCOUNTS, getDiscountsHandler);
+
   yield takeLatest(STARTUP, startupHandler);
 }

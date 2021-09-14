@@ -1,18 +1,17 @@
 import { ACTION_FAILED } from "../constants/messages";
 
-export const calculator = (payload) => {
+export const calculator = ({
+  currentStateProducts,
+  currentStateCartProducts,
+  discounts,
+}) => {
   let isDiscountApplied = false;
-  const {
-    currentStateProducts,
-    currentStateCartProducts: cartProducts,
-    discounts,
-  } = payload;
 
   const selectedDiscount = discounts?.length ? discounts[0] : null;
 
   let totalPriceBeforeDiscount = 0;
 
-  for (const cartProduct of cartProducts) {
+  for (const cartProduct of currentStateCartProducts) {
     const currentStateProduct = currentStateProducts.find(
       (currentStateProduct) => currentStateProduct.id === cartProduct.id
     );

@@ -1,38 +1,27 @@
 import { call, put } from "redux-saga/effects";
 import { toast } from "react-toastify";
 
+import * as cartActions from "./actions";
+import * as loadingAndErrorActions from "../loadingAndError/actions";
+import { CART_INITIAL_STATE } from "./reducers";
+import { LOADINGANDERROR_INITIAL_STATE } from "../loadingAndError/reducers";
 import { requestsendTransaction, requestGetDiscounts } from "../../api/cartAPI";
 import { calculator } from "./sagaHelpers";
-import {
-  cart_discounts_setter,
-  cart_isDiscountApplied_setter,
-  cart_products_setter,
-  cart_totalPrice_before_discount_setter,
-  cart_totalPrice_after_discount_setter,
-  cart_send_transaction_requested,
-  cart_send_transaction_failure,
-  cart_send_transaction_success,
-} from "./actions";
-import {
-  ACTION_FAILED,
-  INVENTORY_EMPTY,
-  NOT_LOGGED_IN,
-  API_CALL_FAILED,
-} from "../constants/messages";
+import * as messages from "../constants/messages";
 import { TOKEN_NAME } from "../constants/auth";
 
-export function* addRemoveProductHandler({ payload }) {
-  const {
+export function* addRemoveProductHandler({
+  payload: {
     currentStateProducts,
     currentStateCartProducts,
     discounts,
     productID,
     amount,
-  } = payload;
-
+  },
+}) {
   try {
     if (amount === 0) {
-      throw new Error(ACTION_FAILED);
+      throw new Error(messages.ACTION_FAILED);
     }
 
     const currentStateProductAmount = currentStateProducts.find((product) => {
@@ -40,7 +29,7 @@ export function* addRemoveProductHandler({ payload }) {
     })?.amount;
 
     if (!currentStateProductAmount) {
-      throw new Error(ACTION_FAILED);
+      throw new Error(messages.ACTION_FAILED);
     }
 
     const i = currentStateCartProducts.findIndex(
@@ -58,7 +47,7 @@ export function* addRemoveProductHandler({ payload }) {
       }
     } else {
       if (i < 0) {
-        throw new Error(ACTION_FAILED);
+        throw new Error(messages.ACTION_FAILED);
       } else {
         currentStateCartProductAmount = Math.max(
           amount + currentStateCartProducts[i].amount,
@@ -69,7 +58,7 @@ export function* addRemoveProductHandler({ payload }) {
 
     if (amount > 0) {
       if (currentStateProductAmount - currentStateCartProductAmount < 0) {
-        throw new Error(INVENTORY_EMPTY);
+        throw new Error(messages.INVENTORY_EMPTY);
       }
     }
 
@@ -97,10 +86,16 @@ export function* addRemoveProductHandler({ payload }) {
       discounts,
     });
 
-    yield put(cart_isDiscountApplied_setter(isDiscountApplied));
-    yield put(cart_products_setter(currentStateCartProducts));
-    yield put(cart_totalPrice_before_discount_setter(totalPriceBeforeDiscount));
-    yield put(cart_totalPrice_after_discount_setter(totalPriceAfterDiscount));
+    yield put(cartActions.cart_isDiscountApplied_setter(isDiscountApplied));
+    yield put(cartActions.cart_products_setter(currentStateCartProducts));
+    yield put(
+      cartActions.cart_totalPrice_before_discount_setter(
+        totalPriceBeforeDiscount
+      )
+    );
+    yield put(
+      cartActions.cart_totalPrice_after_discount_setter(totalPriceAfterDiscount)
+    );
   } catch (error) {
     toast(error.message);
   }
@@ -108,19 +103,25 @@ export function* addRemoveProductHandler({ payload }) {
 
 export function* sendTransactionHandler({ payload }) {
   try {
-    yield put(cart_send_transaction_requested());
+    yield put(
+      loadingAndErrorActions.loadingAndError_isloading_setter(
+        !LOADINGANDERROR_INITIAL_STATE.isLoading
+      )
+    );
 
     const token = localStorage.getItem(TOKEN_NAME);
     if (!token) {
-      throw new Error(NOT_LOGGED_IN);
+      throw new Error(messages.NOT_LOGGED_IN);
     }
 
     yield call(requestsendTransaction, payload, token);
-    yield put(cart_send_transaction_success());
+    yield put(cartActions.cart_send_transaction_success());
   } catch (error) {
     const err =
-      error?.message || error?.response?.data?.message || API_CALL_FAILED;
-    yield put(cart_send_transaction_failure(err));
+      error.message ||
+      error.response?.data?.message ||
+      messages.API_CALL_FAILED;
+    yield put(cartActions.cart_send_transaction_failure(err));
     toast(err);
   }
 }
@@ -136,9 +137,53 @@ export function* getDiscountsHandler() {
         percentage: discount.percentage,
       }));
 
-      yield put(cart_discounts_setter(dicounts));
+      yield put(cartActions.cart_discounts_setter(dicounts));
     }
   } catch (error) {
     toast(error.message);
   }
+}
+
+export function* sendTransactionSuccessHandler() {
+  yield put(
+    cartActions.cart_isDiscountApplied_setter(
+      CART_INITIAL_STATE.isDiscountApplied
+    )
+  );
+
+  yield put(cartActions.cart_products_setter(CART_INITIAL_STATE.products));
+
+  yield put(
+    cartActions.cart_totalPrice_before_discount_setter(
+      CART_INITIAL_STATE.totalPriceBeforeDiscount
+    )
+  );
+
+  yield put(
+    cartActions.cart_totalPrice_after_discount_setter(
+      CART_INITIAL_STATE.totalPriceAfterDiscount
+    )
+  );
+
+  yield put(
+    loadingAndErrorActions.loadingAndError_isloading_setter(
+      LOADINGANDERROR_INITIAL_STATE.isLoading
+    )
+  );
+
+  yield put(
+    loadingAndErrorActions.loadingAndError_error_setter(
+      LOADINGANDERROR_INITIAL_STATE.error
+    )
+  );
+}
+
+export function* sendTransactionFailureHandler({ payload }) {
+  yield put(
+    loadingAndErrorActions.loadingAndError_isloading_setter(
+      LOADINGANDERROR_INITIAL_STATE.isLoading
+    )
+  );
+
+  yield put(loadingAndErrorActions.loadingAndError_error_setter(payload));
 }
