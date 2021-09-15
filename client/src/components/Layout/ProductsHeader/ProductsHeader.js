@@ -5,20 +5,25 @@ import ClipLoader from "react-spinners/ClipLoader";
 import styles from "./ProductsHeader.module.scss";
 
 function ProductsHeader() {
-  const isLoading = useSelector((state) => state.categoriesReducers.isLoading);
+  const isLoading = useSelector(
+    (state) => state.loadingAndErrorReducers.isLoading
+  );
+
   const categories = useSelector(
     (state) => state.categoriesReducers.categories
   );
 
-  let NavigationLinks = categories.map((category, index) => {
-    const to = `/categories/${category}`;
+  let NavigationLinks = categories?.length
+    ? categories.map((category, index) => {
+        const to = `/categories/${category}`;
 
-    return (
-      <li key={index}>
-        <NavLink to={to}>{category}</NavLink>
-      </li>
-    );
-  });
+        return (
+          <li key={index}>
+            <NavLink to={to}>{category}</NavLink>
+          </li>
+        );
+      })
+    : null;
 
   NavigationLinks = !isLoading && NavigationLinks;
 

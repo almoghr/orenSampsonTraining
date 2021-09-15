@@ -6,8 +6,8 @@ import * as authSagas from "./auth/sagas";
 import * as cartTypes from "./cart/types";
 import * as cartSagas from "./cart/sagas";
 
-import { GetCategoriesHandler } from "./categories/sagas";
-import { CATEGORIES_GET } from "./categories/types";
+import * as categoriesTypes from "./categories/types";
+import * as categoriesSagas from "./categories/sagas";
 
 import { GetProductsHandler } from "./products/sagas";
 import { PRODUCTS_GET } from "./products/types";
@@ -16,6 +16,7 @@ import { startupHandler } from "./startup/sagas";
 import { STARTUP } from "./startup/types";
 
 export function* watcherSaga() {
+  //AUTH////////////////////////////////////////////////////////////////////////////////////
   yield takeLatest(
     authTypes.AUTH_LOGIN_SIGNUP,
     authSagas.authLoginSignupHandler
@@ -31,7 +32,7 @@ export function* watcherSaga() {
   );
   yield takeLatest(authTypes.AUTH_FAILURE, authSagas.authFailureHandler);
   yield takeLatest(authTypes.CHECKIFLOGGEDIN, authSagas.checkIfLoggedIn);
-
+  //PRODUCTS////////////////////////////////////////////////////////////////////////////////
   yield takeLatest(
     cartTypes.CART_ADD_REMOVE_PRODUCT,
     cartSagas.addRemoveProductHandler
@@ -49,9 +50,21 @@ export function* watcherSaga() {
     cartTypes.CART_SEND_TRANSACTION_FAILURE,
     cartSagas.sendTransactionFailureHandler
   );
-
+  //CATEGORIES//////////////////////////////////////////////////////////////////////////////
+  yield takeLatest(
+    categoriesTypes.CATEGORIES_GET,
+    categoriesSagas.getCategoriesHandler
+  );
+  yield takeLatest(
+    categoriesTypes.CATEGORIES_GET_SUCCESS,
+    categoriesSagas.getCategoriesSuccessHandler
+  );
+  yield takeLatest(
+    categoriesTypes.CATEGORIES_GET_FAILURE,
+    categoriesSagas.getCategoriesfailureHandler
+  );
+  //PRODUCTS////////////////////////////////////////////////////////////////////////////////
   yield takeLatest(PRODUCTS_GET, GetProductsHandler);
-  yield takeLatest(CATEGORIES_GET, GetCategoriesHandler);
 
   yield takeLatest(STARTUP, startupHandler);
 }

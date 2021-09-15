@@ -2,32 +2,16 @@ import clone from "lodash.clonedeep";
 
 import * as types from "./types";
 
-const CATEGORIES_INITIAL_STATE = {
+export const CATEGORIES_INITIAL_STATE = {
   categories: [],
-  isLoading: false,
-  error: null,
 };
 
 const reducer = (state = clone(CATEGORIES_INITIAL_STATE), action) => {
   switch (action.type) {
-    case types.CATEGORIES_GET_REQUESTED:
+    case types.CATEGORIES_CATEGORIES_SETTER:
       return {
         ...state,
-        isLoading: true,
-      };
-
-    case types.CATEGORIES_GET_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
         categories: clone(action.payload),
-      };
-
-    case types.CATEGORIES_GET_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.payload,
       };
 
     default:
