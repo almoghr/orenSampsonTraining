@@ -17,8 +17,10 @@ function ProductsManager(props) {
   );
 
   useEffect(() => {
-    dispatch(get_products(props.category));
-  }, [dispatch, props]);
+    if (!products?.length) {
+      dispatch(get_products(props.category));
+    }
+  }, [dispatch, props.category, products]);
 
   return (
     <div>

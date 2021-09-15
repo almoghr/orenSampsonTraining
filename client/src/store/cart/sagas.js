@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 
 import * as cartActions from "./actions";
 import * as loadingAndErrorActions from "../loadingAndError/actions";
+import * as productsActions from "../products/actions";
 import { CART_INITIAL_STATE } from "./reducers";
 import { LOADINGANDERROR_INITIAL_STATE } from "../loadingAndError/reducers";
 import { requestsendTransaction, requestGetDiscounts } from "../../api/cartAPI";
@@ -24,57 +25,70 @@ export function* addRemoveProductHandler({
       throw new Error(messages.ACTION_FAILED);
     }
 
-    const currentStateProductAmount = currentStateProducts.find((product) => {
+    const indexProduct = currentStateProducts.findIndex((product) => {
       return product.id === productID;
-    })?.amount;
+    });
 
-    if (!currentStateProductAmount) {
+    if (indexProduct < 0) {
       throw new Error(messages.ACTION_FAILED);
     }
 
-    const i = currentStateCartProducts.findIndex(
+    const indexCartProduct = currentStateCartProducts.findIndex(
       (product) => product.id === productID
     );
 
-    let currentStateCartProductAmount;
-
+    let updatedcartProductAmount;
     if (amount > 0) {
-      if (i < 0) {
-        currentStateCartProductAmount = amount;
+      //increase cart product amount
+      if (indexCartProduct < 0) {
+        updatedcartProductAmount = amount;
       } else {
-        currentStateCartProductAmount =
-          amount + currentStateCartProducts[i].amount;
+        updatedcartProductAmount =
+          amount + currentStateCartProducts[indexCartProduct].amount;
       }
     } else {
-      if (i < 0) {
+      //decrease cart product amount
+      if (indexCartProduct < 0) {
         throw new Error(messages.ACTION_FAILED);
       } else {
-        currentStateCartProductAmount = Math.max(
-          amount + currentStateCartProducts[i].amount,
+        updatedcartProductAmount = Math.max(
+          amount + currentStateCartProducts[indexCartProduct].amount,
           0
         );
       }
     }
 
+    let updatedProductAmount;
     if (amount > 0) {
-      if (currentStateProductAmount - currentStateCartProductAmount < 0) {
+      //decrease product amount
+      updatedProductAmount = currentStateProducts[indexProduct].amount;
+      if (updatedProductAmount < updatedcartProductAmount) {
         throw new Error(messages.INVENTORY_EMPTY);
+      } else {
+        updatedProductAmount -= amount;
       }
+    } else {
+      //increase product amount
+      updatedProductAmount += amount;
     }
 
     if (amount > 0) {
-      if (i < 0) {
+      if (indexCartProduct < 0) {
         const product = {
           id: productID,
-          amount: currentStateCartProductAmount,
+          amount: updatedcartProductAmount,
         };
         currentStateCartProducts.push(product);
       } else {
-        currentStateCartProducts[i].amount = currentStateCartProductAmount;
+        currentStateCartProducts[indexCartProduct].amount =
+          updatedcartProductAmount;
       }
     } else {
-      currentStateCartProducts[i].amount = currentStateCartProductAmount;
+      currentStateCartProducts[indexCartProduct].amount =
+        updatedcartProductAmount;
     }
+
+    currentStateProducts[indexProduct].amount = updatedProductAmount;
 
     const {
       isDiscountApplied,
@@ -96,6 +110,7 @@ export function* addRemoveProductHandler({
     yield put(
       cartActions.cart_totalPrice_after_discount_setter(totalPriceAfterDiscount)
     );
+    yield put(productsActions.products_prodcuts_setter(currentStateProducts));
   } catch (error) {
     toast(error.message);
   }
