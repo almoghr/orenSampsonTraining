@@ -9,11 +9,11 @@ import * as cartSagas from "./cart/sagas";
 import * as categoriesTypes from "./categories/types";
 import * as categoriesSagas from "./categories/sagas";
 
-import { GetProductsHandler } from "./products/sagas";
-import { PRODUCTS_GET } from "./products/types";
+import * as productsTypes from "./products/types";
+import * as productsSagas from "./products/sagas";
 
-import { startupHandler } from "./startup/sagas";
-import { STARTUP } from "./startup/types";
+import * as startupTypes from "./startup/types";
+import * as startupSagas from "./startup/sagas";
 
 export function* watcherSaga() {
   //AUTH////////////////////////////////////////////////////////////////////////////////////
@@ -64,7 +64,18 @@ export function* watcherSaga() {
     categoriesSagas.getCategoriesfailureHandler
   );
   //PRODUCTS////////////////////////////////////////////////////////////////////////////////
-  yield takeLatest(PRODUCTS_GET, GetProductsHandler);
-
-  yield takeLatest(STARTUP, startupHandler);
+  yield takeLatest(
+    productsTypes.PRODUCTS_GET,
+    productsSagas.getProductsHandler
+  );
+  yield takeLatest(
+    productsTypes.PRODUCTS_GET_SUCCESS,
+    productsSagas.getProductsSuccessHandler
+  );
+  yield takeLatest(
+    productsTypes.PRODUCTS_GET_FAILURE,
+    productsSagas.getProductsfailureHandler
+  );
+  //STARTUP/////////////////////////////////////////////////////////////////////////////////
+  yield takeLatest(startupTypes.STARTUP, startupSagas.startupHandler);
 }

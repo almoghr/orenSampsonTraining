@@ -8,7 +8,9 @@ import Pagination from "../../Pagination/Pagination";
 
 function ProductsManager(props) {
   const dispatch = useDispatch();
-  const isLoading = useSelector((state) => state.productsReducers.isLoading);
+  const isLoading = useSelector(
+    (state) => state.loadingAndErrorReducers.isLoading
+  );
   const products = useSelector((state) => state.productsReducers.products);
   const paginatedProducts = useSelector(
     (state) => state.paginationReducers.paginatedArr

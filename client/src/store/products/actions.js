@@ -1,12 +1,13 @@
 import * as types from "./types";
 
-export const get_products = (payload) => ({
-  type: types.PRODUCTS_GET,
+export const products_prodcuts_setter = (payload) => ({
+  type: types.PRODUCTS_PRODUCTS_SETTER,
   payload,
 });
 
-export const get_prodcuts_requested = () => ({
-  type: types.PRODUCTS_GET_REQUESTED,
+export const get_products = (payload) => ({
+  type: types.PRODUCTS_GET,
+  payload,
 });
 
 export const get_prodcuts_success = (payload) => ({

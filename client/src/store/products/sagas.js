@@ -1,17 +1,19 @@
 import { call, put } from "redux-saga/effects";
 import { toast } from "react-toastify";
 
+import * as productsActions from "./actions";
+import * as loadingAndErrorActions from "../loadingAndError/actions";
+import { LOADINGANDERROR_INITIAL_STATE } from "../loadingAndError/reducers";
 import { requestGetProducts } from "../../api/productsAPI";
-import {
-  get_prodcuts_requested,
-  get_prodcuts_success,
-  get_prodcuts_failure,
-} from "./actions";
 import { PRODUCTS_ARRAY_EMPTY } from "../constants/messages";
 
-export function* GetProductsHandler({ payload }) {
+export function* getProductsHandler({ payload }) {
   try {
-    yield put(get_prodcuts_requested());
+    yield put(
+      loadingAndErrorActions.loadingAndError_isloading_setter(
+        !LOADINGANDERROR_INITIAL_STATE.isLoading
+      )
+    );
 
     const { data } = yield call(requestGetProducts, payload);
 
@@ -29,9 +31,29 @@ export function* GetProductsHandler({ payload }) {
       image: product.image,
     }));
 
-    yield put(get_prodcuts_success(productsArr));
+    yield put(
+      loadingAndErrorActions.loadingAndError_isloading_setter(
+        LOADINGANDERROR_INITIAL_STATE.isLoading
+      )
+    );
+
+    yield put(productsActions.get_prodcuts_success(productsArr));
   } catch (error) {
-    yield put(get_prodcuts_failure(error.message));
+    yield put(productsActions.get_prodcuts_failure(error.message));
     toast(error.message);
   }
+}
+
+export function* getProductsSuccessHandler({ payload }) {
+  yield put(productsActions.products_prodcuts_setter(payload));
+
+  yield put(
+    loadingAndErrorActions.loadingAndError_error_setter(
+      LOADINGANDERROR_INITIAL_STATE.error
+    )
+  );
+}
+
+export function* getProductsfailureHandler({ payload }) {
+  yield put(loadingAndErrorActions.loadingAndError_error_setter(payload));
 }
