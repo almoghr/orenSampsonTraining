@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import * as cartActions from "../../../store/cart/actions";
 import CartProducts from "../CartProducts/CartProducts";
+import * as messages from "../../../store/constants/messages";
 
 function CartManager() {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ function CartManager() {
     (state) => state.cartReducers.isDiscountApplied
   );
   const products = useSelector((state) => state.productsReducers.products);
+  const isLoggedin = useSelector((state) => state.authReducers.isLoggedin);
 
   const discountAppliedRelatedElements = (
     <Fragment>
@@ -52,7 +54,11 @@ function CartManager() {
           {!isDiscountApplied && (
             <h3>Total Price: {totalPriceBeforeDiscount}</h3>
           )}
-          <button onClick={sendTransactionHandler}>Submit Transaction</button>
+          {isLoggedin ? (
+            <button onClick={sendTransactionHandler}>Submit Transaction</button>
+          ) : (
+            messages.NOT_LOGGED_IN_TRANSACTION
+          )}
         </Fragment>
       )}
     </div>

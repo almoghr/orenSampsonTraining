@@ -126,7 +126,7 @@ export function* sendTransactionHandler({ payload }) {
 
     const token = localStorage.getItem(TOKEN_NAME);
     if (!token) {
-      throw new Error(messages.NOT_LOGGED_IN);
+      throw new Error(messages.NOT_LOGGED_IN_TRANSACTION);
     }
 
     yield call(requestsendTransaction, payload, token);
