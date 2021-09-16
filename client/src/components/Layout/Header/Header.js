@@ -19,6 +19,9 @@ const Header = () => {
           <li>
             <NavLink to="/cart">Cart</NavLink>
           </li>
+          <li>
+            <NavLink to="/transactions">Transactions</NavLink>
+          </li>
         </ul>
       </nav>
     </header>

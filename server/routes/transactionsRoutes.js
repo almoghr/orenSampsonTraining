@@ -8,8 +8,11 @@ const getDiscountController = require("../controllers/transactions/getDiscountCo
 
 router.post("/addtransaction", authMiddleware, addTransactionController);
 
-router.get("/transactionshistory", transactionsHistoryController);
-// router.get("/transactionshistory", authMiddleware, transactionsHistoryController);
+router.get(
+  "/transactionshistory",
+  authMiddleware,
+  transactionsHistoryController
+);
 
 router.get("/getdiscounts", getDiscountController);
 

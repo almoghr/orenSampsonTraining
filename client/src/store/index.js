@@ -10,6 +10,7 @@ import categoriesReducers from "./categories/reducers";
 import paginationReducers from "./pagination/reducers";
 import productsReducers from "./products/reducers";
 import loadingAndErrorReducers from "./loadingAndError/reducers";
+import transactionsReducers from "./transactions/reducers";
 
 export const history = createBrowserHistory();
 
@@ -22,6 +23,7 @@ const createRootReducer = (history) =>
     paginationReducers,
     productsReducers,
     loadingAndErrorReducers,
+    transactionsReducers,
   });
 
 export default function configureStore(preloadedState) {

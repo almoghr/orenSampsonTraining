@@ -17,7 +17,7 @@ export function* getProductsHandler({ payload }) {
 
     const { data } = yield call(requestGetProducts, payload);
 
-    if (!data) {
+    if (!data?.length) {
       throw new Error(PRODUCTS_ARRAY_EMPTY);
     }
 

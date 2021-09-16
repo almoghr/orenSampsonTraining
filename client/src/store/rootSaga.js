@@ -15,6 +15,9 @@ import * as productsSagas from "./products/sagas";
 import * as startupTypes from "./startup/types";
 import * as startupSagas from "./startup/sagas";
 
+import * as transactionsTypes from "./transactions/types";
+import * as transactionsSagas from "./transactions/sagas";
+
 export function* watcherSaga() {
   //AUTH////////////////////////////////////////////////////////////////////////////////////
   yield takeLatest(
@@ -79,4 +82,9 @@ export function* watcherSaga() {
   );
   //STARTUP/////////////////////////////////////////////////////////////////////////////////
   yield takeLatest(startupTypes.STARTUP, startupSagas.startupHandler);
+  //TRANSACTIONS////////////////////////////////////////////////////////////////////////////
+  yield takeLatest(
+    transactionsTypes.TRANSACTIONS_GET_TRANSACTIONS,
+    transactionsSagas.getTransactionsHandler
+  );
 }

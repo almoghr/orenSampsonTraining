@@ -1,18 +1,20 @@
 import axios from "axios";
 
+import { AUTH_HEADER_NAME } from "../store/constants/auth";
 import { API_CALL_FAILED } from "../store/constants/messages";
 
-export const requestGetProducts = async (payload) => {
+export const requestGetTransactions = async (token) => {
   let fetchedData;
   try {
-    const config = {
-      headers: {
-        category: payload,
-      },
+    const headers = {
+      [AUTH_HEADER_NAME]: `Bearer ${token}`,
     };
+
     fetchedData = await axios.get(
-      "http://localhost:8080/api/products/getproducts",
-      config
+      "http://localhost:8080/api/transactions/transactionshistory",
+      {
+        headers,
+      }
     );
 
     if (!fetchedData) {

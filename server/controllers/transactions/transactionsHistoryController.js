@@ -6,13 +6,12 @@ const {
 } = require("../../constants/responses");
 
 module.exports = async (req, res, next) => {
-  // if (!res.locals.isAuth) {
-  //   return res
-  //     .status(userNotLoggedIn.status)
-  //     .json({ message: userNotLoggedIn.message });
-  // }
-  // const userID = res.locals.payload.sub;
-  const userID = "610ee02761c8dd4bd0bf9254";
+  if (!res.locals.isAuth) {
+    return res
+      .status(userNotLoggedIn.status)
+      .json({ message: userNotLoggedIn.message });
+  }
+  const userID = res.locals.payload.sub;
 
   let transactions;
   try {
@@ -40,5 +39,5 @@ module.exports = async (req, res, next) => {
       .json({ message: serverError.message });
   }
 
-  return res.status(successfulResponse.status).json({ transactions });
+  return res.status(successfulResponse.status).json(transactions);
 };

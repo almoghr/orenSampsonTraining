@@ -6,7 +6,7 @@ import { ALL_PRODUCTS } from "../../constants/products";
 function AllProductsViewer() {
   return (
     <Fragment>
-      <ProductsManager category={ALL_PRODUCTS}></ProductsManager>
+      <ProductsManager category={ALL_PRODUCTS} />
     </Fragment>
   );
 }

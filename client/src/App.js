@@ -22,6 +22,10 @@ const AuthPage = React.lazy(() => import("./pages/AuthPage/AuthPage"));
 
 const CartPage = React.lazy(() => import("./pages/Cart/CartPage"));
 
+const TransactionsPage = React.lazy(() =>
+  import("./pages/TransactionsPage/TransactionsPage")
+);
+
 const App = () => {
   const dispatch = useDispatch();
 
@@ -46,6 +50,9 @@ const App = () => {
               </Route>
               <Route path="/cart">
                 <CartPage />
+              </Route>
+              <Route path="/transactions">
+                <TransactionsPage />
               </Route>
               <Route path="*">
                 <NotFoundPage />
