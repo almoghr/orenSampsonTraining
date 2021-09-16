@@ -49,3 +49,8 @@ export const cart_send_transaction_failure = (payload) => ({
   type: types.CART_SEND_TRANSACTION_FAILURE,
   payload,
 });
+
+export const cart_clear_cart = (payload) => ({
+  type: types.CART_CLEAR_CART,
+  payload,
+});

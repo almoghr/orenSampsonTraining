@@ -50,6 +50,7 @@ export function* watcherSaga() {
     cartTypes.CART_SEND_TRANSACTION_FAILURE,
     cartSagas.sendTransactionFailureHandler
   );
+  yield takeLatest(cartTypes.CART_CLEAR_CART, cartSagas.clearCartHandler);
   //CATEGORIES//////////////////////////////////////////////////////////////////////////////
   yield takeLatest(
     categoriesTypes.CATEGORIES_GET,

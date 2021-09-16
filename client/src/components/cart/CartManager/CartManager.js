@@ -43,9 +43,13 @@ function CartManager() {
     );
   };
 
+  const clearCartHandler = () => {
+    dispatch(cartActions.cart_clear_cart({ products, cartProducts }));
+  };
+
   return (
     <div>
-      {totalPriceBeforeDiscount === 0 ? (
+      {!cartProducts?.length ? (
         "Cart Is Empty"
       ) : (
         <Fragment>
@@ -55,10 +59,17 @@ function CartManager() {
             <h3>Total Price: {totalPriceBeforeDiscount}</h3>
           )}
           {isLoggedin ? (
-            <button onClick={sendTransactionHandler}>Submit Transaction</button>
+            <div>
+              <button onClick={sendTransactionHandler}>
+                Submit Transaction
+              </button>
+            </div>
           ) : (
             messages.NOT_LOGGED_IN_TRANSACTION
           )}
+          <div>
+            <button onClick={clearCartHandler}>Clear Cart</button>
+          </div>
         </Fragment>
       )}
     </div>

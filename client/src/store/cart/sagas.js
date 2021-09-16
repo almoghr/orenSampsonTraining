@@ -202,3 +202,20 @@ export function* sendTransactionFailureHandler({ payload }) {
 
   yield put(loadingAndErrorActions.loadingAndError_error_setter(payload));
 }
+
+export function* clearCartHandler({ payload: { products, cartProducts } }) {
+  try {
+    cartProducts.forEach(({ id, amount }) => {
+      const indexProduct = products.findIndex((product) => product.id === id);
+      if (indexProduct < 0) {
+        throw new Error(messages.ACTION_FAILED);
+      }
+      products[indexProduct].amount += amount;
+    });
+
+    yield put(productsActions.products_prodcuts_setter(products));
+    yield put(cartActions.cart_send_transaction_success());
+  } catch (error) {
+    toast(error.message);
+  }
+}
