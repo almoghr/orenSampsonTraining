@@ -5,6 +5,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { get_products } from "../../../store/products/actions";
 import Products from "../Products/Products";
 import Pagination from "../../Pagination/Pagination";
+import ProductsHeader from "../ProductsHeader/ProductsHeader";
 
 function ProductsManager(props) {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ function ProductsManager(props) {
 
   return (
     <div>
+      <ProductsHeader />
       <ClipLoader loading={isLoading} size={150} />
       <Products products={paginatedProducts} />
       <Pagination completeArray={products} />
