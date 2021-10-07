@@ -6,6 +6,7 @@ import OutsideClickHandler from "react-outside-click-handler";
 import SideBar from "../SideBar/SideBar";
 import Backdrop from "../Backdrop/Backdrop";
 import * as generalActions from "../../../store/general/actions";
+import { GENERAL_INITIAL_STATE } from "../../../store/general/reducers";
 import { IoStorefrontOutline } from "react-icons/io5";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -24,8 +25,16 @@ const Header = () => {
   };
 
   const closeShowSideBarHandler = () => {
-    dispatch(generalActions.general_showSideBar_setter(false));
-    dispatch(generalActions.general_showBackDrop_setter(false));
+    dispatch(
+      generalActions.general_showSideBar_setter(
+        GENERAL_INITIAL_STATE.showSideBar
+      )
+    );
+    dispatch(
+      generalActions.general_showBackDrop_setter(
+        GENERAL_INITIAL_STATE.showBackDrop
+      )
+    );
   };
 
   return (
