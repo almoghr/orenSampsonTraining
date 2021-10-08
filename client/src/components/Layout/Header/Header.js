@@ -5,11 +5,11 @@ import OutsideClickHandler from "react-outside-click-handler";
 
 import SideBar from "../SideBar/SideBar";
 import Backdrop from "../Backdrop/Backdrop";
+import MainNav from "../MainNav/MainNav";
 import * as generalActions from "../../../store/general/actions";
 import { GENERAL_INITIAL_STATE } from "../../../store/general/reducers";
 import { IoStorefrontOutline } from "react-icons/io5";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { AiOutlineShoppingCart } from "react-icons/ai";
 import styles from "./Header.module.scss";
 
 const Header = () => {
@@ -57,20 +57,7 @@ const Header = () => {
             />
           </NavLink>
         </div>
-        <AiOutlineShoppingCart className={styles.AiOutlineShoppingCart} />
-        <nav>
-          <ul>
-            <li>
-              <NavLink to="/auth">Sigup\Login</NavLink>
-            </li>
-            <li>
-              <NavLink to="/cart">Cart</NavLink>
-            </li>
-            <li>
-              <NavLink to="/transactions">Transactions</NavLink>
-            </li>
-          </ul>
-        </nav>
+        <MainNav />
       </header>
     </Fragment>
   );
