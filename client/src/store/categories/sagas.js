@@ -21,7 +21,11 @@ export function* getCategoriesHandler() {
       throw new Error(messages.CATEGORIES_ARRAY_EMPTY);
     }
 
-    data = data.map((category) => category.category);
+    data = data.map((category) => {
+      return (
+        category.category.charAt(0).toUpperCase() + category.category.slice(1)
+      );
+    });
 
     yield put(
       loadingAndError.loadingAndError_isloading_setter(
