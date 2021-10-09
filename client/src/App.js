@@ -37,28 +37,30 @@ const App = () => {
     <ConnectedRouter history={history}>
       <div className={styles.App}>
         <Layout>
-          <Suspense fallback={<ClipLoader loading={true} size={150} />}>
-            <Switch>
-              <Route exact path="/">
-                <AllProductsPage />
-              </Route>
-              <Route path="/categories/:category">
-                <CategoryProductsPage />
-              </Route>
-              <Route path="/auth">
-                <AuthPage />
-              </Route>
-              <Route path="/cart">
-                <CartPage />
-              </Route>
-              <Route path="/transactions">
-                <TransactionsPage />
-              </Route>
-              <Route path="*">
-                <NotFoundPage />
-              </Route>
-            </Switch>
-          </Suspense>
+          <main>
+            <Suspense fallback={<ClipLoader loading={true} size={150} />}>
+              <Switch>
+                <Route exact path="/">
+                  <AllProductsPage />
+                </Route>
+                <Route path="/categories/:category">
+                  <CategoryProductsPage />
+                </Route>
+                <Route path="/auth">
+                  <AuthPage />
+                </Route>
+                <Route path="/cart">
+                  <CartPage />
+                </Route>
+                <Route path="/transactions">
+                  <TransactionsPage />
+                </Route>
+                <Route path="*">
+                  <NotFoundPage />
+                </Route>
+              </Switch>
+            </Suspense>
+          </main>
         </Layout>
       </div>
     </ConnectedRouter>

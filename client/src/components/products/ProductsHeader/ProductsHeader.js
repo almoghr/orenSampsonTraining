@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -19,7 +20,9 @@ function ProductsHeader() {
 
         return (
           <li key={index}>
-            <NavLink to={to}>{category}</NavLink>
+            <NavLink className={styles["ProductsHeader__item"]} to={to}>
+              {category}
+            </NavLink>
           </li>
         );
       })
@@ -28,12 +31,12 @@ function ProductsHeader() {
   NavigationLinks = !isLoading && NavigationLinks;
 
   return (
-    <header>
+    <Fragment>
       <ClipLoader loading={isLoading} size={150} />
-      <nav>
-        <ul className={styles.ProductsHeader}>{NavigationLinks}</ul>
+      <nav className={styles["ProductsHeader"]}>
+        <ul>{NavigationLinks}</ul>
       </nav>
-    </header>
+    </Fragment>
   );
 }
 

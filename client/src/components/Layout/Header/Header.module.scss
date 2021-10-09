@@ -30,8 +30,9 @@
 .main-header__brand {
   vertical-align: middle;
   color: #0e4f1f;
-}
 
-.AiOutlineShoppingCart:hover {
-  background: #6589a0;
+  &:hover,
+  &:active {
+    color: white;
+  }
 }
