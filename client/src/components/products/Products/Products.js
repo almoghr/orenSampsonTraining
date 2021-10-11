@@ -4,6 +4,7 @@ import Product from "../Product/Product";
 const Products = ({ products }) => {
   const RenderProducts = products?.map((product) => (
     <Product
+      className={styles["Product"]}
       id={product.id}
       title={product.title}
       description={product.description}
@@ -15,7 +16,7 @@ const Products = ({ products }) => {
     />
   ));
 
-  return <div className={styles.Products}>{RenderProducts}</div>;
+  return <div className={styles["Products"]}>{RenderProducts}</div>;
 };
 
 export default Products;

@@ -1,17 +1,49 @@
 .Product {
   background: #e85d04;
+  width: 10rem;
+  height: 30rem;
+  margin: 1%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   border-radius: 5px;
-  width: 15%;
-  padding-left: 1%;
-  margin: 2%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  }
 }
 
-.Product img {
-  height: 100px;
-  width: 100px;
+.Product-picture {
+  width: 100%;
+  height: 10rem;
 }
 
-.Product:hover {
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+.Product-details {
+  padding: 0 0.3rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.Product-details__title {
+  font-weight: bold;
+}
+
+.Product-details__amount {
+  &::after {
+    content: " left in stock";
+  }
+}
+
+.Product-details__price {
+  &::before {
+    content: "$";
+  }
+}
+
+.Product-button {
+  color: white;
+  background: darkcyan;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
 }

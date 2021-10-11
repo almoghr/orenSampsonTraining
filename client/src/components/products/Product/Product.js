@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import * as cartActions from "../../../store/cart/actions";
 import styles from "./Product.module.scss";
 
+const charCount = 50;
+
 const Product = ({
   id,
   title,
@@ -33,15 +35,23 @@ const Product = ({
     );
   };
 
+  const shortTitle =
+    title.slice(0, charCount) + (title.length > charCount ? "..." : "");
+
   return (
-    <div className={styles.Product}>
-      <p>Title: {title}</p>
-      <p>Description: {description}</p>
-      <p>Category: {category}</p>
-      <p>Amount: {amount}</p>
-      <p>Price: {price}</p>
-      <img src={image} alt="product" />
-      <button onClick={addTocartHandler}>Add to cart</button>
+    <div className={styles["Product"]}>
+      <div>
+        <img className={styles["Product-picture"]} src={image} alt="product" />
+        <div className={styles["Product-details"]}>
+          <p className={styles["Product-details__title"]}>{shortTitle}</p>
+          <p>{category}</p>
+          <p className={styles["Product-details__amount"]}>{amount}</p>
+          <p className={styles["Product-details__price"]}>{price}</p>
+        </div>
+      </div>
+      <button className={styles["Product-button"]} onClick={addTocartHandler}>
+        Add to cart
+      </button>
     </div>
   );
 };
