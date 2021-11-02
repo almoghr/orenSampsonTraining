@@ -28,7 +28,7 @@ const initProductsSeeder = () => {
           price: product.price,
           description: product.description,
           category: product.category,
-          amount: randomNumber(1, 10),
+          amount: randomNumber(5, 15),
           image: product.image,
         });
 

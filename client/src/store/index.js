@@ -1,28 +1,45 @@
-import { combineReducers, createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, compose, combineReducers } from "redux";
+import { createBrowserHistory } from "history";
+import { connectRouter, routerMiddleware } from "connected-react-router";
 import createSagaMiddleware from "redux-saga";
-import { composeWithDevTools } from "redux-devtools-extension";
 
-import productsReducers from "./reducers/productsReducers";
-import paginationReducers from "./reducers/paginationReducers";
-import categoriesReducers from "./reducers/categoriesReducers";
 import { watcherSaga } from "./rootSaga";
+import authReducers from "./auth/reducers";
+import cartReducers from "./cart/reducers";
+import categoriesReducers from "./categories/reducers";
+import paginationReducers from "./pagination/reducers";
+import productsReducers from "./products/reducers";
+import loadingAndErrorReducers from "./loadingAndError/reducers";
+import transactionsReducers from "./transactions/reducers";
+import generalReducers from "./general/reducers";
 
-const reducers = combineReducers({
-  productsReducers,
-  paginationReducers,
-  categoriesReducers,
-});
+export const history = createBrowserHistory();
 
-const sagaMiddleware = createSagaMiddleware();
+const createRootReducer = (history) =>
+  combineReducers({
+    router: connectRouter(history),
+    authReducers,
+    cartReducers,
+    categoriesReducers,
+    paginationReducers,
+    productsReducers,
+    loadingAndErrorReducers,
+    transactionsReducers,
+    generalReducers,
+  });
 
-const middleware = [sagaMiddleware];
+export default function configureStore(preloadedState) {
+  const composeEnhancer =
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const sagaMiddleware = createSagaMiddleware();
+  const middlewares = [routerMiddleware(history), sagaMiddleware];
+  const store = createStore(
+    createRootReducer(history),
+    preloadedState,
+    composeEnhancer(applyMiddleware(...middlewares))
+  );
 
-const store = createStore(
-  reducers,
-  {},
-  composeWithDevTools(applyMiddleware(...middleware))
-);
+  sagaMiddleware.run(watcherSaga);
 
-sagaMiddleware.run(watcherSaga);
-
-export default store;
+  return store;
+}
