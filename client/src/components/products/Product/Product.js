@@ -38,6 +38,13 @@ const Product = ({
   const shortTitle =
     title.slice(0, charCount) + (title.length > charCount ? "..." : "");
 
+  const dollarUSLocale = Intl.NumberFormat("en-US");
+
+  const priceObj = {
+    whole: dollarUSLocale.format(Math.floor(price)),
+    remainder: Math.floor((price - Math.floor(price)) * 100) || "00",
+  };
+
   return (
     <div className={styles["Product"]}>
       <div>
@@ -46,7 +53,14 @@ const Product = ({
           <p className={styles["Product-details__title"]}>{shortTitle}</p>
           <p>{category}</p>
           <p className={styles["Product-details__amount"]}>{amount}</p>
-          <p className={styles["Product-details__price"]}>{price}</p>
+          <p className={styles["Product-details__price"]}>
+            <span>
+              {priceObj.whole}
+              <small>
+                <sup>{priceObj.remainder}</sup>
+              </small>
+            </span>
+          </p>
         </div>
       </div>
       <button className={styles["Product-button"]} onClick={addTocartHandler}>
