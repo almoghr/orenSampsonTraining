@@ -5,6 +5,11 @@ export const categories_categories_setter = (payload) => ({
   payload,
 });
 
+export const categories_isloading_setter = (payload) => ({
+  type: types.CATEGORIES_ISLOADING_SETTER,
+  payload,
+});
+
 export const get_categories = () => ({
   type: types.CATEGORIES_GET,
 });

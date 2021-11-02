@@ -6,9 +6,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import styles from "./ProductsHeader.module.scss";
 
 function ProductsHeader() {
-  const isLoading = useSelector(
-    (state) => state.loadingAndErrorReducers.isLoading
-  );
+  const isLoading = useSelector((state) => state.categoriesReducers.isLoading);
 
   const categories = useSelector(
     (state) => state.categoriesReducers.categories

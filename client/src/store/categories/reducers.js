@@ -4,6 +4,7 @@ import * as types from "./types";
 
 export const CATEGORIES_INITIAL_STATE = {
   categories: [],
+  isLoading: false,
 };
 
 const reducer = (state = clone(CATEGORIES_INITIAL_STATE), action) => {
@@ -12,6 +13,11 @@ const reducer = (state = clone(CATEGORIES_INITIAL_STATE), action) => {
       return {
         ...state,
         categories: clone(action.payload),
+      };
+    case types.CATEGORIES_ISLOADING_SETTER:
+      return {
+        ...state,
+        isLoading: action.payload,
       };
 
     default:

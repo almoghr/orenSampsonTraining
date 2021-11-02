@@ -2,16 +2,15 @@ import { call, put } from "redux-saga/effects";
 import { toast } from "react-toastify";
 
 import * as categoriesActions from "./actions";
-import * as loadingAndError from "../loadingAndError/actions";
-import { LOADINGANDERROR_INITIAL_STATE } from "../loadingAndError/reducers";
+import { CATEGORIES_INITIAL_STATE } from "./reducers";
 import { requestGetCategories } from "../../api/categoriesAPI";
 import * as messages from "../constants/messages";
 
 export function* getCategoriesHandler() {
   try {
     yield put(
-      loadingAndError.loadingAndError_isloading_setter(
-        !LOADINGANDERROR_INITIAL_STATE.isLoading
+      categoriesActions.categories_isloading_setter(
+        !CATEGORIES_INITIAL_STATE.isLoading
       )
     );
 
@@ -26,12 +25,6 @@ export function* getCategoriesHandler() {
         category.category.charAt(0).toUpperCase() + category.category.slice(1)
       );
     });
-
-    yield put(
-      loadingAndError.loadingAndError_isloading_setter(
-        LOADINGANDERROR_INITIAL_STATE.isLoading
-      )
-    );
 
     yield put(categoriesActions.get_categories_success(data));
   } catch (error) {
@@ -48,12 +41,12 @@ export function* getCategoriesSuccessHandler({ payload }) {
   yield put(categoriesActions.categories_categories_setter(payload));
 
   yield put(
-    loadingAndError.loadingAndError_error_setter(
-      LOADINGANDERROR_INITIAL_STATE.error
+    categoriesActions.categories_isloading_setter(
+      CATEGORIES_INITIAL_STATE.isLoading
     )
   );
 }
 
 export function* getCategoriesfailureHandler({ payload }) {
-  yield put(loadingAndError.loadingAndError_error_setter(payload));
+  yield put(categoriesActions.categories_isloading_setter(payload));
 }
