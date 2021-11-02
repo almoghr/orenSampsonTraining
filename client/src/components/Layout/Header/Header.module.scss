@@ -1,0 +1,38 @@
+@mixin media-min-width($width) {
+  @media (min-width: $width) {
+    @content;
+  }
+}
+
+.main-header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #2ddf5c;
+  padding: 0.5rem 1rem;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.main-header__burger {
+  vertical-align: middle;
+  color: #0e4f1f;
+
+  @include media-min-width(40rem) {
+    display: none;
+  }
+}
+
+.main-header__brand {
+  vertical-align: middle;
+  color: #0e4f1f;
+
+  &:hover,
+  &:active {
+    color: white;
+  }
+}

@@ -1,36 +1,34 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 
-import { PRODUCTS_PER_PAGE } from "../../constants/productsManager";
+import { PRODUCTS_PER_PAGE } from "../../redux-toolkit/constants/productsManager";
 
 const backButtonName = "< Back";
 const nextButtonName = "Next >";
 
-function Pagination({ props }) {
+function Pagination({ products, setSlicedFunc }) {
+  const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(false);
 
-  const products = props.products;
-  const setSlicedFunc = props.setSlicedFunc;
-
   useEffect(() => {
-    if (
-      (currentPage - 1) * PRODUCTS_PER_PAGE < products.length &&
-      currentPage * PRODUCTS_PER_PAGE >= products.length
-    ) {
+    const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
+    const endIndex = currentPage * PRODUCTS_PER_PAGE;
+
+    if (startIndex < products.length && endIndex >= products.length) {
       setLastPage(true);
     } else {
       setLastPage(false);
     }
 
-    const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
-    const endIndex = currentPage * PRODUCTS_PER_PAGE;
-    setSlicedFunc(products.slice(startIndex, endIndex));
-  }, [currentPage, products]);
+    dispatch(setSlicedFunc(products.slice(startIndex, endIndex)));
+  }, [currentPage, products, setSlicedFunc, dispatch]);
 
   const changePage = (method, amount) => {
     switch (method) {
       case "INCREMENT":
         const endIndex = (currentPage + amount) * PRODUCTS_PER_PAGE;
+
         if (endIndex > products.length + 1) {
           return;
         }
@@ -56,19 +54,24 @@ function Pagination({ props }) {
     changePage("DECREMENT", 1);
   };
 
-  const backButton =
-    currentPage === 1 ? null : (
+  const BackButton =
+    currentPage === 1 ? (
+      ""
+    ) : (
       <button onClick={decrementPageHandler}>{backButtonName}</button>
     );
-  const forwardButton = lastPage ? null : (
+
+  const ForwardButton = lastPage ? (
+    ""
+  ) : (
     <button onClick={incementPageHandler}>{nextButtonName}</button>
   );
 
   return (
     <div>
-      {backButton}
+      {BackButton}
       <span>current page: {currentPage}</span>
-      {forwardButton}
+      {ForwardButton}
     </div>
   );
 }
