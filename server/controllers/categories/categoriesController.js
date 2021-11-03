@@ -1,6 +1,6 @@
-const Category = require("../models/category");
+const Category = require("../../models/category");
 
-const { successfulResponse } = require("../constants/responses");
+const { successfulResponse } = require("../../constants/responses");
 
 exports.getCategories = async (req, res, next) => {
   let categoriesArr;

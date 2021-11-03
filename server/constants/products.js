@@ -1,1 +1,2 @@
-exports.ALL_PRODUCTS = "all_products";
+exports.ALL_PRODUCTS = "ALL_PRODUCTS";
+exports.PRODUCTS_PER_PAGE = 5;
