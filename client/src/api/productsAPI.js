@@ -7,7 +7,8 @@ export const requestGetProducts = async (payload) => {
   try {
     const config = {
       headers: {
-        category: payload,
+        category: payload.category,
+        page: payload.page,
       },
     };
     fetchedData = await axios.get(

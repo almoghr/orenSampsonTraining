@@ -5,7 +5,7 @@ const { successfulResponse } = require("../../constants/responses");
 
 exports.getProdcuts = async (req, res, next) => {
   const category = req.get("category");
-  const page = Math.max(1, req.get("page"));
+  let page = Math.max(1, req.get("page"));
 
   let productsArr, DocumentsAmount;
   try {
@@ -29,6 +29,10 @@ exports.getProdcuts = async (req, res, next) => {
     }
   } catch (error) {
     console.log(`error`, error);
+  }
+
+  if (!productsArr.length) {
+    page = 1;
   }
 
   const totalPages =

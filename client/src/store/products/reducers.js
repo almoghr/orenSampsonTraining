@@ -1,9 +1,11 @@
 import clone from "lodash.clonedeep";
 
 import * as types from "./types";
+import { ALL_PRODUCTS } from "../../constants/products";
 
 const PRODUCTS_INITIAL_STATE = {
   products: [],
+  category: ALL_PRODUCTS,
 };
 
 const reducer = (state = clone(PRODUCTS_INITIAL_STATE), action) => {
@@ -12,6 +14,12 @@ const reducer = (state = clone(PRODUCTS_INITIAL_STATE), action) => {
       return {
         ...state,
         products: clone(action.payload),
+      };
+
+    case types.PRODUCTS_CATEGORY_SETTER:
+      return {
+        ...state,
+        category: action.payload,
       };
 
     case types.PRODUCTS_RESET_STATE:

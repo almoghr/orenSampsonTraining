@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 
 import * as productsActions from "./actions";
 import * as loadingAndErrorActions from "../loadingAndError/actions";
+import * as paginationActions from "../pagination/actions";
 import { LOADINGANDERROR_INITIAL_STATE } from "../loadingAndError/reducers";
 import { requestGetProducts } from "../../api/productsAPI";
 import { PRODUCTS_ARRAY_EMPTY } from "../constants/messages";
@@ -17,11 +18,11 @@ export function* getProductsHandler({ payload }) {
 
     const { data } = yield call(requestGetProducts, payload);
 
-    if (!data?.length) {
+    if (!data?.productsArr.length) {
       throw new Error(PRODUCTS_ARRAY_EMPTY);
     }
 
-    const productsArr = data.map((product) => ({
+    const productsArr = data.productsArr.map((product) => ({
       id: product._id,
       title: product.title,
       price: product.price,
@@ -37,7 +38,13 @@ export function* getProductsHandler({ payload }) {
       )
     );
 
-    yield put(productsActions.get_prodcuts_success(productsArr));
+    const payloadSuccess = {
+      productsArr,
+      totalPages: data.totalPages,
+      page: data.page,
+    };
+
+    yield put(productsActions.get_prodcuts_success(payloadSuccess));
   } catch (error) {
     yield put(productsActions.get_prodcuts_failure(error.message));
     toast(error.message);
@@ -45,7 +52,14 @@ export function* getProductsHandler({ payload }) {
 }
 
 export function* getProductsSuccessHandler({ payload }) {
-  yield put(productsActions.products_prodcuts_setter(payload));
+  yield put(productsActions.products_prodcuts_setter(payload.productsArr));
+
+  yield put(
+    paginationActions.new_state_pagination({
+      totalPages: payload.totalPages,
+      page: payload.page,
+    })
+  );
 
   yield put(
     loadingAndErrorActions.loadingAndError_error_setter(

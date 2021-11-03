@@ -1,56 +1,34 @@
-import { useEffect, Fragment } from "react";
+import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  decrement_pagination,
-  increment_pagination,
-  new_state_pagination,
-  reset_state_pagination,
-} from "../../store/pagination/actions";
+import { get_products } from "../../store/products/actions";
 
 const backButtonName = "< Back";
 const nextButtonName = "Next >";
 
 function Pagination({ completeArray }) {
   const dispatch = useDispatch();
+
   const currentPage = useSelector(
     (state) => state.paginationReducers.currentPage
   );
+
   const isLastPage = useSelector(
     (state) => state.paginationReducers.isLastPage
   );
+
   const totalPages = useSelector(
     (state) => state.paginationReducers.totalPages
   );
 
-  useEffect(() => {
-    dispatch(new_state_pagination({ completeArray }));
-
-    return () => {
-      dispatch(reset_state_pagination());
-    };
-  }, [completeArray, dispatch]);
-
-  const changePage = (method, amount) => {
-    switch (method) {
-      case "INCREMENT":
-        dispatch(increment_pagination({ completeArray, amount, currentPage }));
-        break;
-
-      case "DECREMENT":
-        dispatch(decrement_pagination({ completeArray, amount, currentPage }));
-        break;
-
-      default:
-        console.log(`selected method error`);
-    }
-  };
+  const category = useSelector((state) => state.productsReducers.category);
 
   const incementPageHandler = () => {
-    changePage("INCREMENT", 1);
+    dispatch(get_products({ category, page: currentPage + 1 }));
   };
+
   const decrementPageHandler = () => {
-    changePage("DECREMENT", 1);
+    dispatch(get_products({ category, page: currentPage - 1 }));
   };
 
   const BackButton = currentPage !== 1 && (

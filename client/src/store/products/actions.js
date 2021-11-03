@@ -5,6 +5,11 @@ export const products_prodcuts_setter = (payload) => ({
   payload,
 });
 
+export const products_category_setter = (payload) => ({
+  type: types.PRODUCTS_CATEGORY_SETTER,
+  payload,
+});
+
 export const get_products = (payload) => ({
   type: types.PRODUCTS_GET,
   payload,
