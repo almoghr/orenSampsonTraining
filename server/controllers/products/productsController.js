@@ -5,7 +5,7 @@ const { successfulResponse } = require("../../constants/responses");
 
 exports.getProdcuts = async (req, res, next) => {
   const category = req.get("category");
-  const page = Math.max(0, req.get("page"));
+  const page = Math.max(1, req.get("page"));
 
   let productsArr, DocumentsAmount;
   try {
@@ -20,7 +20,7 @@ exports.getProdcuts = async (req, res, next) => {
     productsArr = await Product.find(
       category === ALL_PRODUCTS ? {} : { category }
     )
-      .skip(PRODUCTS_PER_PAGE * page)
+      .skip(PRODUCTS_PER_PAGE * (page - 1))
       .limit(PRODUCTS_PER_PAGE)
       .lean();
 
