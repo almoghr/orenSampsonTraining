@@ -1,47 +1,41 @@
 import { Fragment } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
-import { get_products } from "../../store/products/actions";
+import { useDispatch } from "react-redux";
 
 const backButtonName = "< Back";
 const nextButtonName = "Next >";
 
-function Pagination({ completeArray }) {
+function Pagination(props) {
   const dispatch = useDispatch();
 
-  const currentPage = useSelector(
-    (state) => state.paginationReducers.currentPage
-  );
-
-  const isLastPage = useSelector(
-    (state) => state.paginationReducers.isLastPage
-  );
-
-  const totalPages = useSelector(
-    (state) => state.paginationReducers.totalPages
-  );
-
-  const category = useSelector((state) => state.productsReducers.category);
-
   const incementPageHandler = () => {
-    dispatch(get_products({ category, page: currentPage + 1 }));
+    dispatch(
+      props.get_products({
+        category: props.category,
+        page: props.currentPage + 1,
+      })
+    );
   };
 
   const decrementPageHandler = () => {
-    dispatch(get_products({ category, page: currentPage - 1 }));
+    dispatch(
+      props.get_products({
+        category: props.category,
+        page: props.currentPage - 1,
+      })
+    );
   };
 
-  const BackButton = currentPage !== 1 && (
+  const BackButton = props.currentPage !== 1 && (
     <button onClick={decrementPageHandler}>{backButtonName}</button>
   );
-  const ForwardButton = !isLastPage && (
+  const ForwardButton = !props.isLastPage && (
     <button onClick={incementPageHandler}>{nextButtonName}</button>
   );
 
-  const Content = !!(completeArray?.length !== 0) && (
+  const Content = !!(props.completeArray?.length !== 0) && (
     <div>
       {BackButton}
-      <span>{`${currentPage} of ${totalPages}`}</span>
+      <span>{`${props.currentPage} of ${props.totalPages}`}</span>
       {ForwardButton}
     </div>
   );
