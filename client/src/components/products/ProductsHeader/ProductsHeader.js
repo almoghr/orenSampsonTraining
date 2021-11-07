@@ -19,7 +19,7 @@ function ProductsHeader() {
         return (
           <li key={index}>
             <NavLink className={styles["ProductsHeader__item"]} to={to}>
-              {category}
+              {category.charAt(0).toUpperCase() + category.slice(1)}
             </NavLink>
           </li>
         );

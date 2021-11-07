@@ -21,9 +21,7 @@ export function* getCategoriesHandler() {
     }
 
     data = data.map((category) => {
-      return (
-        category.category.charAt(0).toUpperCase() + category.category.slice(1)
-      );
+      return category.category;
     });
 
     yield put(categoriesActions.get_categories_success(data));
