@@ -4,6 +4,7 @@ import * as types from "./types";
 
 export const AUTH_INITIAL_STATE = {
   isLoggedin: false,
+  loggedUserEmail: "",
 };
 
 const reducer = (state = clone(AUTH_INITIAL_STATE), action) => {
@@ -12,6 +13,12 @@ const reducer = (state = clone(AUTH_INITIAL_STATE), action) => {
       return {
         ...state,
         isLoggedin: action.payload,
+      };
+
+    case types.AUTH_LOGGEDUSEREMAIL_SETTER:
+      return {
+        ...state,
+        loggedUserEmail: action.payload,
       };
 
     case types.AUTH_RESET_STATE:

@@ -2,7 +2,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 import { API_CALL_FAILED } from "../store/constants/messages";
-import { TOKEN_NAME } from "../store/constants/auth";
 
 export const requestAuth = async (payload) => {
   let response;
@@ -24,7 +23,7 @@ export const requestAuth = async (payload) => {
 
       const { token } = response.data;
 
-      localStorage.setItem(TOKEN_NAME, token);
+      return { token, email: payload.email };
     }
 
     toast(response?.data?.message);
