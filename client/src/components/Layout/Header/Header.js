@@ -19,6 +19,10 @@ const Header = () => {
     (state) => state.generalReducers.showBackDrop
   );
 
+  const loggedInEmail = useSelector(
+    (state) => state.authReducers.loggedUserEmail
+  );
+
   const switchShowSideBarHandler = () => {
     dispatch(generalActions.general_showSideBar_setter(!showSideBar));
     dispatch(generalActions.general_showBackDrop_setter(!showBackDrop));
@@ -56,6 +60,9 @@ const Header = () => {
               size={40}
             />
           </NavLink>
+          <span>
+            {loggedInEmail ? `logged in as: ${loggedInEmail}` : "logged out"}
+          </span>
         </div>
         <MainNav />
       </header>
