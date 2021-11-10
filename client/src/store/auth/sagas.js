@@ -1,35 +1,29 @@
 import { call, put } from "redux-saga/effects";
 import { push } from "connected-react-router";
-import { toast } from "react-toastify";
 
 import * as authActions from "./actions";
-import * as loadingAndErrorActions from "../loadingAndError/actions";
+import * as loadingActions from "../loading/actions";
+import * as messageQueueActions from "../messageQueue/actions";
 import { requestAuth } from "../../api/authAPI";
 import { TOKEN_NAME, LOGGED_USER_EMAIL } from "../constants/auth";
 import { AUTH_INITIAL_STATE } from "./reducers";
-import { LOADINGANDERROR_INITIAL_STATE } from "../loadingAndError/reducers";
+import { LOADING_INITIAL_STATE } from "../loading/reducers";
 
 export function* authLoginSignupHandler({ payload }) {
   try {
     yield put(
-      loadingAndErrorActions.loadingAndError_isloading_setter(
-        !LOADINGANDERROR_INITIAL_STATE.isLoading
-      )
+      loadingActions.loading_isloading_setter(!LOADING_INITIAL_STATE.isLoading)
     );
 
     const authObj = yield call(requestAuth, payload);
 
     if (payload.isLoginMode) {
       yield put(authActions.auth_login_success(authObj));
-
-      yield put(push("/"));
     } else {
       yield put(authActions.auth_signup_success());
     }
   } catch (error) {
     yield put(authActions.auth_failure(error.message));
-
-    toast(error.message);
   }
 }
 
@@ -41,6 +35,13 @@ export function* authLogoutHandler() {
     authActions.auth_loggedUserEmail_setter(AUTH_INITIAL_STATE.loggedUserEmail)
   );
   yield put(authActions.auth_isLoggedin_setter(AUTH_INITIAL_STATE.isLoggedin));
+
+  yield put(
+    messageQueueActions.messagequeue_addMessage({
+      type: "success",
+      content: "Logout successful",
+    })
+  );
 }
 
 export function* checkIfLoggedIn() {
@@ -60,35 +61,41 @@ export function* authLoginSuccessHandler(payload) {
   yield put(authActions.auth_isLoggedin_setter(!AUTH_INITIAL_STATE.isLoggedin));
 
   yield put(
-    loadingAndErrorActions.loadingAndError_isloading_setter(
-      LOADINGANDERROR_INITIAL_STATE.isLoading
-    )
+    loadingActions.loading_isloading_setter(LOADING_INITIAL_STATE.isLoading)
   );
+
+  yield put(push("/"));
+
   yield put(
-    loadingAndErrorActions.loadingAndError_error_setter(
-      LOADINGANDERROR_INITIAL_STATE.error
-    )
+    messageQueueActions.messagequeue_addMessage({
+      type: "success",
+      content: "Login successful",
+    })
   );
 }
 
 export function* authSignupSuccessHandler() {
   yield put(
-    loadingAndErrorActions.loadingAndError_isloading_setter(
-      LOADINGANDERROR_INITIAL_STATE.isLoading
-    )
+    loadingActions.loading_isloading_setter(LOADING_INITIAL_STATE.isLoading)
   );
+
   yield put(
-    loadingAndErrorActions.loadingAndError_error_setter(
-      LOADINGANDERROR_INITIAL_STATE.error
-    )
+    messageQueueActions.messagequeue_addMessage({
+      type: "success",
+      content: "Signup successful",
+    })
   );
 }
 
 export function* authFailureHandler({ payload }) {
   yield put(
-    loadingAndErrorActions.loadingAndError_isloading_setter(
-      LOADINGANDERROR_INITIAL_STATE.isLoading
-    )
+    loadingActions.loading_isloading_setter(LOADING_INITIAL_STATE.isLoading)
   );
-  yield put(loadingAndErrorActions.loadingAndError_error_setter(payload));
+
+  yield put(
+    messageQueueActions.messagequeue_addMessage({
+      type: "error",
+      content: payload,
+    })
+  );
 }

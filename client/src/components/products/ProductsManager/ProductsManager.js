@@ -8,9 +8,7 @@ import { get_products } from "../../../store/products/actions";
 import styles from "./ProductsManager.module.scss";
 
 function ProductsManager() {
-  const isLoading = useSelector(
-    (state) => state.loadingAndErrorReducers.isLoading
-  );
+  const isLoading = useSelector((state) => state.loadingReducers.isLoading);
 
   const currentPage = useSelector(
     (state) => state.paginationReducers.currentPage

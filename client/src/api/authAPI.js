@@ -1,5 +1,4 @@
 import axios from "axios";
-import { toast } from "react-toastify";
 
 import { API_CALL_FAILED } from "../store/constants/messages";
 
@@ -25,8 +24,6 @@ export const requestAuth = async (payload) => {
 
       return { token, email: payload.email };
     }
-
-    toast(response?.data?.message);
   } catch (error) {
     throw new Error(
       error.message || error.response?.data?.message || API_CALL_FAILED

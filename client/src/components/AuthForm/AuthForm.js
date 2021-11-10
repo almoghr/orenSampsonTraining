@@ -6,9 +6,7 @@ import * as authActions from "../../store/auth/actions";
 function AuthForm() {
   const dispatch = useDispatch();
 
-  const isLoading = useSelector(
-    (state) => state.loadingAndErrorReducers.isLoading
-  );
+  const isLoading = useSelector((state) => state.loadingReducers.isLoading);
   const isLoggedin = useSelector((state) => state.authReducers.isLoggedin);
 
   const emailInputRef = useRef();

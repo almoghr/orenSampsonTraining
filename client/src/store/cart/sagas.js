@@ -1,11 +1,11 @@
 import { call, put } from "redux-saga/effects";
-import { toast } from "react-toastify";
 
 import * as cartActions from "./actions";
-import * as loadingAndErrorActions from "../loadingAndError/actions";
+import * as loadingActions from "../loading/actions";
+import * as messageQueueActions from "../messageQueue/actions";
 import * as productsActions from "../products/actions";
 import { CART_INITIAL_STATE } from "./reducers";
-import { LOADINGANDERROR_INITIAL_STATE } from "../loadingAndError/reducers";
+import { LOADING_INITIAL_STATE } from "../loading/reducers";
 import { requestsendTransaction, requestGetDiscounts } from "../../api/cartAPI";
 import { calculator } from "./sagaHelpers";
 import * as messages from "../constants/messages";
@@ -112,16 +112,19 @@ export function* addRemoveProductHandler({
     );
     yield put(productsActions.products_prodcuts_setter(currentStateProducts));
   } catch (error) {
-    toast(error.message);
+    yield put(
+      messageQueueActions.messagequeue_addMessage({
+        type: "error",
+        content: error.message,
+      })
+    );
   }
 }
 
 export function* sendTransactionHandler({ payload }) {
   try {
     yield put(
-      loadingAndErrorActions.loadingAndError_isloading_setter(
-        !LOADINGANDERROR_INITIAL_STATE.isLoading
-      )
+      loadingActions.loading_isloading_setter(!LOADING_INITIAL_STATE.isLoading)
     );
 
     const token = localStorage.getItem(TOKEN_NAME);
@@ -130,14 +133,15 @@ export function* sendTransactionHandler({ payload }) {
     }
 
     yield call(requestsendTransaction, payload, token);
+
     yield put(cartActions.cart_send_transaction_success());
   } catch (error) {
     const err =
       error.message ||
       error.response?.data?.message ||
       messages.API_CALL_FAILED;
+
     yield put(cartActions.cart_send_transaction_failure(err));
-    toast(err);
   }
 }
 
@@ -155,7 +159,12 @@ export function* getDiscountsHandler() {
       yield put(cartActions.cart_discounts_setter(dicounts));
     }
   } catch (error) {
-    toast(error.message);
+    yield put(
+      messageQueueActions.messagequeue_addMessage({
+        type: "error",
+        content: error.message,
+      })
+    );
   }
 }
 
@@ -181,26 +190,28 @@ export function* sendTransactionSuccessHandler() {
   );
 
   yield put(
-    loadingAndErrorActions.loadingAndError_isloading_setter(
-      LOADINGANDERROR_INITIAL_STATE.isLoading
-    )
+    loadingActions.loading_isloading_setter(LOADING_INITIAL_STATE.isLoading)
   );
 
   yield put(
-    loadingAndErrorActions.loadingAndError_error_setter(
-      LOADINGANDERROR_INITIAL_STATE.error
-    )
+    messageQueueActions.messagequeue_addMessage({
+      type: "success",
+      content: "Transaction sent successfully",
+    })
   );
 }
 
 export function* sendTransactionFailureHandler({ payload }) {
   yield put(
-    loadingAndErrorActions.loadingAndError_isloading_setter(
-      LOADINGANDERROR_INITIAL_STATE.isLoading
-    )
+    loadingActions.loading_isloading_setter(LOADING_INITIAL_STATE.isLoading)
   );
 
-  yield put(loadingAndErrorActions.loadingAndError_error_setter(payload));
+  yield put(
+    messageQueueActions.messagequeue_addMessage({
+      type: "error",
+      content: payload,
+    })
+  );
 }
 
 export function* clearCartHandler({ payload: { products, cartProducts } }) {
@@ -216,6 +227,11 @@ export function* clearCartHandler({ payload: { products, cartProducts } }) {
     yield put(productsActions.products_prodcuts_setter(products));
     yield put(cartActions.cart_send_transaction_success());
   } catch (error) {
-    toast(error.message);
+    yield put(
+      messageQueueActions.messagequeue_addMessage({
+        type: "error",
+        content: "error clearing cart",
+      })
+    );
   }
 }

@@ -1,19 +1,17 @@
 import { call, put } from "redux-saga/effects";
-import { toast } from "react-toastify";
 
 import * as productsActions from "./actions";
-import * as loadingAndErrorActions from "../loadingAndError/actions";
+import * as loadingActions from "../loading/actions";
 import * as paginationActions from "../pagination/actions";
-import { LOADINGANDERROR_INITIAL_STATE } from "../loadingAndError/reducers";
+import * as messageQueueActions from "../messageQueue/actions";
+import { LOADING_INITIAL_STATE } from "../loading/reducers";
 import { requestGetProducts } from "../../api/productsAPI";
 import { PRODUCTS_ARRAY_EMPTY } from "../constants/messages";
 
 export function* getProductsHandler({ payload }) {
   try {
     yield put(
-      loadingAndErrorActions.loadingAndError_isloading_setter(
-        !LOADINGANDERROR_INITIAL_STATE.isLoading
-      )
+      loadingActions.loading_isloading_setter(!LOADING_INITIAL_STATE.isLoading)
     );
 
     const { data } = yield call(requestGetProducts, payload);
@@ -33,9 +31,7 @@ export function* getProductsHandler({ payload }) {
     }));
 
     yield put(
-      loadingAndErrorActions.loadingAndError_isloading_setter(
-        LOADINGANDERROR_INITIAL_STATE.isLoading
-      )
+      loadingActions.loading_isloading_setter(LOADING_INITIAL_STATE.isLoading)
     );
 
     const payloadSuccess = {
@@ -47,7 +43,6 @@ export function* getProductsHandler({ payload }) {
     yield put(productsActions.get_prodcuts_success(payloadSuccess));
   } catch (error) {
     yield put(productsActions.get_prodcuts_failure(error.message));
-    toast(error.message);
   }
 }
 
@@ -60,14 +55,13 @@ export function* getProductsSuccessHandler({ payload }) {
       page: payload.page,
     })
   );
-
-  yield put(
-    loadingAndErrorActions.loadingAndError_error_setter(
-      LOADINGANDERROR_INITIAL_STATE.error
-    )
-  );
 }
 
 export function* getProductsfailureHandler({ payload }) {
-  yield put(loadingAndErrorActions.loadingAndError_error_setter(payload));
+  yield put(
+    messageQueueActions.messagequeue_addMessage({
+      type: "error",
+      content: payload,
+    })
+  );
 }

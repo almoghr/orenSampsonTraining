@@ -9,7 +9,8 @@ import cartReducers from "./cart/reducers";
 import categoriesReducers from "./categories/reducers";
 import paginationReducers from "./pagination/reducers";
 import productsReducers from "./products/reducers";
-import loadingAndErrorReducers from "./loadingAndError/reducers";
+import loadingReducers from "./loading/reducers";
+import messageQueueReducers from "./messageQueue/reducers";
 import transactionsReducers from "./transactions/reducers";
 import generalReducers from "./general/reducers";
 
@@ -23,7 +24,8 @@ const createRootReducer = (history) =>
     categoriesReducers,
     paginationReducers,
     productsReducers,
-    loadingAndErrorReducers,
+    loadingReducers,
+    messageQueueReducers,
     transactionsReducers,
     generalReducers,
   });
