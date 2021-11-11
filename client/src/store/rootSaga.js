@@ -6,6 +6,7 @@ import { categoriesRootSagas } from "./categories/rootSaga";
 import { productsRootSagas } from "./products/rootSaga";
 import { startupRootSagas } from "./startup/rootSaga";
 import { transactionsRootSagas } from "./transactions/rootSaga";
+import { messageQueueRootSagas } from "./messageQueue/rootSaga";
 
 export function* watcherSaga() {
   yield all([
@@ -15,5 +16,6 @@ export function* watcherSaga() {
     ...productsRootSagas,
     ...startupRootSagas,
     ...transactionsRootSagas,
+    ...messageQueueRootSagas,
   ]);
 }

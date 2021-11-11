@@ -13,12 +13,6 @@ const reducer = (state = clone(MESSAGEQUEUE_INITIAL_STATE), action) => {
         messageQueue: clone(action.payload),
       };
 
-    case types.MESSAGEQUEUE_ADDMESSAGE:
-      return {
-        ...state,
-        messageQueue: clone([action.payload, ...state.messageQueue]),
-      };
-
     default:
       return { ...state };
   }
