@@ -46,10 +46,12 @@ export function* authLogoutHandler() {
 
 export function* checkIfLoggedIn() {
   const token = yield localStorage.getItem(TOKEN_NAME);
-  const loggedInUser = yield localStorage.getItem(LOGGED_USER_EMAIL);
+  const loggedInUserEmail = yield localStorage.getItem(LOGGED_USER_EMAIL);
 
-  if (token && loggedInUser) {
-    yield put(authActions.auth_login_success({ token, email: loggedInUser }));
+  if (token && loggedInUserEmail) {
+    yield put(
+      authActions.auth_login_success({ token, email: loggedInUserEmail })
+    );
   }
 }
 
