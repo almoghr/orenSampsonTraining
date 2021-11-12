@@ -44,10 +44,6 @@ export function* getProductsHandler({ payload }) {
       }
     }
 
-    yield put(
-      loadingActions.loading_isloading_setter(LOADING_INITIAL_STATE.isLoading)
-    );
-
     const payloadSuccess = {
       productsArr,
       totalPages: data.totalPages,
@@ -61,6 +57,10 @@ export function* getProductsHandler({ payload }) {
 }
 
 export function* getProductsSuccessHandler({ payload }) {
+  yield put(
+    loadingActions.loading_isloading_setter(LOADING_INITIAL_STATE.isLoading)
+  );
+
   yield put(productsActions.products_prodcuts_setter(payload.productsArr));
 
   yield put(
@@ -72,6 +72,10 @@ export function* getProductsSuccessHandler({ payload }) {
 }
 
 export function* getProductsfailureHandler({ payload }) {
+  yield put(
+    loadingActions.loading_isloading_setter(LOADING_INITIAL_STATE.isLoading)
+  );
+
   yield put(
     messageQueueActions.messagequeue_addMessage({
       type: "error",
