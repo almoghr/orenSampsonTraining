@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import * as cartActions from "../../../store/cart/actions";
 import styles from "./Product.module.scss";
@@ -15,20 +15,10 @@ const Product = ({
   image,
 }) => {
   const dispatch = useDispatch();
-  const currentStateProducts = useSelector(
-    (state) => state.productsReducers.products
-  );
-  const currentStateCartProducts = useSelector(
-    (state) => state.cartReducers.products
-  );
-  const discounts = useSelector((state) => state.cartReducers.discounts);
 
   const addTocartHandler = () => {
     dispatch(
       cartActions.cart_add_remove_product({
-        currentStateProducts,
-        currentStateCartProducts,
-        discounts,
         productID: id,
         amount: 1,
       })

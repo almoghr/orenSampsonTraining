@@ -1,4 +1,4 @@
-import { call, put } from "redux-saga/effects";
+import { call, put, select } from "redux-saga/effects";
 
 import * as productsActions from "./actions";
 import * as loadingActions from "../loading/actions";
@@ -8,7 +8,11 @@ import { LOADING_INITIAL_STATE } from "../loading/reducers";
 import { requestGetProducts } from "../../api/productsAPI";
 import { PRODUCTS_ARRAY_EMPTY } from "../constants/messages";
 
+export const currentCartProductsState = (state) => state.cartReducers.products;
+
 export function* getProductsHandler({ payload }) {
+  const currentStateCartProducts = yield select(currentCartProductsState);
+
   try {
     yield put(
       loadingActions.loading_isloading_setter(!LOADING_INITIAL_STATE.isLoading)
@@ -29,6 +33,16 @@ export function* getProductsHandler({ payload }) {
       amount: product.amount,
       image: product.image,
     }));
+
+    for (const cartProduct of currentStateCartProducts) {
+      const indexProduct = productsArr.findIndex((product) => {
+        return product.id === cartProduct.id;
+      });
+
+      if (indexProduct >= 0) {
+        productsArr[indexProduct].amount -= cartProduct.amount;
+      }
+    }
 
     yield put(
       loadingActions.loading_isloading_setter(LOADING_INITIAL_STATE.isLoading)

@@ -32,9 +32,8 @@ export const cart_add_remove_product = (payload) => ({
   payload,
 });
 
-export const cart_send_transaction = (payload) => ({
+export const cart_send_transaction = () => ({
   type: types.CART_SEND_TRANSACTION,
-  payload,
 });
 
 export const cart_get_discounts = () => ({
@@ -50,7 +49,6 @@ export const cart_send_transaction_failure = (payload) => ({
   payload,
 });
 
-export const cart_clear_cart = (payload) => ({
+export const cart_clear_cart = () => ({
   type: types.CART_CLEAR_CART,
-  payload,
 });

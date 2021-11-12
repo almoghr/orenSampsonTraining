@@ -8,18 +8,23 @@ import * as messages from "../../../store/constants/messages";
 
 function CartManager() {
   const dispatch = useDispatch();
+
   const cartProducts = useSelector((state) => state.cartReducers.products);
-  const discounts = useSelector((state) => state.cartReducers.discounts);
+
   const totalPriceBeforeDiscount = useSelector(
     (state) => state.cartReducers.totalPriceBeforeDiscount
   );
+
   const totalPriceAfterDiscount = useSelector(
     (state) => state.cartReducers.totalPriceAfterDiscount
   );
+
   const isDiscountApplied = useSelector(
     (state) => state.cartReducers.isDiscountApplied
   );
+
   const products = useSelector((state) => state.productsReducers.products);
+
   const isLoggedin = useSelector((state) => state.authReducers.isLoggedin);
 
   const discountAppliedRelatedElements = (
@@ -35,16 +40,11 @@ function CartManager() {
   );
 
   const sendTransactionHandler = () => {
-    dispatch(
-      cartActions.cart_send_transaction({
-        productsAndAmountArr: cartProducts,
-        discountID: isDiscountApplied ? discounts[0].id : null,
-      })
-    );
+    dispatch(cartActions.cart_send_transaction());
   };
 
   const clearCartHandler = () => {
-    dispatch(cartActions.cart_clear_cart({ products, cartProducts }));
+    dispatch(cartActions.cart_clear_cart());
   };
 
   return (

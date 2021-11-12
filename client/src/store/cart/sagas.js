@@ -1,4 +1,4 @@
-import { call, put } from "redux-saga/effects";
+import { call, put, select } from "redux-saga/effects";
 
 import * as cartActions from "./actions";
 import * as loadingActions from "../loading/actions";
@@ -11,22 +11,23 @@ import { calculator } from "./sagaHelpers";
 import * as messages from "../constants/messages";
 import { TOKEN_NAME } from "../constants/auth";
 
-export function* addRemoveProductHandler({
-  payload: {
-    currentStateProducts,
-    currentStateCartProducts,
-    discounts,
-    productID,
-    amount,
-  },
-}) {
+export const currentProductsState = (state) => state.productsReducers.products;
+export const currentCartProductsState = (state) => state.cartReducers.products;
+export const discountsState = (state) => state.cartReducers.discounts;
+const isDiscountAppliedState = (state) => state.cartReducers.isDiscountApplied;
+
+export function* addRemoveProductHandler({ payload }) {
+  const currentStateProducts = yield select(currentProductsState);
+  const currentStateCartProducts = yield select(currentCartProductsState);
+  const currentStateDiscounts = yield select(discountsState);
+
   try {
-    if (amount === 0) {
+    if (payload.amount === 0) {
       throw new Error(messages.ACTION_FAILED);
     }
 
     const indexProduct = currentStateProducts.findIndex((product) => {
-      return product.id === productID;
+      return product.id === payload.productID;
     });
 
     if (indexProduct < 0) {
@@ -34,50 +35,48 @@ export function* addRemoveProductHandler({
     }
 
     const indexCartProduct = currentStateCartProducts.findIndex(
-      (product) => product.id === productID
+      (product) => product.id === payload.productID
     );
 
     let updatedcartProductAmount;
-    if (amount > 0) {
-      //increase cart product amount
-      if (indexCartProduct < 0) {
-        updatedcartProductAmount = amount;
+
+    if (indexCartProduct < 0) {
+      if (payload.amount > 0) {
+        //increase cart product amount
+        updatedcartProductAmount = payload.amount;
       } else {
-        updatedcartProductAmount =
-          amount + currentStateCartProducts[indexCartProduct].amount;
+        //decrease cart product amount
+        throw new Error(messages.ACTION_FAILED);
       }
     } else {
-      //decrease cart product amount
-      if (indexCartProduct < 0) {
-        throw new Error(messages.ACTION_FAILED);
-      } else {
-        updatedcartProductAmount = Math.max(
-          amount + currentStateCartProducts[indexCartProduct].amount,
-          0
-        );
-      }
+      updatedcartProductAmount = Math.max(
+        payload.amount + currentStateCartProducts[indexCartProduct].amount,
+        0
+      );
     }
 
     let updatedProductAmount;
-    if (amount > 0) {
+    const currentProductAmount = currentStateProducts[indexProduct].amount;
+
+    if (payload.amount > 0) {
       //decrease product amount
-      updatedProductAmount = currentStateProducts[indexProduct].amount;
-      if (updatedProductAmount < updatedcartProductAmount) {
+      if (currentProductAmount < payload.amount) {
         throw new Error(messages.INVENTORY_EMPTY);
       } else {
-        updatedProductAmount -= amount;
+        updatedProductAmount = currentProductAmount - payload.amount;
       }
     } else {
       //increase product amount
-      updatedProductAmount += amount;
+      updatedProductAmount = currentProductAmount + payload.amount;
     }
 
-    if (amount > 0) {
+    if (payload.amount > 0) {
       if (indexCartProduct < 0) {
         const product = {
-          id: productID,
+          id: payload.productID,
           amount: updatedcartProductAmount,
         };
+
         currentStateCartProducts.push(product);
       } else {
         currentStateCartProducts[indexCartProduct].amount =
@@ -97,7 +96,7 @@ export function* addRemoveProductHandler({
     } = yield call(calculator, {
       currentStateProducts,
       currentStateCartProducts,
-      discounts,
+      currentStateDiscounts,
     });
 
     yield put(cartActions.cart_isDiscountApplied_setter(isDiscountApplied));
@@ -121,7 +120,11 @@ export function* addRemoveProductHandler({
   }
 }
 
-export function* sendTransactionHandler({ payload }) {
+export function* sendTransactionHandler() {
+  const currentStateCartProducts = yield select(currentCartProductsState);
+  const currentStateDiscounts = yield select(discountsState);
+  const currentStateIsDiscount = yield select(isDiscountAppliedState);
+
   try {
     yield put(
       loadingActions.loading_isloading_setter(!LOADING_INITIAL_STATE.isLoading)
@@ -131,6 +134,11 @@ export function* sendTransactionHandler({ payload }) {
     if (!token) {
       throw new Error(messages.NOT_LOGGED_IN_TRANSACTION);
     }
+
+    const payload = {
+      productsAndAmountArr: currentStateCartProducts,
+      discountID: currentStateIsDiscount ? currentStateDiscounts[0].id : null,
+    };
 
     yield call(requestsendTransaction, payload, token);
 
@@ -214,17 +222,8 @@ export function* sendTransactionFailureHandler({ payload }) {
   );
 }
 
-export function* clearCartHandler({ payload: { products, cartProducts } }) {
+export function* clearCartHandler() {
   try {
-    cartProducts.forEach(({ id, amount }) => {
-      const indexProduct = products.findIndex((product) => product.id === id);
-      if (indexProduct < 0) {
-        throw new Error(messages.ACTION_FAILED);
-      }
-      products[indexProduct].amount += amount;
-    });
-
-    yield put(productsActions.products_prodcuts_setter(products));
     yield put(cartActions.cart_send_transaction_success());
   } catch (error) {
     yield put(
