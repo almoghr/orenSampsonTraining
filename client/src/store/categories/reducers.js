@@ -14,6 +14,7 @@ const reducer = (state = clone(CATEGORIES_INITIAL_STATE), action) => {
         ...state,
         categories: clone(action.payload),
       };
+
     case types.CATEGORIES_ISLOADING_SETTER:
       return {
         ...state,
