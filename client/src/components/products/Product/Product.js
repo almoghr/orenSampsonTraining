@@ -13,6 +13,7 @@ const Product = ({
   price,
   amount,
   image,
+  isTransactions,
 }) => {
   const dispatch = useDispatch();
 
@@ -42,7 +43,11 @@ const Product = ({
         <div className={styles["Product-details"]}>
           <p className={styles["Product-details__title"]}>{shortTitle}</p>
           <p>{category}</p>
-          <p className={styles["Product-details__amount"]}>{amount}</p>
+          <p>
+            {isTransactions && "purchased "}
+            {amount}
+            {isTransactions ? " units" : " left in stock"}
+          </p>
           <p className={styles["Product-details__price"]}>
             <span>
               {priceObj.whole}
@@ -53,9 +58,11 @@ const Product = ({
           </p>
         </div>
       </div>
-      <button className={styles["Product-button"]} onClick={addTocartHandler}>
-        Add to cart
-      </button>
+      {!isTransactions ? (
+        <button className={styles["Product-button"]} onClick={addTocartHandler}>
+          Add to cart
+        </button>
+      ) : null}
     </div>
   );
 };

@@ -33,6 +33,26 @@ module.exports = async (req, res, next) => {
     if (!transactions) {
       throw new Error();
     }
+
+    transactions = transactions.map((transaction) => {
+      const productsAndAmound = transaction.productsAndAmount.map(
+        (productAndAmount) => ({
+          id: productAndAmount.productID._id,
+          title: productAndAmount.productID.title,
+          description: productAndAmount.productID.description,
+          category: productAndAmount.productID.category,
+          amount: productAndAmount.amount,
+          image: productAndAmount.productID.image,
+          price: productAndAmount.productID.price,
+        })
+      );
+
+      return {
+        productsAndAmound,
+        totalPrice: transaction.totalPrice,
+        createdAt: transaction.createdAt,
+      };
+    });
   } catch (error) {
     return res
       .status(serverError.status)

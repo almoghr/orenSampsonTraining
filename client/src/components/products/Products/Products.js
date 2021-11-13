@@ -1,8 +1,8 @@
 import styles from "./Products.module.scss";
 import Product from "../Product/Product";
 
-const Products = ({ products }) => {
-  const RenderProducts = products?.map((product) => (
+const Products = (props) => {
+  const RenderProducts = props.products?.map((product) => (
     <Product
       className={styles["Product"]}
       id={product.id}
@@ -12,6 +12,7 @@ const Products = ({ products }) => {
       price={product.price}
       amount={product.amount}
       image={product.image}
+      isTransactions={props.isTransactions}
       key={product.id}
     />
   ));

@@ -15,6 +15,7 @@ export function* getTransactionsHandler() {
     );
 
     const token = localStorage.getItem(TOKEN_NAME);
+
     if (!token) {
       throw new Error(messages.NOT_LOGGED_IN_TRANSACTIONS_HISTORY);
     }

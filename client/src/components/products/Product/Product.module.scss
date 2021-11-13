@@ -29,12 +29,6 @@
   font-weight: bold;
 }
 
-.Product-details__amount {
-  &::after {
-    content: " left in stock";
-  }
-}
-
 .Product-details__price {
   &::before {
     content: "$";
