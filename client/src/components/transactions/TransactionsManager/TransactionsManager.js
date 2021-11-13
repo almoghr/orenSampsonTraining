@@ -14,14 +14,24 @@ function TransactionsManager() {
 
   const isLoading = useSelector((state) => state.loadingReducers.isLoading);
 
-  const transactionsComponents = transactions.map((transaction, index) => (
-    <Transaction
-      createdAt={transaction.createdAt}
-      productsAndAmound={transaction.productsAndAmound}
-      totalPrice={transaction.totalPrice}
-      key={index}
-    />
-  ));
+  const transactionsComponents = transactions.map((transaction, index) => {
+    let currentDate = new Date(transaction.createdAt);
+    currentDate =
+      currentDate.getDate() +
+      "/" +
+      (currentDate.getMonth() + 1) +
+      "/" +
+      currentDate.getFullYear();
+
+    return (
+      <Transaction
+        createdAt={currentDate}
+        productsAndAmound={transaction.productsAndAmound}
+        totalPrice={transaction.totalPrice}
+        key={index}
+      />
+    );
+  });
 
   useEffect(() => {
     dispatch(transactionsActions.transactions_get_transactions());
