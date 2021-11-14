@@ -14,7 +14,9 @@ import styles from "./Header.module.scss";
 
 const Header = () => {
   const dispatch = useDispatch();
+
   const showSideBar = useSelector((state) => state.generalReducers.showSideBar);
+
   const showBackDrop = useSelector(
     (state) => state.generalReducers.showBackDrop
   );
@@ -43,7 +45,7 @@ const Header = () => {
 
   return (
     <Fragment>
-      <Backdrop />
+      <Backdrop showBackDrop={showBackDrop} />
       <OutsideClickHandler onOutsideClick={closeShowSideBarHandler}>
         <SideBar />
       </OutsideClickHandler>
