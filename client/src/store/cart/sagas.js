@@ -177,29 +177,7 @@ export function* getDiscountsHandler() {
 }
 
 export function* sendTransactionSuccessHandler() {
-  yield put(
-    cartActions.cart_isDiscountApplied_setter(
-      CART_INITIAL_STATE.isDiscountApplied
-    )
-  );
-
-  yield put(cartActions.cart_products_setter(CART_INITIAL_STATE.products));
-
-  yield put(
-    cartActions.cart_totalPrice_before_discount_setter(
-      CART_INITIAL_STATE.totalPriceBeforeDiscount
-    )
-  );
-
-  yield put(
-    cartActions.cart_totalPrice_after_discount_setter(
-      CART_INITIAL_STATE.totalPriceAfterDiscount
-    )
-  );
-
-  yield put(
-    loadingActions.loading_isloading_setter(LOADING_INITIAL_STATE.isLoading)
-  );
+  yield put(cartActions.cart_clear_cart());
 
   yield put(
     messageQueueActions.messagequeue_addMessage({
@@ -224,7 +202,29 @@ export function* sendTransactionFailureHandler({ payload }) {
 
 export function* clearCartHandler() {
   try {
-    yield put(cartActions.cart_send_transaction_success());
+    yield put(
+      cartActions.cart_isDiscountApplied_setter(
+        CART_INITIAL_STATE.isDiscountApplied
+      )
+    );
+
+    yield put(cartActions.cart_products_setter(CART_INITIAL_STATE.products));
+
+    yield put(
+      cartActions.cart_totalPrice_before_discount_setter(
+        CART_INITIAL_STATE.totalPriceBeforeDiscount
+      )
+    );
+
+    yield put(
+      cartActions.cart_totalPrice_after_discount_setter(
+        CART_INITIAL_STATE.totalPriceAfterDiscount
+      )
+    );
+
+    yield put(
+      loadingActions.loading_isloading_setter(LOADING_INITIAL_STATE.isLoading)
+    );
   } catch (error) {
     yield put(
       messageQueueActions.messagequeue_addMessage({

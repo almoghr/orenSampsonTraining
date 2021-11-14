@@ -4,6 +4,7 @@ import { push } from "connected-react-router";
 import * as authActions from "./actions";
 import * as loadingActions from "../loading/actions";
 import * as messageQueueActions from "../messageQueue/actions";
+import * as cartActions from "../cart/actions";
 import { requestAuth } from "../../api/authAPI";
 import { TOKEN_NAME, LOGGED_USER_EMAIL } from "../constants/auth";
 import { AUTH_INITIAL_STATE } from "./reducers";
@@ -35,6 +36,8 @@ export function* authLogoutHandler() {
     authActions.auth_loggedUserEmail_setter(AUTH_INITIAL_STATE.loggedUserEmail)
   );
   yield put(authActions.auth_isLoggedin_setter(AUTH_INITIAL_STATE.isLoggedin));
+
+  yield put(cartActions.cart_clear_cart());
 
   yield put(
     messageQueueActions.messagequeue_addMessage({
