@@ -8,6 +8,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  font-weight: bold;
 
   &:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
@@ -29,10 +30,6 @@
   flex-direction: column;
 }
 
-.Product-details__title {
-  font-weight: bold;
-}
-
 .Product-details__price {
   &::before {
     content: "$";
@@ -44,4 +41,5 @@
   background: darkcyan;
   padding: 0.5rem 1rem;
   cursor: pointer;
+  font-weight: bold;
 }
