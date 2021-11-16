@@ -1,9 +1,8 @@
 import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import ClipLoader from "react-spinners/ClipLoader";
 
 import * as cartActions from "../../../store/cart/actions";
-import CartProducts from "../CartProducts/CartProducts";
+import Products from "../../products/Products/Products";
 import * as messages from "../../../store/constants/messages";
 
 function CartManager() {
@@ -23,11 +22,9 @@ function CartManager() {
     (state) => state.cartReducers.isDiscountApplied
   );
 
-  const products = useSelector((state) => state.productsReducers.products);
-
   const isLoggedin = useSelector((state) => state.authReducers.isLoggedin);
 
-  const discountAppliedRelatedElements = (
+  const DiscountAppliedRelatedElements = (
     <Fragment>
       <h3>Discount Apllied!!</h3>
       <h3>Price Before Discount: {totalPriceBeforeDiscount}</h3>
@@ -53,8 +50,8 @@ function CartManager() {
         "Cart Is Empty"
       ) : (
         <Fragment>
-          <CartProducts products={products} cartProducts={cartProducts} />
-          {isDiscountApplied && discountAppliedRelatedElements}
+          <Products products={cartProducts} showAddToCartBtn={false} />
+          {isDiscountApplied && DiscountAppliedRelatedElements}
           {!isDiscountApplied && (
             <h3>Total Price: {totalPriceBeforeDiscount}</h3>
           )}
