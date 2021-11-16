@@ -50,7 +50,11 @@ function CartManager() {
         "Cart Is Empty"
       ) : (
         <Fragment>
-          <Products products={cartProducts} showAddToCartBtn={false} />
+          <Products
+            products={cartProducts}
+            showAddToCartBtn={false}
+            isCart={true}
+          />
           {isDiscountApplied && DiscountAppliedRelatedElements}
           {!isDiscountApplied && (
             <h3>Total Price: {totalPriceBeforeDiscount}</h3>

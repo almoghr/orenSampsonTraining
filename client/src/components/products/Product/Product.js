@@ -18,6 +18,7 @@ const Product = ({
   amount,
   image,
   showAddToCartBtn,
+  isCart,
 }) => {
   const dispatch = useDispatch();
 
@@ -46,6 +47,12 @@ const Product = ({
     whole: dollarUSLocale.format(Math.floor(price)),
     remainder: Math.floor((price - Math.floor(price)) * 100) || "00",
   };
+
+  const Amount = isCart
+    ? `${amount} added to cart`
+    : showAddToCartBtn
+    ? `${amount} left in stock`
+    : `${amount} purchased`;
 
   const openProductModalHandler = () => {
     setIsProductModalOpen(true);
@@ -85,11 +92,7 @@ const Product = ({
           <div className={styles["Product-details"]}>
             <p className={styles["Product-details__title"]}>{shortTitle}</p>
             <p>{category}</p>
-            <p>
-              {!showAddToCartBtn && "purchased "}
-              {amount}
-              {showAddToCartBtn ? " left in stock" : " units"}
-            </p>
+            <p>{Amount}</p>
             <p className={styles["Product-details__price"]}>
               <span>
                 {priceObj.whole}

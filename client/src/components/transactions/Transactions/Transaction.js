@@ -6,7 +6,11 @@ const Transaction = (props) => {
   return (
     <div>
       <div>Purchase Date: {` ${props.createdAt}`}</div>
-      <Products products={props.productsAndAmound} isTransactions={true} />
+      <Products
+        products={props.productsAndAmound}
+        isTransactions={true}
+        isCart={false}
+      />
       <div>Total Price: {props.totalPrice}</div>
     </div>
   );

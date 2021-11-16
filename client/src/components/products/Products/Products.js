@@ -13,6 +13,7 @@ const Products = (props) => {
       amount={product.amount}
       image={product.image}
       showAddToCartBtn={props.showAddToCartBtn}
+      isCart={props.isCart}
       key={product.id}
     />
   ));
