@@ -11,11 +11,13 @@ import { calculator } from "./sagaHelpers";
 import * as messages from "../constants/messages";
 import { TOKEN_NAME } from "../constants/auth";
 
-export const currentProductsState = (state) => state.productsReducers.products;
-export const currentCartProductsState = (state) => state.cartReducers.products;
-export const discountsState = (state) => state.cartReducers.discounts;
+const currentProductsState = (state) => state.productsReducers.products;
+const currentCartProductsState = (state) => state.cartReducers.products;
+const discountsState = (state) => state.cartReducers.discounts;
 const isDiscountAppliedState = (state) => state.cartReducers.isDiscountApplied;
 
+//payload.amount > 0 => increase cart product amount & decrease product amount
+//payload.amount < 0 => decrease cart product amount & increase product amount
 export function* addRemoveProductHandler({ payload }) {
   const currentStateProducts = yield select(currentProductsState);
   const currentStateCartProducts = yield select(currentCartProductsState);
@@ -27,80 +29,75 @@ export function* addRemoveProductHandler({ payload }) {
     }
 
     const indexProduct = currentStateProducts.findIndex((product) => {
-      return product.id === payload.productID;
+      return product.id === payload.id;
     });
 
     if (indexProduct < 0) {
       throw new Error(messages.ACTION_FAILED);
     }
 
+    if (
+      payload.amount > 0 &&
+      currentStateProducts[indexProduct].amount < payload.amount
+    ) {
+      throw new Error(messages.INVENTORY_EMPTY);
+    }
+
     const indexCartProduct = currentStateCartProducts.findIndex(
-      (product) => product.id === payload.productID
+      (product) => product.id === payload.id
     );
 
-    let updatedcartProductAmount;
+    if (payload.amount < 0) {
+      if (indexCartProduct < 0) {
+        throw new Error(messages.ACTION_FAILED);
+      } else if (
+        payload.amount + currentStateCartProducts[indexCartProduct].amount <
+        0
+      ) {
+        throw new Error(messages.ACTION_FAILED);
+      }
+    }
 
     if (indexCartProduct < 0) {
       if (payload.amount > 0) {
-        //increase cart product amount
-        updatedcartProductAmount = payload.amount;
-      } else {
-        //decrease cart product amount
-        throw new Error(messages.ACTION_FAILED);
-      }
-    } else {
-      updatedcartProductAmount = Math.max(
-        payload.amount + currentStateCartProducts[indexCartProduct].amount,
-        0
-      );
-    }
-
-    let updatedProductAmount;
-    const currentProductAmount = currentStateProducts[indexProduct].amount;
-
-    if (payload.amount > 0) {
-      //decrease product amount
-      if (currentProductAmount < payload.amount) {
-        throw new Error(messages.INVENTORY_EMPTY);
-      } else {
-        updatedProductAmount = currentProductAmount - payload.amount;
-      }
-    } else {
-      //increase product amount
-      updatedProductAmount = currentProductAmount + payload.amount;
-    }
-
-    if (payload.amount > 0) {
-      if (indexCartProduct < 0) {
-        const product = {
-          id: payload.productID,
-          amount: updatedcartProductAmount,
+        const cartProduct = {
+          id: payload.id,
+          title: payload.title,
+          description: payload.description,
+          category: payload.category,
+          price: payload.price,
+          image: payload.image,
+          amount: payload.amount,
         };
 
-        currentStateCartProducts.push(product);
-      } else {
-        currentStateCartProducts[indexCartProduct].amount =
-          updatedcartProductAmount;
+        currentStateCartProducts.push(cartProduct);
+
+        currentStateProducts[indexProduct].amount -= payload.amount;
       }
     } else {
-      currentStateCartProducts[indexCartProduct].amount =
-        updatedcartProductAmount;
-    }
+      currentStateCartProducts[indexCartProduct].amount += payload.amount;
 
-    currentStateProducts[indexProduct].amount = updatedProductAmount;
+      currentStateProducts[indexProduct].amount -= payload.amount;
+
+      if (
+        !(payload.amount + currentStateCartProducts[indexCartProduct].amount)
+      ) {
+        currentStateCartProducts.splice(indexCartProduct, 1);
+      }
+    }
 
     const {
       isDiscountApplied,
       totalPriceBeforeDiscount,
       totalPriceAfterDiscount,
     } = yield call(calculator, {
-      currentStateProducts,
       currentStateCartProducts,
       currentStateDiscounts,
     });
 
     yield put(cartActions.cart_isDiscountApplied_setter(isDiscountApplied));
     yield put(cartActions.cart_products_setter(currentStateCartProducts));
+    yield put(productsActions.products_prodcuts_setter(currentStateProducts));
     yield put(
       cartActions.cart_totalPrice_before_discount_setter(
         totalPriceBeforeDiscount
@@ -109,7 +106,6 @@ export function* addRemoveProductHandler({ payload }) {
     yield put(
       cartActions.cart_totalPrice_after_discount_setter(totalPriceAfterDiscount)
     );
-    yield put(productsActions.products_prodcuts_setter(currentStateProducts));
   } catch (error) {
     yield put(
       messageQueueActions.messagequeue_addMessage({
