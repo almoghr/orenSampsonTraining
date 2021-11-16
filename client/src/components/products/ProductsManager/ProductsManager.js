@@ -30,7 +30,7 @@ function ProductsManager() {
     <div className={styles["ProductsManager"]}>
       <ProductsHeader />
       <ClipLoader loading={isLoading} size={150} />
-      <Products products={products} isTransactions={false} />
+      <Products products={products} showAddToCartBtn={true} />
       <Pagination
         completeArray={products}
         currentPage={currentPage}

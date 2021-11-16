@@ -17,7 +17,7 @@ const Product = ({
   price,
   amount,
   image,
-  isTransactions,
+  showAddToCartBtn,
 }) => {
   const dispatch = useDispatch();
 
@@ -71,7 +71,7 @@ const Product = ({
               priceObj={priceObj}
               amount={amount}
               image={image}
-              isTransactions={isTransactions}
+              isTransactions={!showAddToCartBtn}
               show={isProductModalOpen}
             />
           </OutsideClickHandler>
@@ -86,9 +86,9 @@ const Product = ({
             <p className={styles["Product-details__title"]}>{shortTitle}</p>
             <p>{category}</p>
             <p>
-              {isTransactions && "purchased "}
+              {!showAddToCartBtn && "purchased "}
               {amount}
-              {isTransactions ? " units" : " left in stock"}
+              {showAddToCartBtn ? " left in stock" : " units"}
             </p>
             <p className={styles["Product-details__price"]}>
               <span>
@@ -101,7 +101,7 @@ const Product = ({
           </div>
         </div>
       </div>
-      {!isTransactions ? (
+      {showAddToCartBtn ? (
         <button className={styles["Product-button"]} onClick={addTocartHandler}>
           Add to cart
         </button>
