@@ -26,8 +26,13 @@ const Product = ({
   const addTocartHandler = () => {
     dispatch(
       cartActions.cart_add_remove_product({
-        productID: id,
+        id,
+        title,
+        description,
+        category,
+        price,
         amount: 1,
+        image,
       })
     );
   };
@@ -52,7 +57,10 @@ const Product = ({
 
   return (
     <div className={styles["Product"]}>
-      <div onClick={openProductModalHandler}>
+      <div
+        className={styles["ProductWrapper"]}
+        onClick={openProductModalHandler}
+      >
         <div>
           <Backdrop showBackDrop={isProductModalOpen} />
           <OutsideClickHandler onOutsideClick={closeProductModalHandler}>
