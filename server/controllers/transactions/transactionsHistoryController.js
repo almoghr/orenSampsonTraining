@@ -1,4 +1,5 @@
 const Transaction = require("../../models/transaction");
+const Discount = require("../../models/discount");
 const {
   userNotLoggedIn,
   serverError,
@@ -17,7 +18,7 @@ module.exports = async (req, res, next) => {
   try {
     transactions = await Transaction.find(
       { userID },
-      { _id: 0, __v: 0, updatedAt: 0, userID: 0, discountID: 0 }
+      { _id: 0, __v: 0, updatedAt: 0, userID: 0 }
     )
       .populate([
         {
@@ -34,25 +35,38 @@ module.exports = async (req, res, next) => {
       throw new Error();
     }
 
-    transactions = transactions.map((transaction) => {
-      const productsAndAmound = transaction.productsAndAmount.map(
-        (productAndAmount) => ({
-          id: productAndAmount.productID._id,
-          title: productAndAmount.productID.title,
-          description: productAndAmount.productID.description,
-          category: productAndAmount.productID.category,
-          amount: productAndAmount.amount,
-          image: productAndAmount.productID.image,
-          price: productAndAmount.productID.price,
-        })
-      );
+    transactions = await Promise.all(
+      transactions.map(async (transaction) => {
+        const productsAndAmound = transaction.productsAndAmount.map(
+          (productAndAmount) => ({
+            id: productAndAmount.productID._id,
+            title: productAndAmount.productID.title,
+            description: productAndAmount.productID.description,
+            category: productAndAmount.productID.category,
+            amount: productAndAmount.amount,
+            image: productAndAmount.productID.image,
+            price: productAndAmount.productID.price,
+          })
+        );
 
-      return {
-        productsAndAmound,
-        totalPrice: transaction.totalPrice,
-        createdAt: transaction.createdAt,
-      };
-    });
+        let discount = null;
+
+        if (transaction.discountID) {
+          discount = await Discount.find({ _id: transaction.discountID });
+
+          if (!discount) {
+            throw new Error();
+          }
+        }
+
+        return {
+          productsAndAmound,
+          totalPrice: transaction.totalPrice,
+          discountPercentage: discount?.length > 0 && discount[0].percentage,
+          createdAt: transaction.createdAt,
+        };
+      })
+    );
   } catch (error) {
     return res
       .status(serverError.status)

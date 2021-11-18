@@ -27,6 +27,7 @@ function TransactionsManager() {
       <Transaction
         createdAt={currentDate}
         productsAndAmound={transaction.productsAndAmound}
+        discountPercentage={transaction.discountPercentage}
         totalPrice={transaction.totalPrice}
         key={index}
       />
