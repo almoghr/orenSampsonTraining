@@ -45,10 +45,6 @@ const Header = () => {
 
   return (
     <Fragment>
-      <Backdrop showBackDrop={showBackDrop} />
-      <OutsideClickHandler onOutsideClick={closeShowSideBarHandler}>
-        <SideBar />
-      </OutsideClickHandler>
       <header className={styles["main-header"]}>
         <div>
           <GiHamburgerMenu
@@ -56,18 +52,28 @@ const Header = () => {
             size={40}
             onClick={switchShowSideBarHandler}
           />
-          <span>
-            {loggedInEmail ? `logged in as: ${loggedInEmail}` : "logged out"}
-          </span>
+
           <NavLink to="/">
             <IoStorefrontOutline
               className={styles["main-header__brand"]}
               size={40}
             />
           </NavLink>
+
+          <span>
+            {loggedInEmail ? `logged in as: ${loggedInEmail}` : "logged out"}
+          </span>
         </div>
+
         <MainNav />
       </header>
+
+      <Fragment>
+        <Backdrop showBackDrop={showBackDrop} />
+        <OutsideClickHandler onOutsideClick={closeShowSideBarHandler}>
+          <SideBar />
+        </OutsideClickHandler>
+      </Fragment>
     </Fragment>
   );
 };
