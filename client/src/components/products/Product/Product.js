@@ -6,6 +6,7 @@ import * as cartActions from "../../../store/cart/actions";
 import Backdrop from "../../Layout/Backdrop/Backdrop";
 import ProductModal from "../ProductModal/ProductModal";
 import PriceFormater from "../../general/PriceFormater/PriceFormatter";
+import ShowAmount from "../../general/ShowAmount/ShowAmount";
 import styles from "./Product.module.scss";
 
 const charCount = 50;
@@ -41,12 +42,6 @@ const Product = ({
 
   const shortTitle =
     title.slice(0, charCount) + (title.length > charCount ? "..." : "");
-
-  const Amount = isCart
-    ? `${amount} added to cart`
-    : showAddToCartBtn
-    ? `${amount} left in stock`
-    : `${amount} purchased`;
 
   const openProductModalHandler = () => {
     setIsProductModalOpen(true);
@@ -87,7 +82,13 @@ const Product = ({
           <div className={styles["Product-details"]}>
             <p className={styles["Product-details__title"]}>{shortTitle}</p>
             <p>{category}</p>
-            <p>{Amount}</p>
+            <p>
+              <ShowAmount
+                amount={amount}
+                showAddToCartBtn={showAddToCartBtn}
+                isCart={isCart}
+              />
+            </p>
             <PriceFormater price={price} />
           </div>
         </div>

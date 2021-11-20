@@ -1,6 +1,7 @@
 import React from "react";
-import PriceFormatter from "../../general/PriceFormater/PriceFormatter";
 
+import PriceFormatter from "../../general/PriceFormater/PriceFormatter";
+import ShowAmount from "../../general/ShowAmount/ShowAmount";
 import styles from "./ProductModal.module.scss";
 
 const ProductModal = (props) => {
@@ -8,12 +9,6 @@ const ProductModal = (props) => {
     styles["ProductModal"],
     props.show ? styles["ProductModalOpen"] : styles["ProductModalClosed"],
   ];
-
-  const Amount = props.isCart
-    ? `${props.amount} added to cart`
-    : props.showAddToCartBtn
-    ? `${props.amount} left in stock`
-    : `${props.amount} purchased`;
 
   return (
     <div className={cssClasses.join(" ")}>
@@ -26,7 +21,13 @@ const ProductModal = (props) => {
         <p>{props.title}</p>
         <p>{props.description}</p>
         <p>{props.category}</p>
-        <p>{Amount}</p>
+        <p>
+          <ShowAmount
+            amount={props.amount}
+            showAddToCartBtn={props.showAddToCartBtn}
+            isCart={props.isCart}
+          />
+        </p>
         <PriceFormatter price={props.price} />
       </div>
     </div>
