@@ -5,6 +5,7 @@ import * as cartActions from "../../../store/cart/actions";
 import Products from "../../products/Products/Products";
 import PriceFormatter from "../../general/PriceFormater/PriceFormatter";
 import * as messages from "../../../store/constants/messages";
+import styles from "./CartManager.module.scss";
 
 function CartManager() {
   const dispatch = useDispatch();
@@ -66,6 +67,14 @@ function CartManager() {
         "Cart Is Empty"
       ) : (
         <Fragment>
+          <div>
+            <button
+              className={styles["cart-button"]}
+              onClick={clearCartHandler}
+            >
+              Clear Cart
+            </button>
+          </div>
           <Products
             products={cartProducts}
             showAddToCartBtn={false}
@@ -76,17 +85,16 @@ function CartManager() {
 
           {isLoggedin ? (
             <div>
-              <button onClick={sendTransactionHandler}>
+              <button
+                className={styles["cart-button"]}
+                onClick={sendTransactionHandler}
+              >
                 Submit Transaction
               </button>
             </div>
           ) : (
             messages.NOT_LOGGED_IN_TRANSACTION
           )}
-
-          <div>
-            <button onClick={clearCartHandler}>Clear Cart</button>
-          </div>
         </Fragment>
       )}
     </div>
