@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import * as cartActions from "../../../store/cart/actions";
 import Products from "../../products/Products/Products";
+import PriceFormatter from "../../general/PriceFormater/PriceFormatter";
 import * as messages from "../../../store/constants/messages";
 
 function CartManager() {
@@ -24,16 +25,31 @@ function CartManager() {
 
   const isLoggedin = useSelector((state) => state.authReducers.isLoggedin);
 
-  const DiscountAppliedRelatedElements = (
+  const discountAppliedRelatedElements = (
     <Fragment>
       <h3>Discount Apllied!!</h3>
-      <h3>Price Before Discount: {totalPriceBeforeDiscount}</h3>
-      <h3>Price After Discount: {totalPriceAfterDiscount}</h3>
+      <h3>
+        Price Before Discount:{" "}
+        <PriceFormatter price={totalPriceBeforeDiscount} />
+      </h3>
+      <h3>
+        Price After Discount: <PriceFormatter price={totalPriceAfterDiscount} />
+      </h3>
       <h3>
         You Saved{" "}
-        {(totalPriceBeforeDiscount - totalPriceAfterDiscount).toFixed(2)}$
+        <PriceFormatter
+          price={totalPriceBeforeDiscount - totalPriceAfterDiscount}
+        />
       </h3>
     </Fragment>
+  );
+
+  const TotalPrice = isDiscountApplied ? (
+    discountAppliedRelatedElements
+  ) : (
+    <h3>
+      Total Price: <PriceFormatter price={totalPriceBeforeDiscount} />
+    </h3>
   );
 
   const sendTransactionHandler = () => {
@@ -55,10 +71,9 @@ function CartManager() {
             showAddToCartBtn={false}
             isCart={true}
           />
-          {isDiscountApplied && DiscountAppliedRelatedElements}
-          {!isDiscountApplied && (
-            <h3>Total Price: {totalPriceBeforeDiscount}</h3>
-          )}
+
+          {TotalPrice}
+
           {isLoggedin ? (
             <div>
               <button onClick={sendTransactionHandler}>
@@ -68,6 +83,7 @@ function CartManager() {
           ) : (
             messages.NOT_LOGGED_IN_TRANSACTION
           )}
+
           <div>
             <button onClick={clearCartHandler}>Clear Cart</button>
           </div>

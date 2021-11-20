@@ -5,6 +5,7 @@ import OutsideClickHandler from "react-outside-click-handler";
 import * as cartActions from "../../../store/cart/actions";
 import Backdrop from "../../Layout/Backdrop/Backdrop";
 import ProductModal from "../ProductModal/ProductModal";
+import PriceFormater from "../../general/PriceFormater/PriceFormatter";
 import styles from "./Product.module.scss";
 
 const charCount = 50;
@@ -41,13 +42,6 @@ const Product = ({
   const shortTitle =
     title.slice(0, charCount) + (title.length > charCount ? "..." : "");
 
-  const dollarUSLocale = Intl.NumberFormat("en-US");
-
-  const priceObj = {
-    whole: dollarUSLocale.format(Math.floor(price)),
-    remainder: Math.floor((price - Math.floor(price)) * 100) || "00",
-  };
-
   const Amount = isCart
     ? `${amount} added to cart`
     : showAddToCartBtn
@@ -75,10 +69,11 @@ const Product = ({
               title={title}
               description={description}
               category={category}
-              priceObj={priceObj}
+              price={price}
               amount={amount}
               image={image}
-              isTransactions={!showAddToCartBtn}
+              showAddToCartBtn={showAddToCartBtn}
+              isCart={isCart}
               show={isProductModalOpen}
             />
           </OutsideClickHandler>
@@ -93,14 +88,7 @@ const Product = ({
             <p className={styles["Product-details__title"]}>{shortTitle}</p>
             <p>{category}</p>
             <p>{Amount}</p>
-            <p className={styles["Product-details__price"]}>
-              <span>
-                {priceObj.whole}
-                <small>
-                  <sup>{priceObj.remainder}</sup>
-                </small>
-              </span>
-            </p>
+            <PriceFormater price={price} />
           </div>
         </div>
       </div>

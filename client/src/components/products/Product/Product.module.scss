@@ -30,12 +30,6 @@
   flex-direction: column;
 }
 
-.Product-details__price {
-  &::before {
-    content: "$";
-  }
-}
-
 .Product-button {
   color: white;
   background: darkcyan;

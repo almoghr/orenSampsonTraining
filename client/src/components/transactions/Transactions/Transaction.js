@@ -1,6 +1,7 @@
 import React from "react";
 
 import Products from "../../products/Products/Products";
+import PriceFormatter from "../../general/PriceFormater/PriceFormatter";
 import styles from "./Transaction.module.scss";
 
 const Transaction = (props) => {
@@ -19,10 +20,13 @@ const Transaction = (props) => {
         {props.discountPercentage &&
           `There was a ${props.discountPercentage}% discount`}
       </div>
-      <div className={styles["labels"]}>
-        <span>Total Price:</span>
-        {` ${props.totalPrice}`}
+      <div>
+        <span className={styles["labels"]}>Total Price: </span>
+        <span className={styles["price"]}>
+          <PriceFormatter price={props.totalPrice} />
+        </span>
       </div>
+
       <br></br>
       <hr />
     </div>
